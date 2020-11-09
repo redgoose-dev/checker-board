@@ -1,7 +1,24 @@
 # checker-board
 
-ToDo checklist board project
+## Project setup
+```
+yarn install
+```
 
-다음 링크에서 아이디어 노트 작성중..
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
 
-https://note.redgoose.me/article/3100/
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
