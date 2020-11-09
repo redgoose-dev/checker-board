@@ -1,0 +1,74 @@
+// responsive
+@mixin responsive($range)
+{
+  @if $range == tablet
+  {
+    @media (min-width: 768px) { @content; }
+  }
+  @if $range == desktop
+  {
+    @media (min-width: 1024px) { @content; }
+  }
+  @else if $range == desktop-1280
+  {
+    @media (min-width: 1280px) { @content; }
+  }
+  @else if $range == desktop-1440
+  {
+    @media (min-width: 1440px) { @content; }
+  }
+}
+
+// for retina
+@mixin retina()
+{
+  @media (-webkit-min-device-pixel-ratio: 2) { @content; }
+}
+
+// single line text
+@mixin text-single-line()
+{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// multi line text
+@mixin text-multi-line($height: 1rem, $row: 3)
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: $height;
+  max-height: $height * $row;
+  display: -webkit-box;
+  -webkit-line-clamp: $row;
+  -webkit-box-orient: vertical;
+}
+
+// button touch options
+@mixin button-touch-options($opacity:false) {
+  outline: none;
+  user-select: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  @if ($opacity) {
+    &:active {
+      opacity: .6;
+    }
+  }
+}
+
+// dark mode
+@mixin dark-mode()
+{
+  @media (prefers-color-scheme: dark) { @content; }
+}
+
+// background blur
+@mixin background-blur($size)
+{
+  @supports (backdrop-filter: blur($size)) {
+    backdrop-filter: blur($size);
+    @content;
+  }
+}
