@@ -1,6 +1,8 @@
 <template>
-<img alt="Vue logo" src="./assets/logo.png">
-<HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+<main>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+</main>
 </template>
 
 <script lang="ts">
@@ -11,12 +13,11 @@ export default defineComponent({
   name: 'App',
   components: {
     HelloWorld,
-    // 'hello-world': () => import('./components/HelloWorld'),
-  }
+  },
 });
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
