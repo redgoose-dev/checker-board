@@ -1,11 +1,11 @@
 import { createApp } from 'vue';
-import boardPreview from './board-preview.vue';
+import App from './App.vue';
 import store from './store';
 
 // import scss
 import './css/app.scss';
 
 // play app
-createApp(boardPreview)
+createApp(App)
   .use(store)
   .mount('#app');

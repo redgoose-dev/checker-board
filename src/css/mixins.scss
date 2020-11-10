@@ -53,7 +53,7 @@
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   @if ($opacity) {
     &:active {
-      opacity: .6;
+      opacity: .5;
     }
   }
 }

@@ -1,14 +1,14 @@
 <template>
-<div>
-  .layout-header-component
-</div>
+<article>
+  board-list
+</article>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'layout-header',
+  name: 'BoardList',
   components: {},
   methods: {},
 });

@@ -1,14 +1,14 @@
 <template>
-<button type="button">
-  icon
-</button>
+<article>
+  preference screen
+</article>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'header-icon',
+  name: 'Preference',
   components: {},
   methods: {},
 });

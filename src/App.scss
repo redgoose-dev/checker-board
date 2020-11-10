@@ -1,0 +1,10 @@
+.app-header {
+  --button-width: 52px;
+  --button-height: 52px;
+  --header-fill: #fff;
+  &__button {
+    --stroke-width: 1.25px;
+    --size: 20px;
+    --color: #fff;
+  }
+}

@@ -3,8 +3,17 @@
 @import "fonts";
 
 :root {
+  // color
   --color-text-base: #222;
   --color-bg: #fff;
+  --color-theme-green: #3EBA9B;
+  --color-theme-orange: #FEAD34;
+  --color-theme-red: #DA3C3D;
+  --color-theme-egg: #F5E4AC;
+  --color-theme-dark: #1E0413;
+  --color-theme-dark-gray: #222;
+  --color-theme-light-gray: #F0F0F0;
+  // font
   --font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-point: 'Arita-buri', Helvetica, Arial, sans-serif;
   --font-console: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;

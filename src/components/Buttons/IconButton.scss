@@ -1,0 +1,17 @@
+@import "../../css/mixins";
+
+.icon-button {
+  display: block;
+  width: var(--button-width, 40px);
+  height: var(--button-height, 40px);
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  @include button-touch-options(true);
+
+  &__icon {
+    display: block;
+    margin: 0 auto;
+  }
+}
