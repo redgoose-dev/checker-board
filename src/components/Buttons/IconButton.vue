@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Icons from '@/components/Icons/Icons.vue';
+import Icons from '@/components/Icons/index.vue';
 
 export default defineComponent({
   name: 'IconButton',

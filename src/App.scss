@@ -1,9 +1,15 @@
+.preview {
+  --header-height: 52px;
+  --bottom-height: 48px;
+  padding: 0 0 var(--bottom-height) 0;
+}
+
 .app-header {
-  --button-width: 52px;
-  --button-height: 52px;
   --header-fill: #fff;
   &__button {
-    --stroke-width: 1.25px;
+    --button-width: 48px;
+    --button-height: 52px;
+    --stroke-width: 1.5px;
     --size: 20px;
     --color: #fff;
   }

@@ -1,5 +1,5 @@
 <template>
-<main>
+<main class="preview">
   <LayoutHeader title="하루하루의 운동운동~" class="app-header">
     <template v-slot:navRight>
       <IconButton
@@ -12,13 +12,19 @@
         class="app-header__button"/>
     </template>
   </LayoutHeader>
-
+  <PreviewTop/>
+  <div class="preview__body">
+    content example
+  </div>
+  <PreviewBottom/>
 </main>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import LayoutHeader from '@/components/Layout/Header.vue';
+import PreviewTop from '@/components/Preview/Top.vue';
+import PreviewBottom from '@/components/Preview/Bottom.vue';
 import IconButton from '@/components/Buttons/IconButton.vue';
 
 export default defineComponent({
@@ -26,6 +32,8 @@ export default defineComponent({
   components: {
     LayoutHeader,
     IconButton,
+    PreviewTop,
+    PreviewBottom,
   },
 });
 </script>
