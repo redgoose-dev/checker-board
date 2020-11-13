@@ -32,6 +32,8 @@ export default defineComponent({
           return defineAsyncComponent(() => import('./src/icon-grid.vue'));
         case 'setting':
           return defineAsyncComponent(() => import('./src/icon-setting.vue'));
+        case 'edit':
+          return defineAsyncComponent(() => import('./src/icon-edit.vue'));
         default:
           return null;
       }

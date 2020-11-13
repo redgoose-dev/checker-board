@@ -16,7 +16,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'LayoutHeader',
+  name: 'AppHeader',
   components: {},
   props: {
     title: String,
@@ -29,4 +29,4 @@ export default defineComponent({
 });
 </script>
 
-<style src="./Header.scss" lang="scss" scoped></style>
+<style src="./header.scss" lang="scss" scoped></style>

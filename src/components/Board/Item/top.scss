@@ -1,4 +1,4 @@
-.preview-top {
+.board-item-top {
   position: sticky;
   height: 44px;
   top: var(--header-height);
@@ -15,10 +15,12 @@
     flex: 1;
     font-size: 16px;
     font-weight: 600;
+    user-select: none;
   }
   &__time {
     display: block;
     font-size: 12px;
     color: var(--color-theme-dark-gray);
+    user-select: none;
   }
 }

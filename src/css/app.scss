@@ -41,3 +41,20 @@ body, button, input, textarea, select {
   text-size-adjust: none;
   color: var(--color-text-base);
 }
+
+// modal
+.modal-fade {
+
+}
+.mode-modal {
+  overflow: hidden;
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 200ms ease-out;
+}
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}

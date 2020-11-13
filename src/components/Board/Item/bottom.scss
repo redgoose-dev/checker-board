@@ -1,6 +1,6 @@
-@import "../../css/mixins";
+@import "../../../css/mixins";
 
-.preview-bottom {
+.board-item-bottom {
   position: fixed;
   left: 0;
   right: 0;
@@ -43,6 +43,7 @@
       bottom: 0;
       background: var(--color-theme-green);
       transition: width 200ms ease-out;
+      width: var(--width, 0);
     }
   }
   &__percent {
@@ -50,7 +51,8 @@
     width: 56px;
     text-align: center;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: -.25px;
+    user-select: none;
   }
 }

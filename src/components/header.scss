@@ -1,4 +1,4 @@
-@import "../../css/mixins";
+@import "../css/mixins";
 
 .header {
   position: sticky;
@@ -14,6 +14,7 @@
     font-size: 20px;
     font-weight: 600;
     line-height: 1.42;
+    letter-spacing: -.5px;
     color: var(--header-fill, #fff);
     @include text-single-line();
   }

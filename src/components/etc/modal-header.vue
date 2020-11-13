@@ -1,16 +1,19 @@
 <template>
-<article>
-  preference screen
-</article>
+<header>
+  modal-header
+</header>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'Preference',
+  name: 'ModalHeader',
   components: {},
-  methods: {},
+  setup()
+  {
+    return {};
+  },
 });
 </script>
 

@@ -1,39 +1,68 @@
 <template>
-<main class="preview">
-  <LayoutHeader title="하루하루의 운동운동~" class="app-header">
+<main>
+  <AppHeader title="하루하루의 운동운동~ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ" class="app-header">
     <template v-slot:navRight>
       <IconButton
         title="box list"
         icon="grid"
-        class="app-header__button"/>
+        class="app-header__button"
+        @click="state.showBoxList = true"/>
       <IconButton
         title="preference"
         icon="setting"
-        class="app-header__button"/>
+        class="app-header__button"
+        @click="state.showPreference = true"/>
     </template>
-  </LayoutHeader>
-  <PreviewTop/>
-  <div class="preview__body">
-    content example
-  </div>
-  <PreviewBottom/>
+  </AppHeader>
+  <BoardItem/>
+  <teleport to="body">
+    <transition name="modal-fade">
+      <Preference
+        v-if="state.showPreference"
+        @close="state.showPreference = false"/>
+    </transition>
+    <transition name="modal-fade">
+      <BoxList
+        v-if="state.showBoxList"
+        @click="state.showBoxList = false"/>
+    </transition>
+  </teleport>
 </main>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import LayoutHeader from '@/components/Layout/Header.vue';
-import PreviewTop from '@/components/Preview/Top.vue';
-import PreviewBottom from '@/components/Preview/Bottom.vue';
+import { defineComponent, reactive, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import AppHeader from '@/components/header.vue';
 import IconButton from '@/components/Buttons/IconButton.vue';
+import BoardItem from '@/components/Board/Item/index.vue';
+import Preference from '@/components/Preference/index.vue';
+import BoxList from '@/components/Box/list.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    LayoutHeader,
+    AppHeader,
     IconButton,
-    PreviewTop,
-    PreviewBottom,
+    Preference,
+    BoxList,
+    BoardItem,
+  },
+  setup()
+  {
+    const store = useStore();
+
+    // mounted
+    onMounted(() => {
+      console.log('mount App component');
+    });
+
+    return {
+      state: reactive({
+        showPreference: false,
+        showBoxList: false,
+      }),
+    };
   },
 });
 </script>
