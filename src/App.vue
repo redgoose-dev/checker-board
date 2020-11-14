@@ -1,28 +1,28 @@
 <template>
 <main>
-  <AppHeader title="하루하루의 운동운동~ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ" class="app-header">
+  <app-header title="하루하루의 운동운동~" class="app-header">
     <template v-slot:navRight>
-      <IconButton
+      <icon-button
         title="box list"
         icon="grid"
         class="app-header__button"
         @click="state.showBoxList = true"/>
-      <IconButton
+      <icon-button
         title="preference"
         icon="setting"
         class="app-header__button"
         @click="state.showPreference = true"/>
     </template>
-  </AppHeader>
-  <BoardItem/>
+  </app-header>
+  <board-item/>
   <teleport to="body">
     <transition name="modal-fade">
-      <Preference
+      <preference
         v-if="state.showPreference"
         @close="state.showPreference = false"/>
     </transition>
     <transition name="modal-fade">
-      <BoxList
+      <box-list
         v-if="state.showBoxList"
         @click="state.showBoxList = false"/>
     </transition>
@@ -34,10 +34,10 @@
 import { defineComponent, reactive, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import AppHeader from '@/components/header.vue';
-import IconButton from '@/components/Buttons/IconButton.vue';
-import BoardItem from '@/components/Board/Item/index.vue';
+import IconButton from '@/components/buttons/icon-button.vue';
+import BoardItem from '@/components/board/item/index.vue';
 import Preference from '@/components/Preference/index.vue';
-import BoxList from '@/components/Box/list.vue';
+import BoxList from '@/components/box/list.vue';
 
 export default defineComponent({
   name: 'App',

@@ -1,14 +1,16 @@
 <template>
   <article class="board-item">
-    <BoardItemTop/>
+    <board-item-top/>
     <div class="board-item__body">
       preview body
     </div>
-    <BoardItemBottom @click-edit="state.showBoardEdit = true"/>
+    <board-item-bottom
+      @click-edit="state.showBoardEdit = true"/>
   </article>
   <teleport to="body">
     <transition name="modal-fade">
-      <BoardEdit v-if="state.showBoardEdit"/>
+      <board-edit
+        v-if="state.showBoardEdit"/>
     </transition>
   </teleport>
 </template>
@@ -17,10 +19,10 @@
 import { defineComponent, reactive } from 'vue';
 import BoardItemTop from './top.vue';
 import BoardItemBottom from './bottom.vue';
-import BoardEdit from '@/components/Board/edit.vue';
+import BoardEdit from '@/components/board/edit/index.vue';
 
 export default defineComponent({
-  name: 'Preview',
+  name: 'board-item',
   components: {
     BoardItemTop,
     BoardItemBottom,

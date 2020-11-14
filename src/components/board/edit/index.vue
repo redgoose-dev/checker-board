@@ -1,14 +1,12 @@
 <template>
-<article>
-  box-list
-</article>
+<p>board edit</p>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'BoxList',
+  name: 'board-edit',
   components: {},
   methods: {},
 });

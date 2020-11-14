@@ -16,10 +16,10 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import Icons from '@/components/Icons/index.vue';
+import Icons from '@/components/icons/index.vue';
 
 export default defineComponent({
-  name: 'BoardItemBottom',
+  name: 'board-item-bottom',
   components: {
     Icons,
   },

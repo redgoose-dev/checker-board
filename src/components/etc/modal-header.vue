@@ -8,7 +8,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'ModalHeader',
+  name: 'modal-header',
   components: {},
   setup()
   {

@@ -10,7 +10,7 @@
 import { defineComponent, onMounted, onUnmounted } from 'vue';
 
 export default defineComponent({
-  name: 'ModalWrapper',
+  name: 'modal-wrapper',
   setup()
   {
     // mounted

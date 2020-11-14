@@ -9,7 +9,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'BoardItemTop',
+  name: 'board-item-top',
   components: {},
   methods: {},
   mounted() {

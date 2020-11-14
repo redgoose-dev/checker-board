@@ -10,10 +10,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Icons from '@/components/Icons/index.vue';
+import Icons from '@/components/icons/index.vue';
 
 export default defineComponent({
-  name: 'IconButton',
+  name: 'icon-button',
   components: {
     Icons,
   },
@@ -24,4 +24,4 @@ export default defineComponent({
 });
 </script>
 
-<style src="./IconButton.scss" lang="scss" scoped></style>
+<style src="./icon-button.scss" lang="scss" scoped></style>

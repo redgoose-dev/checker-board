@@ -1,6 +1,6 @@
 <template>
 <article>
-  board-list
+  box-list
 </article>
 </template>
 
@@ -8,7 +8,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'BoardList',
+  name: 'box-list',
   components: {},
   methods: {},
 });

@@ -18,7 +18,7 @@
 import { defineComponent, defineAsyncComponent } from 'vue';
 
 export default defineComponent({
-  name: 'Icons',
+  name: 'icons',
   props: {
     size: { type: Number, default: 24 },
     iconName: { type: String, required: true },

@@ -1,6 +1,6 @@
 <template>
-<ModalWrapper>
-  <ModalHeader/>
+<modal-wrapper>
+  <modal-header/>
   <div class="preference">
     <button type="button" @click="$emit('close')">
       <span>close</span>
@@ -55,7 +55,7 @@
     <p>0000-==</p>
     <p>0000-==</p>
   </div>
-</ModalWrapper>
+</modal-wrapper>
 </template>
 
 <script lang="ts">
@@ -64,7 +64,7 @@ import ModalWrapper from '@/components/etc/modal-wrapper.vue';
 import ModalHeader from '@/components/etc/modal-header.vue';
 
 export default defineComponent({
-  name: 'Preference',
+  name: 'preference',
   components: {
     ModalWrapper,
     ModalHeader,
