@@ -72,3 +72,10 @@
     @content;
   }
 }
+
+// scroll area
+@mixin scroll-area()
+{
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}

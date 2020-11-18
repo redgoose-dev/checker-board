@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
-import App from './App.vue';
+import App from './app.vue';
 import store from './store';
 import messages from './messages';
 

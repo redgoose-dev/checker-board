@@ -1,4 +1,24 @@
+@import "../../css/mixins";
+
+$header-height: 52px;
+$bottom-height: 52px;
+
 .preference {
-  height: 100vh;
-  overflow: auto;
+  box-sizing: border-box;
+  height: calc(100vh - #{$header-height} - #{$bottom-height});
+  @include scroll-area();
+  padding: 30px var(--size-side-padding);
+}
+
+.preference-header {
+  --header-height: #{$header-height};
+}
+
+.preference-bottom {
+  --button-height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: $bottom-height;
 }

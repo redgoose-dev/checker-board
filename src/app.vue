@@ -36,8 +36,8 @@ import { useStore } from 'vuex';
 import AppHeader from '@/components/header.vue';
 import IconButton from '@/components/buttons/icon-button.vue';
 import BoardItem from '@/components/board/item/index.vue';
-import Preference from '@/components/Preference/index.vue';
-import BoxList from '@/components/box/list.vue';
+import Preference from '@/components/preference/index.vue';
+import BoxList from '@/components/box/list/index.vue';
 
 export default defineComponent({
   name: 'App',
@@ -48,18 +48,24 @@ export default defineComponent({
     BoxList,
     BoardItem,
   },
-  setup()
+  setup(props, context)
   {
-    const store = useStore();
+    // TODO: 이 영역이 beforeCreate 후크 부분이라는 셈이다.
+    // TODO: 추후에 `localstorage`에서 값 가져와서 붙이기. 아니면 store 부분에서 값 가져오기
 
-    // mounted
+    // TODO: 나중에 사용할 예정
+    // const store = useStore();
+
+    console.warn('before-setup on app');
+
+    // hooks
     onMounted(() => {
       console.log('mount App component');
     });
 
     return {
       state: reactive({
-        showPreference: false,
+        showPreference: true,
         showBoxList: false,
       }),
     };
@@ -67,4 +73,4 @@ export default defineComponent({
 });
 </script>
 
-<style src="./App.scss" lang="scss" scoped></style>
+<style src="./app.scss" lang="scss" scoped></style>

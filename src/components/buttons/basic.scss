@@ -1,0 +1,14 @@
+@import "../../css/mixins";
+
+.button-basic {
+  display: block;
+  width: 100%;
+  height: var(--button-height, 52px);
+  box-sizing: border-box;
+  background: var(--button-bg-color, #222);
+  color: var(--button-text-color, #fff);
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
+  @include button-touch-options(false);
+}

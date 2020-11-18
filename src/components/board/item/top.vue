@@ -1,7 +1,7 @@
 <template>
 <article class="board-item-top">
   <h2 class="board-item-top__date">2020년 12월 24일</h2>
-  <small class="board-item-top__time">{{$t('resetTime')}}: 05:00</small>
+  <small class="board-item-top__time">{{$t('board.resetTime')}}: 05:00</small>
 </article>
 </template>
 

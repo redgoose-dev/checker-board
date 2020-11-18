@@ -34,6 +34,8 @@ export default defineComponent({
           return defineAsyncComponent(() => import('./src/icon-setting.vue'));
         case 'edit':
           return defineAsyncComponent(() => import('./src/icon-edit.vue'));
+        case 'x':
+          return defineAsyncComponent(() => import('./src/icon-x.vue'));
         default:
           return null;
       }
