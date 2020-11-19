@@ -7,24 +7,42 @@
     <form class="preference" @submit.prevent="save">
       <fieldset>
         <legend>preference form</legend>
-        <p>
-          <label for="language">{{$t('preference.language')}}</label>
-          <input
-            type="text"
-            name="language"
-            id="language"
-            v-model="state.forms.language"/>
-        </p>
-        <p>
-          <label for="dateFormat">{{$t('preference.dateFormat')}}</label>
-          <input
-            type="text"
-            name="dateFormat"
-            id="dateFormat"
-            v-model="state.forms.dateFormat"/>
-        </p>
+        <div class="field">
+          <p class="field__label">
+            <label for="language">
+              {{$t('preference.language')}}
+            </label>
+          </p>
+          <p class="field__body">
+            <forms-select
+              name="language"
+              id="language"
+              v-model="state.forms.language">
+              <option value="ko">한국어</option>
+              <option value="en">English</option>
+            </forms-select>
+          </p>
+        </div>
+        <div class="field">
+          <p class="field__label">
+            <label for="dateFormat">
+              {{$t('preference.dateFormat')}}
+            </label>
+          </p>
+          <p class="field__body">
+            <forms-select
+              name="dateFormat"
+              id="dateFormat"
+              v-model="state.forms.dateFormat">
+              <option value="0">2020-12-25</option>
+              <option value="1">2020/12/25</option>
+              <option value="2">12-25-2020</option>
+              <option value="3">12/25/2020</option>
+              <option value="4">2020년 12월 25일</option>
+            </forms-select>
+          </p>
+        </div>
       </fieldset>
-      <p v-for="(o,k) in Array(30)" :key="k">===</p>
       <nav class="preference-bottom">
         <button-basic
           type="submit"
@@ -41,6 +59,7 @@ import { defineComponent, reactive, onMounted } from 'vue';
 import ModalWrapper from '@/components/etc/modal-wrapper.vue';
 import ModalHeader from '@/components/etc/modal-header.vue';
 import ButtonBasic from '@/components/buttons/basic.vue';
+import FormsSelect from '@/components/forms/select.vue';
 
 export default defineComponent({
   name: 'preference',
@@ -48,6 +67,7 @@ export default defineComponent({
     ModalWrapper,
     ModalHeader,
     ButtonBasic,
+    FormsSelect,
   },
   setup()
   {
@@ -55,13 +75,13 @@ export default defineComponent({
     let state = reactive({
       forms: {
         language: 'ko',
-        dateFormat: 'default',
+        dateFormat: 0,
       },
     });
 
     // hooks
     onMounted(() => {
-      console.log(state);
+      //console.log(state);
     });
 
     /**

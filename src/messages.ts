@@ -1,5 +1,8 @@
 export default {
   en: {
+    box: {
+      title: 'Box list',
+    },
     board: {
       resetTime: 'Reset time',
     },
@@ -11,6 +14,9 @@ export default {
     },
   },
   ko: {
+    box: {
+      title: '박스목록',
+    },
     board: {
       resetTime: '리셋시간',
     },

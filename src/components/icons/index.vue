@@ -36,6 +36,8 @@ export default defineComponent({
           return defineAsyncComponent(() => import('./src/icon-edit.vue'));
         case 'x':
           return defineAsyncComponent(() => import('./src/icon-x.vue'));
+        case 'down':
+          return defineAsyncComponent(() => import('./src/icon-down.vue'));
         default:
           return null;
       }

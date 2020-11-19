@@ -1,0 +1,40 @@
+$self: '.forms-select';
+
+.forms-select {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  font-size: 0;
+  border: 1px solid var(--color-theme-green);
+  border-radius: 2px;
+  &:focus-within {
+    border-color: var(--color-theme-red);
+    & > #{$self}__icon {
+      --color: var(--color-theme-red);
+    }
+  }
+  &__unit {
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0 42px 0 16px;
+    height: 36px;
+    box-sizing: border-box;
+    appearance: none;
+    text-indent: 0;
+    border: none;
+    outline: none;
+  }
+  &__icon {
+    --stroke-width: 1.5px;
+    --color: var(--color-theme-green);
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+  }
+}

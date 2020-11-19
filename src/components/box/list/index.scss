@@ -1,0 +1,16 @@
+@import "../../../css/mixins";
+
+$header-height: 52px;
+
+.box-list {
+  box-sizing: border-box;
+  height: calc(100vh - #{$header-height});
+  @include scroll-area();
+  padding: 30px var(--size-side-padding);
+
+  //
+}
+
+.box-list-header {
+  --header-height: #{$header-height};
+}

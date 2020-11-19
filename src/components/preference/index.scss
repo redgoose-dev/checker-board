@@ -8,6 +8,19 @@ $bottom-height: 52px;
   height: calc(100vh - #{$header-height} - #{$bottom-height});
   @include scroll-area();
   padding: 30px var(--size-side-padding);
+
+  > fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+    > legend {
+      font-size: 0;
+      visibility: hidden;
+      & + * {
+        margin-top: 0;
+      }
+    }
+  }
 }
 
 .preference-header {
@@ -21,4 +34,20 @@ $bottom-height: 52px;
   right: 0;
   bottom: 0;
   height: $bottom-height;
+}
+
+.field {
+  margin-top: 24px;
+
+  &__label {
+    margin: 0;
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.42;
+    }
+  }
+  &__body {
+    margin: 4px 0 0;
+  }
 }

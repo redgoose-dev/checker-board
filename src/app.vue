@@ -24,7 +24,7 @@
     <transition name="modal-fade">
       <box-list
         v-if="state.showBoxList"
-        @click="state.showBoxList = false"/>
+        @close="state.showBoxList = false"/>
     </transition>
   </teleport>
 </main>
@@ -65,8 +65,8 @@ export default defineComponent({
 
     return {
       state: reactive({
-        showPreference: true,
-        showBoxList: false,
+        showPreference: false,
+        showBoxList: true,
       }),
     };
   },
