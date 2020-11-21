@@ -1,0 +1,41 @@
+@import "../../../css/mixins";
+
+.item {
+  border-radius: 2px;
+  background: var(--color-theme-green);
+  box-sizing: border-box;
+  padding: var(--size-side-padding);
+  user-select: none;
+  &__link {
+    display: block;
+    text-decoration: none;
+  }
+  &__title {
+    margin: 0;
+    font-family: var(--font-point);
+    color: #fff;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.15;
+  }
+  &__description {
+    margin: 4px 0 0;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.2;
+    @include text-multi-line(13px * 1.2, 2);
+  }
+  &__nav {
+    display: flex;
+    align-items: center;
+    margin: 4px 0 -4px -8px;
+    .button {
+      --size: 16px;
+      --stroke-width: 1.5px;
+      --color: #fff;
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

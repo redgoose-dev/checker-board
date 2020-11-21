@@ -8,7 +8,20 @@ $header-height: 52px;
   @include scroll-area();
   padding: 30px var(--size-side-padding);
 
-  //
+  &__title {
+    margin: 0;
+    font-size: 0;
+  }
+  &__index {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    > li {
+      &:nth-child(n+2) {
+        margin-top: 10px;
+      }
+    }
+  }
 }
 
 .box-list-header {

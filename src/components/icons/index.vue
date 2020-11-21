@@ -38,6 +38,10 @@ export default defineComponent({
           return defineAsyncComponent(() => import('./src/icon-x.vue'));
         case 'down':
           return defineAsyncComponent(() => import('./src/icon-down.vue'));
+        case 'trash':
+          return defineAsyncComponent(() => import('./src/icon-trash.vue'));
+        case 'plus':
+          return defineAsyncComponent(() => import('./src/icon-plus.vue'));
         default:
           return null;
       }

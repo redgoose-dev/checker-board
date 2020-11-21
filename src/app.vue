@@ -26,15 +26,21 @@
         v-if="state.showBoxList"
         @close="state.showBoxList = false"/>
     </transition>
+    <transition name="modal-fade">
+      <board-list
+        v-if="state.showBoardList"
+        @close="state.showBoardList = false"/>
+    </transition>
   </teleport>
 </main>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, onMounted } from 'vue';
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 import AppHeader from '@/components/header.vue';
 import IconButton from '@/components/buttons/icon-button.vue';
+import BoardList from '@/components/board/list/index.vue';
 import BoardItem from '@/components/board/item/index.vue';
 import Preference from '@/components/preference/index.vue';
 import BoxList from '@/components/box/list/index.vue';
@@ -44,9 +50,10 @@ export default defineComponent({
   components: {
     AppHeader,
     IconButton,
+    BoardList,
+    BoardItem,
     Preference,
     BoxList,
-    BoardItem,
   },
   setup(props, context)
   {
@@ -66,7 +73,8 @@ export default defineComponent({
     return {
       state: reactive({
         showPreference: false,
-        showBoxList: true,
+        showBoxList: false,
+        showBoardList: true,
       }),
     };
   },

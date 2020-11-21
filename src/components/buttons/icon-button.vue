@@ -2,8 +2,7 @@
 <button
   type="button"
   :title="title"
-  class="icon-button"
-  @click="$emit('click')">
+  class="icon-button">
   <Icons :icon-name="icon" class="icon-button__icon"/>
 </button>
 </template>
