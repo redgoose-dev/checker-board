@@ -18,5 +18,7 @@ module.exports = {
     'no-debugger': production ? 'warn' : 'off',
     'no-unused-vars': production ? 'warn' : 'off',
     '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-empty-function': production ? 'warn' : 'off',
+    '@typescript-eslint/no-inferrable-types': 'off',
   }
 }

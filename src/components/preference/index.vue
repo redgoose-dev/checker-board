@@ -101,6 +101,7 @@ export default defineComponent({
 });
 
 // TODO: 언어설정 / `$i18n.locale='ko'`
+// TODO: 날짜표기방식 목록 만들기 (@/libs/const.ts 에서 값 가져오기)
 </script>
 
 <style src="./index.scss" lang="scss" scoped></style>

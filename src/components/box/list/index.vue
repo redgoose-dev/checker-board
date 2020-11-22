@@ -14,9 +14,9 @@
           <item
             title="아이템 item-title"
             description="description text"
-            @click-item="foo('foo ==> item')"
-            @click-edit="foo('foo ==> edit')"
-            @click-remove="foo('foo ==> remove')"/>
+            @click-item="onClickItem"
+            @click-edit="onClickEditItem"
+            @click-remove="onClickRemoveItem"/>
         </li>
       </ul>
     </article>
@@ -39,11 +39,13 @@ export default defineComponent({
   },
   setup()
   {
-    const foo = (msg:string) => {
-      console.log(msg);
-    };
+    const onClickItem = ():void => {};
+    const onClickEditItem = ():void => {};
+    const onClickRemoveItem = ():void => {};
     return {
-      foo,
+      onClickItem,
+      onClickEditItem,
+      onClickRemoveItem,
     };
   },
 });

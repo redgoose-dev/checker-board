@@ -42,6 +42,8 @@ export default defineComponent({
           return defineAsyncComponent(() => import('./src/icon-trash.vue'));
         case 'plus':
           return defineAsyncComponent(() => import('./src/icon-plus.vue'));
+        case 'check':
+          return defineAsyncComponent(() => import('./src/icon-check.vue'));
         default:
           return null;
       }
