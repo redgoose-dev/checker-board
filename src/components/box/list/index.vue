@@ -14,9 +14,9 @@
           <item
             title="아이템 item-title"
             description="description text"
-            @click-item="onClickItem"
-            @click-edit="onClickEditItem"
-            @click-remove="onClickRemoveItem"/>
+            @click-item="$emit('select-item', k)"
+            @click-edit="onClickEditItem(k)"
+            @click-remove="onClickRemoveItem(k)"/>
         </li>
       </ul>
     </article>
@@ -37,13 +37,20 @@ export default defineComponent({
     Item,
     AddItem,
   },
-  setup()
+  setup(props, context)
   {
-    const onClickItem = ():void => {};
-    const onClickEditItem = ():void => {};
-    const onClickRemoveItem = ():void => {};
+    // methods
+    const onClickEditItem = (id: number):void => {
+      console.log('edit: ', id);
+    };
+    const onClickRemoveItem = (id: number):void => {
+      console.log('remove: ', id);
+    };
+
+    // etc
+    console.warn('call setup() in box-list');
+
     return {
-      onClickItem,
       onClickEditItem,
       onClickRemoveItem,
     };

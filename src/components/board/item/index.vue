@@ -9,8 +9,9 @@
   </article>
   <teleport to="body">
     <transition name="modal-fade">
-      <board-edit
-        v-if="state.showBoardEdit"/>
+      <board-manage
+        v-if="state.showBoardManage"
+        @close="state.showBoardManage = false"/>
     </transition>
   </teleport>
 </template>
@@ -19,20 +20,20 @@
 import { defineComponent, reactive } from 'vue';
 import BoardItemTop from './top.vue';
 import BoardItemBottom from './bottom.vue';
-import BoardEdit from '@/components/board/edit/index.vue';
+import BoardManage from '@/components/board/manage/index.vue';
 
 export default defineComponent({
   name: 'board-item',
   components: {
     BoardItemTop,
     BoardItemBottom,
-    BoardEdit,
+    BoardManage,
   },
   setup()
   {
     return {
       state: reactive({
-        showBoardEdit: false,
+        showBoardManage: false,
       }),
     };
   },

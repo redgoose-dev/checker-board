@@ -1,13 +1,19 @@
 <template>
-  <div class="board-list-item">
-    <p class="board-list-item__label">
+  <a
+    href="#"
+    :class="[
+      'board-list-item',
+      state.today && 'board-list-item--today',
+    ]"
+    @click.prevent="$emit('select-item')">
+    <p class="label">
       {{state.label}}
     </p>
     <icons
       v-if="state.today"
       icon-name="check"
-      class="board-list-item__check"/>
-  </div>
+      class="icon"/>
+  </a>
 </template>
 
 <script lang="ts">
@@ -29,12 +35,8 @@ export default defineComponent({
   {
     return {
       state: reactive({
-        label: computed(() => {
-          return convertFormat(props.date, 3);
-        }),
-        today: computed(() => {
-          return false;
-        }),
+        label: computed(() => convertFormat(props.date, 3)),
+        today: computed(() => checkToday(props.date)),
       }),
     };
   },

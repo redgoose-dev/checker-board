@@ -24,7 +24,7 @@ export function convertFormat(date: Date, type?: number): string
     // 00-00-0000
     case Number(keys[1]):
       return `${month}-${day}-${year}`;
-    // 2020{0} 12{1} 25{2} (이 부분은 printf 방식으로 처리해야함)
+    // 2020{0} 12{1} 25{2} (이 부분은 printf 방식으로 처리해야한다.)
     case Number(keys[2]):
       return `${year}{0} ${month}{1} ${day}{2}`;
     // 25 December, 2020

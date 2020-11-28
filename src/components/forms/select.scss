@@ -17,7 +17,7 @@
     width: 100%;
     font-size: 16px;
     font-weight: 400;
-    padding: 0 42px 0 16px;
+    padding: 0 36px 0 12px;
     height: 100%;
     box-sizing: border-box;
     appearance: none;
@@ -26,11 +26,11 @@
     outline: none;
   }
   &__icon {
-    --stroke-width: 2px;
-    --color: var(--color-theme-green);
+    --icon-stroke-width: 2px;
+    --icon-color: var(--color-theme-green);
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 8px;
     transform: translateY(-50%);
     width: 20px;
     height: 20px;

@@ -1,5 +1,7 @@
 @import "../../../css/mixins";
 
+$self: '.board-list-item';
+
 .board-list-item {
   display: flex;
   align-items: center;
@@ -8,4 +10,27 @@
   padding: 0 var(--size-side-padding);
   height: var(--item-height, 54px);
   box-sizing: border-box;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: opacity var(--speed-button-active) ease-out;
+
+  &:active {
+    opacity: .5;
+  }
+
+  .label {
+    font-size: 16px;
+    color: var(--color-text-base);
+  }
+  .icon {
+    --icon-color: var(--color-text-light);
+    --icon-stroke-width: 1.5px;
+  }
+
+  &--today {
+    background: var(--color-theme-green);
+    .label {
+      color: var(--color-text-light);
+    }
+  }
 }

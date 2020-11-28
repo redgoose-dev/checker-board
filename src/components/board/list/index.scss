@@ -6,26 +6,51 @@
   &__header {
 
   }
-  &__filter {
+  &__control {
     display: flex;
     align-items: center;
     height: var(--filter-height);
     box-shadow: 0 2px 8px 0 rgba(0,0,0,.15);
     padding: 0 var(--size-side-padding);
+  }
+  &__filter {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
     user-select: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    > legend {
+      font-size: 0;
+    }
     > label {
       --select-height: 32px;
       display: flex;
       align-items: center;
-      &:nth-child(n+2) {
+      &:nth-child(n+3) {
         margin-left: 12px;
       }
       > span {
         display: block;
-        font-size: 15px;
+        font-size: 14px;
         line-height: 1.2;
         margin: 0 5px 0 0;
       }
+    }
+  }
+  &__top-nav {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0 -8px 0 0;
+    .button {
+      --button-width: 40px;
+      --button-height: 100%;
+      --icon-stroke-width: 1.5px;
+      --icon-size: 20px;
+      --icon-color: var(--color-theme-green);
     }
   }
   &__body {

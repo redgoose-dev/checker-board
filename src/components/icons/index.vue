@@ -55,11 +55,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 .icons {
   display: block;
-  width: var(--size, 24px);
-  height: var(--size, 24px);
+  width: var(--icon-size, 24px);
+  height: var(--icon-size, 24px);
   &__unit {
-    stroke-width: var(--stroke-width, 2px);
-    color: var(--color, #000);
+    stroke-width: var(--icon-stroke-width, 2px);
+    color: var(--icon-color, #000);
   }
 }
 </style>

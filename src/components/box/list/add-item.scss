@@ -12,9 +12,9 @@
   box-sizing: border-box;
   @include button-touch-options(false);
   &__icon {
-    --stroke-width: 1px;
-    --color: var(--color-theme-green);
-    --size: 44px;
+    --icon-stroke-width: 1px;
+    --icon-color: var(--color-theme-green);
+    --icon-size: 44px;
     display: block;
     margin: auto;
   }

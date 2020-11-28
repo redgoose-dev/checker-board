@@ -84,14 +84,13 @@ export default defineComponent({
       //console.log(state);
     });
 
-    /**
-     * submit
-     *
-     * @param {Event} e
-     */
+    // methods
     const save = (e:Event):void => {
       console.log('submit:: ', e);
     };
+
+    // etc
+    console.warn('call setup() in preference');
 
     return {
       state,

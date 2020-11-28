@@ -1,25 +1,23 @@
 <template>
-  <section class="item">
-    <a
-      href="#"
-      class="item__link"
-      @click.prevent="$emit('click-item')">
-      <h3 class="item__title">{{title}}</h3>
-      <p class="item__description">
-        {{description}}
-      </p>
-    </a>
+  <a
+    href="#"
+    class="item"
+    @click.prevent="$emit('click-item')">
+    <h3 class="item__title">{{title}}</h3>
+    <p class="item__description">
+      {{description}}
+    </p>
     <nav class="item__nav">
       <icon-button
         icon="edit"
         class="button"
-        @click.stop="$emit('click-edit')"/>
+        @click.prevent.stop="$emit('click-edit')"/>
       <icon-button
         icon="trash"
         class="button"
-        @click.stop="$emit('click-remove')"/>
+        @click.prevent.stop="$emit('click-remove')"/>
     </nav>
-  </section>
+  </a>
 </template>
 
 <script lang="ts">

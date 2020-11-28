@@ -1,15 +1,13 @@
 @import "../../../css/mixins";
 
 .item {
+  display: block;
   border-radius: 2px;
   background: var(--color-theme-green);
   box-sizing: border-box;
   padding: var(--size-side-padding);
   user-select: none;
-  &__link {
-    display: block;
-    text-decoration: none;
-  }
+  text-decoration: none;
   &__title {
     margin: 0;
     font-family: var(--font-point);
@@ -31,9 +29,9 @@
     align-items: center;
     margin: 4px 0 -4px -8px;
     .button {
-      --size: 16px;
-      --stroke-width: 1.5px;
-      --color: #fff;
+      --icon-size: 16px;
+      --icon-stroke-width: 1.5px;
+      --icon-color: #fff;
       width: 32px;
       height: 32px;
     }

@@ -24,11 +24,13 @@
     <transition name="modal-fade">
       <box-list
         v-if="state.showBoxList"
+        @select-item="onSelectBox"
         @close="state.showBoxList = false"/>
     </transition>
     <transition name="modal-fade">
       <board-list
         v-if="state.showBoardList"
+        @select-item="onSelectBoard"
         @close="state.showBoardList = false"/>
     </transition>
   </teleport>
@@ -63,19 +65,34 @@ export default defineComponent({
     // TODO: 나중에 사용할 예정
     // const store = useStore();
 
-    console.warn('before-setup on app');
+    // state
+    let state = reactive({
+      showPreference: false,
+      showBoxList: false,
+      showBoardList: true,
+    });
 
     // hooks
     onMounted(() => {
       console.log('mount App component');
     });
 
+    // methods
+    const onSelectBox = () => {
+      state.showBoxList = false;
+      state.showBoardList = true;
+    };
+    const onSelectBoard = () => {
+      state.showBoardList = false;
+    };
+
+    // etc
+    console.warn('call setup() in app');
+
     return {
-      state: reactive({
-        showPreference: false,
-        showBoxList: false,
-        showBoardList: true,
-      }),
+      state,
+      onSelectBox,
+      onSelectBoard,
     };
   },
 });

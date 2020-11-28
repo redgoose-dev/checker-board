@@ -2,13 +2,11 @@
 
 .modal-wrapper {
   position: fixed;
-  z-index: 9999;
+  z-index: var(--modal-z-index, 9999);
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  background: var(--color-bg);
-  &__body {
-    //
-  }
+  background: var(--modal-bg-color, #fff);
+  &__body {}
 }
