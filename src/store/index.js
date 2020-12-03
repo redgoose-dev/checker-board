@@ -1,8 +1,17 @@
 import { createStore } from "vuex";
+import defaultPreference from "@/assets/defaultPreference";
 
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  state: {
+    preference: defaultPreference,
+  },
+  mutations: {
+    //
+  },
+  actions: {
+    //
+  },
+  modules: {
+    //
+  },
 });
