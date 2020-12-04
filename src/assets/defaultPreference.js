@@ -1,4 +1,5 @@
 export default {
   language: "ko",
-  typeOfTime: "default",
+  dateFormat: "0",
+  selectedBox: 0,
 };

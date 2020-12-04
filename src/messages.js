@@ -12,9 +12,15 @@ export default {
       language: 'Language',
       dateFormat: 'Date format',
     },
-    notSupport: {
-      title: 'Support error',
-      description: 'This browser is not supported.',
+    error: {
+      notSupport: {
+        title: 'Support error',
+        description: 'This browser is not supported.',
+      },
+      unknown: {
+        title: 'Unknown error',
+        description: '',
+      },
     },
   },
   ko: {
@@ -30,9 +36,15 @@ export default {
       language: '언어',
       dateFormat: '날짜포맷',
     },
-    notSupport: {
-      title: '지원오류',
-      description: '이 브라우저는 지원되지 않습니다.',
+    error: {
+      notSupport: {
+        title: '지원오류',
+        description: '이 브라우저는 지원되지 않습니다.',
+      },
+      unknown: {
+        title: '알 수 없는 오류',
+        description: '알 수 없는 오류가 발생했습니다.',
+      },
     },
   },
 }

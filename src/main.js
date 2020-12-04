@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
-import app from './app.vue';
+import main from './main.vue';
 import store from './store';
 import messages from './messages';
 
@@ -15,7 +15,7 @@ const i18n = createI18n({
 });
 
 // play app
-createApp(app)
+createApp(main)
   .use(store)
   .use(i18n)
   .mount('#app');

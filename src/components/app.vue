@@ -1,37 +1,25 @@
 <template>
   <main>
-    <template v-if="state.support">
-      <app-header title="하루하루의 운동운동~" class="app-header">
-        <template v-slot:navRight>
-          <buttons-icon
-            title="box list"
-            icon="grid"
-            class="app-header__button"
-            @click="state.showBoxList = true"/>
-          <buttons-icon
-            title="board list"
-            icon="menu"
-            class="app-header__button"
-            @click="state.showBoardList = true"/>
-          <buttons-icon
-            title="preference"
-            icon="setting"
-            class="app-header__button"
-            @click="state.showPreference = true"/>
-        </template>
-      </app-header>
-      <board-item/>
-    </template>
-    <article v-else class="not-support">
-      <div class="not-support__wrap">
-        <h1 class="not-support__title">
-          {{$t('notSupport.title')}}
-        </h1>
-        <p class="not-support__description">
-          {{$t('notSupport.description')}}
-        </p>
-      </div>
-    </article>
+    <app-header title="하루하루의 운동운동~" class="app-header">
+      <template v-slot:navRight>
+        <buttons-icon
+          title="box list"
+          icon="grid"
+          class="app-header__button"
+          @click="state.showBoxList = true"/>
+        <buttons-icon
+          title="board list"
+          icon="menu"
+          class="app-header__button"
+          @click="state.showBoardList = true"/>
+        <buttons-icon
+          title="preference"
+          icon="setting"
+          class="app-header__button"
+          @click="state.showPreference = true"/>
+      </template>
+    </app-header>
+    <board-item/>
   </main>
   <teleport to="body">
     <transition name="modal-fade">
@@ -55,8 +43,9 @@
 </template>
 
 <script>
-import { defineComponent, reactive, onMounted } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import { checkSupport } from '@/libs/util';
 import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
@@ -75,11 +64,11 @@ export default defineComponent({
     'box-list': BoxList,
     'board-list': BoardList,
   },
-  setup()
+  async setup()
   {
-    // state
+    const store = useStore();
+    const { locale } = useI18n({ useScope: 'global' });
     let state = reactive({
-      support: false,
       showPreference: false,
       showBoxList: false,
       showBoardList: false,
@@ -95,7 +84,16 @@ export default defineComponent({
     };
 
     // check support
-    if (checkSupport()) state.support = true;
+    if (!checkSupport()) throw 'NOT_SUPPORT';
+
+    // play setup
+    await store.dispatch('setup');
+
+    // change language
+    if (locale.value !== store.state.preference.language)
+    {
+      locale.value = store.state.preference.language;
+    }
 
     return {
       state,

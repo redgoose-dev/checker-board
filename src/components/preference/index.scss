@@ -5,10 +5,9 @@ $bottom-height: 52px;
 
 .preference {
   box-sizing: border-box;
-  height: calc(100vh - #{$header-height} - #{$bottom-height});
+  height: calc(100vh - #{$header-height});
   @include scroll-area();
   padding: 30px var(--size-side-padding);
-
   > fieldset {
     margin: 0;
     padding: 0;
@@ -27,18 +26,8 @@ $bottom-height: 52px;
   --header-height: #{$header-height};
 }
 
-.preference-bottom {
-  --button-height: 100%;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: $bottom-height;
-}
-
 .field {
   margin-top: 24px;
-
   &__label {
     margin: 0;
     label {

@@ -17,7 +17,8 @@
             <forms-select
               name="language"
               id="language"
-              v-model="state.forms.language">
+              v-model="state.forms.language"
+              @update:model-value="save">
               <option value="ko">한국어</option>
               <option value="en">English</option>
             </forms-select>
@@ -33,7 +34,8 @@
             <forms-select
               name="dateFormat"
               id="dateFormat"
-              v-model="state.forms.dateFormat">
+              v-model="state.forms.dateFormat"
+              @update:model-value="save">
               <option value="0">2020-12-25</option>
               <option value="1">2020/12/25</option>
               <option value="2">12-25-2020</option>
@@ -43,54 +45,47 @@
           </p>
         </div>
       </fieldset>
-      <nav class="preference-bottom">
-        <buttons-basic
-          type="submit"
-          :title="$t('preference.save')">
-          {{$t('preference.save')}}
-        </buttons-basic>
-      </nav>
     </form>
   </modal-wrapper>
 </template>
 
 <script>
-import { defineComponent, reactive, onMounted } from 'vue';
+import { defineComponent, reactive } from 'vue';
+import { useStore } from 'vuex';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
-import ButtonsBasic from '@/components/buttons/basic';
 import FormsSelect from '@/components/forms/select';
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: 'preference',
   components: {
     'modal-wrapper': ModalWrapper,
     'modal-header': ModalHeader,
-    'buttons-basic': ButtonsBasic,
     'forms-select': FormsSelect,
   },
   setup()
   {
-    // set state
+    const store = useStore();
+    const { locale } = useI18n({ useScope: 'global' });
+
+    // state
     let state = reactive({
       forms: {
-        language: 'ko',
-        dateFormat: 0,
+        language: store.state.preference.language,
+        dateFormat: store.state.preference.dateFormat,
       },
     });
 
-    // hooks
-    onMounted(() => {
-      //console.log(state);
-    });
-
     // methods
-    const save = (e) => {
-      console.log('submit:: ', e);
+    const save = async (e) => {
+      await store.dispatch('updatePreference', state.forms);
+      // change language
+      if (locale.value !== state.forms.language)
+      {
+        locale.value = state.forms.language;
+      }
     };
-
-    // etc
-    console.warn('call setup() in preference');
 
     return {
       state,
