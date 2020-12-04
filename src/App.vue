@@ -1,20 +1,37 @@
 <template>
   <main>
-    <app-header title="하루하루의 운동운동~" class="app-header">
-      <template v-slot:navRight>
-        <buttons-icon
-          title="box list"
-          icon="grid"
-          class="app-header__button"
-          @click="state.showBoxList = true"/>
-        <buttons-icon
-          title="preference"
-          icon="setting"
-          class="app-header__button"
-          @click="state.showPreference = true"/>
-      </template>
-    </app-header>
-    <board-item/>
+    <template v-if="state.support">
+      <app-header title="하루하루의 운동운동~" class="app-header">
+        <template v-slot:navRight>
+          <buttons-icon
+            title="box list"
+            icon="grid"
+            class="app-header__button"
+            @click="state.showBoxList = true"/>
+          <buttons-icon
+            title="board list"
+            icon="menu"
+            class="app-header__button"
+            @click="state.showBoardList = true"/>
+          <buttons-icon
+            title="preference"
+            icon="setting"
+            class="app-header__button"
+            @click="state.showPreference = true"/>
+        </template>
+      </app-header>
+      <board-item/>
+    </template>
+    <article v-else class="not-support">
+      <div class="not-support__wrap">
+        <h1 class="not-support__title">
+          {{$t('notSupport.title')}}
+        </h1>
+        <p class="not-support__description">
+          {{$t('notSupport.description')}}
+        </p>
+      </div>
+    </article>
   </main>
   <teleport to="body">
     <transition name="modal-fade">
@@ -40,6 +57,7 @@
 <script>
 import { defineComponent, reactive, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { checkSupport } from '@/libs/util';
 import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
 import BoardItem from '@/components/board/item';
@@ -61,6 +79,7 @@ export default defineComponent({
   {
     // state
     let state = reactive({
+      support: false,
       showPreference: false,
       showBoxList: false,
       showBoardList: false,
@@ -74,6 +93,9 @@ export default defineComponent({
     const onSelectBoard = () => {
       state.showBoardList = false;
     };
+
+    // check support
+    if (checkSupport()) state.support = true;
 
     return {
       state,

@@ -44,6 +44,8 @@ export default defineComponent({
             return defineAsyncComponent(() => import('./src/icon-plus'));
           case 'check':
             return defineAsyncComponent(() => import('./src/icon-check'));
+          case 'menu':
+            return defineAsyncComponent(() => import('./src/icon-menu'));
           default:
             return null;
         }

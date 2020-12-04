@@ -4,7 +4,7 @@ export default {
       title: 'Box list',
     },
     board: {
-      resetTime: 'Reset time',
+      today: 'Go to today',
     },
     preference: {
       title: 'Preference',
@@ -12,19 +12,27 @@ export default {
       language: 'Language',
       dateFormat: 'Date format',
     },
+    notSupport: {
+      title: 'Support error',
+      description: 'This browser is not supported.',
+    },
   },
   ko: {
     box: {
       title: '박스목록',
     },
     board: {
-      resetTime: '리셋시간',
+      today: '오늘로 이동',
     },
     preference: {
       title: '설정',
       save: '저장',
       language: '언어',
       dateFormat: '날짜포맷',
+    },
+    notSupport: {
+      title: '지원오류',
+      description: '이 브라우저는 지원되지 않습니다.',
     },
   },
 }

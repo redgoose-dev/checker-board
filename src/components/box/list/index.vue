@@ -10,7 +10,7 @@
         <li>
           <add-item @click=""/>
         </li>
-        <li v-for="(o,k) in Array(50)" :key="k">
+        <li v-for="(o,k) in Array(10)" :key="k">
           <item
             title="아이템 item-title"
             description="description text"
@@ -29,6 +29,7 @@ import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import AddItem from './add-item';
 import Item from './item';
+
 export default defineComponent({
   name: 'box-list',
   components: {

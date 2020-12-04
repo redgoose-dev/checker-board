@@ -1,24 +1,26 @@
 # checker-board
 
-## Project setup
-```
+매일매일 할일체크 관리 프로그램
+
+
+## Install
+
+```shell script
 yarn install
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
+
+## Development
+
+```shell script
+yarn run dev
 ```
 
-### Compiles and minifies for production
-```
-yarn build
+
+## Production
+
+```shell script
+yarn run build
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+프로젝트 빌드가 끝나면 `docs/`에 만들어집니다.
