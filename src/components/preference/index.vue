@@ -19,8 +19,8 @@
               id="language"
               v-model="state.forms.language"
               @update:model-value="save">
-              <option value="ko">한국어</option>
               <option value="en">English</option>
+              <option value="ko">한국어</option>
             </forms-select>
           </p>
         </div>
@@ -37,10 +37,11 @@
               v-model="state.forms.dateFormat"
               @update:model-value="save">
               <option value="0">2020-12-25</option>
-              <option value="1">2020/12/25</option>
-              <option value="2">12-25-2020</option>
-              <option value="3">12/25/2020</option>
-              <option value="4">2020년 12월 25일</option>
+              <option value="1">12-25-2020</option>
+              <option v-if="state.visibleDateformat2" value="2">
+                2020{{$t('preference.year')}} 12{{$t('preference.month')}} 25{{$t('preference.date')}}
+              </option>
+              <option value="3">25 December, 2020</option>
             </forms-select>
           </p>
         </div>
@@ -50,7 +51,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
@@ -75,6 +76,9 @@ export default defineComponent({
         language: store.state.preference.language,
         dateFormat: store.state.preference.dateFormat,
       },
+      visibleDateformat2: computed(() => {
+        return (store.state.preference.language !== 'en');
+      }),
     });
 
     // methods
@@ -96,9 +100,6 @@ export default defineComponent({
     close: null,
   },
 });
-
-// TODO: 언어설정 / `$i18n.locale='ko'`
-// TODO: 날짜표기방식 목록 만들기 (@/libs/const.ts 에서 값 가져오기)
 </script>
 
 <style src="./index.scss" lang="scss" scoped></style>

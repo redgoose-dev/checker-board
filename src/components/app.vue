@@ -20,6 +20,9 @@
       </template>
     </app-header>
     <board-item/>
+    <nav style="text-align: center">
+      <button type="button" @click="foo">foo</button>
+    </nav>
   </main>
   <teleport to="body">
     <transition name="modal-fade">
@@ -47,6 +50,7 @@ import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { checkSupport } from '@/libs/util';
+import * as model from '@/libs/model';
 import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
 import BoardItem from '@/components/board/item';
@@ -89,6 +93,18 @@ export default defineComponent({
     // play setup
     await store.dispatch('setup');
 
+    // set database
+    await model.getDatabase();
+    // TODO: LAB
+    const foo = async () => {
+      let aa = await model.add('box', {
+        name: 'name3',
+        description: 'description1',
+        reset: 'reset1',
+      });
+      console.warn(aa);
+    };
+
     // change language
     if (locale.value !== store.state.preference.language)
     {
@@ -99,6 +115,7 @@ export default defineComponent({
       state,
       onSelectBox,
       onSelectBoard,
+      foo,
     };
   },
 });

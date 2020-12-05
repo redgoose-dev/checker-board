@@ -11,6 +11,9 @@ export default {
       save: 'Save',
       language: 'Language',
       dateFormat: 'Date format',
+      year: 'Year',
+      month: 'Month',
+      date: 'Date',
     },
     error: {
       notSupport: {
@@ -35,6 +38,9 @@ export default {
       save: '저장',
       language: '언어',
       dateFormat: '날짜포맷',
+      year: '년',
+      month: '월',
+      date: '일',
     },
     error: {
       notSupport: {
