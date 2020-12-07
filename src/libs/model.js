@@ -2,6 +2,33 @@ import { dbInformation } from './const';
 
 let DB = null;
 let errorPrefix = 'indexedDB:';
+let errorMessageStoreName = 'No store name.';
+let errorMessageDatabase = `Can't get database.`;
+
+/**
+ * create database
+ *
+ * @param {IDBVersionChangeEvent} e
+ */
+function createDatabase(e)
+{
+  const db = e.target.result;
+  // make `box` store
+  const box = db.createObjectStore(dbInformation.store.box, {
+    autoIncrement: true,
+    keyPath: 'srl',
+  });
+  box.createIndex('Name', 'name', { unique: true });
+  box.createIndex('Description', 'description', {});
+  box.createIndex('Reset time', 'reset', {});
+  // make `board` store
+  const board = db.createObjectStore(dbInformation.store.board, {
+    autoIncrement: true,
+    keyPath: 'srl',
+  });
+  board.createIndex('Date', 'date', { unique: true });
+  board.createIndex('Description', 'description', {});
+}
 
 /**
  * get database
@@ -9,11 +36,11 @@ let errorPrefix = 'indexedDB:';
  *
  * @return {Promise}
  */
-export function getDatabase()
+export function modelGetDatabase()
 {
   return new Promise((resolve, reject) => {
     if (DB) return resolve(DB);
-    let request = window.indexedDB.open(dbInformation.name, dbInformation.version);
+    const request = window.indexedDB.open(dbInformation.name, dbInformation.version);
     // event - error
     request.onerror = e => reject(`${errorPrefix} ${e.target.errorCode}`);
     // event success
@@ -22,25 +49,21 @@ export function getDatabase()
       resolve(DB);
     };
     // create store
-    request.onupgradeneeded = e => {
-      const db = e.target.result;
-      // make `box` store
-      let box = db.createObjectStore(dbInformation.store.box, {
-        autoIncrement: true,
-        keyPath: 'srl',
-      });
-      box.createIndex('Name', 'name', { unique: false });
-      box.createIndex('Description', 'description', {});
-      box.createIndex('Reset time', 'reset', {});
-      // make `board` store
-      let board = db.createObjectStore(dbInformation.store.board, {
-        autoIncrement: true,
-        keyPath: 'srl',
-      });
-      board.createIndex('Date', 'date', { unique: false });
-      board.createIndex('Description', 'description', {});
-    };
+    request.onupgradeneeded = e => createDatabase(e);
   });
+}
+
+/**
+ * get transaction
+ *
+ * @param {String} name
+ * @param {String} mode
+ * @return {IDBTransaction}
+ */
+export function modelGetTransaction(name, mode)
+{
+  if (!DB) throw new Error(`${errorPrefix} ${errorMessageDatabase}`);
+  return DB.transaction(name, mode);
 }
 
 /**
@@ -50,9 +73,9 @@ export function getDatabase()
  * @param {String} mode
  * @return {IDBObjectStore}
  */
-export function getStore(name, mode)
+export function modelGetStore(name, mode)
 {
-  if (!DB) throw new Error(`${errorPrefix} Can't get database.`);
+  if (!DB) throw new Error(`${errorPrefix} ${errorMessageDatabase}`);
   return DB.transaction(name, mode).objectStore(name);
 }
 
@@ -63,12 +86,11 @@ export function getStore(name, mode)
  * @param {Object} value
  * @return {Promise}
  */
-export function add(storeName, value)
+export function modelAddItem(storeName, value)
 {
   return new Promise((resolve, reject) => {
-    if (!DB) return reject(`${errorPrefix} Can't get database.`);
-    if (!storeName) return reject(`${errorPrefix} No store name.`);
-    let store = getStore(storeName, 'readwrite');
+    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    const store = modelGetStore(storeName, 'readwrite');
     try
     {
       const req = store.add(value);
@@ -83,41 +105,121 @@ export function add(storeName, value)
 }
 
 /**
- * get items
+ * get count items
+ *
+ * @param {String} storeName
+ * @return {Promise}
  */
-export function getItems()
+export function modelGetCountItems(storeName)
 {
-  //
+  return new Promise((resolve, reject) => {
+    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    const store = modelGetStore(storeName, 'readonly');
+    const request = store.count(11);
+    request.onsuccess = e => resolve(e.target.result);
+  });
+}
+
+/**
+ * get items
+ *
+ * @param {String} storeName
+ * @return {Promise}
+ */
+export function modelGetItems(storeName)
+{
+  return new Promise((resolve, reject) => {
+    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    const store = modelGetStore(storeName, 'readonly');
+    const request = store.getAll();
+    request.onsuccess = e => resolve(e.target.result);
+  });
 }
 
 /**
  * get item
+ *
+ * @param {String} storeName
+ * @param {Number} key
+ * @return {Promise}
  */
-export function getItem()
+export function modelGetItem(storeName, key)
 {
-  //
+  return new Promise((resolve, reject) => {
+    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    const store = modelGetStore(storeName, 'readonly');
+    const request = store.get(key);
+    request.onsuccess = e => resolve(e.target.result);
+  });
 }
 
 /**
  * edit item
+ *
+ * @param {String} storeName
+ * @param {Number} key
+ * @param {Boolean} update - update or replace data
+ * @param {Object} value
+ * @return {Promise}
  */
-export function editItem()
+export function modelEditItem(storeName, key, update, value)
 {
-  //
+  return new Promise((resolve, reject) => {
+    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    const store = modelGetStore(storeName, 'readwrite');
+    const requestGetItem = store.get(key);
+    requestGetItem.onsuccess = e => {
+      if (e.target.result)
+      {
+        const requestEditItem = store.put(update ? {
+          ...e.target.result,
+          ...value,
+          srl: key,
+        } : {
+          ...value,
+          srl: key,
+        });
+        requestEditItem.onsuccess = e => resolve(true);
+      }
+      else
+      {
+        reject(`${errorPrefix} There are no items that can be edit.`);
+      }
+    };
+  });
 }
 
 /**
  * remove item
+ *
+ * @param {String} storeName
+ * @param {Number} key
+ * @return {Promise}
  */
-export function removeItem()
+export function modelRemoveItem(storeName, key)
 {
-  //
+  return new Promise((resolve, reject) => {
+    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    const store = modelGetStore(storeName, 'readwrite');
+    const requestGetItem = store.count(key);
+    requestGetItem.onsuccess = e => {
+      if (e.target.result > 0)
+      {
+        const requestRemoveItem = store.delete(key);
+        requestRemoveItem.onsuccess = e => resolve(true);
+      }
+      else
+      {
+        reject(`${errorPrefix} There are no items that can be remove.`);
+      }
+    };
+  });
 }
 
 /**
  * clear store
  */
-export function clear()
+export function modelClearStore()
 {
   //
 }
@@ -125,4 +227,4 @@ export function clear()
 /**
  * destroy database
  */
-export function destroyDatabase() {}
+export function modelDestroyDatabase() {}

@@ -45,6 +45,7 @@
             </forms-select>
           </p>
         </div>
+        <p>TODO: 데이터베이스 리셋</p>
       </fieldset>
     </form>
   </modal-wrapper>

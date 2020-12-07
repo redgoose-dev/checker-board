@@ -21,6 +21,7 @@
     </app-header>
     <board-item/>
     <nav style="text-align: center">
+      <button type="button" @click="add">add</button>
       <button type="button" @click="foo">foo</button>
     </nav>
   </main>
@@ -94,15 +95,18 @@ export default defineComponent({
     await store.dispatch('setup');
 
     // set database
-    await model.getDatabase();
     // TODO: LAB
+    await model.modelGetDatabase();
+    const add = () => {
+      model.modelAddItem('box', {
+        name: `name-${Math.floor(Math.random() * 10000)}`,
+        description: `description-${Math.floor(Math.random() * 1000)}`,
+        reset: `18:30`,
+      }).then();
+    };
     const foo = async () => {
-      let aa = await model.add('box', {
-        name: 'name3',
-        description: 'description1',
-        reset: 'reset1',
-      });
-      console.warn(aa);
+      model.modelGetCountItems('box', {})
+        .then((res) => console.log(res));
     };
 
     // change language
@@ -116,6 +120,7 @@ export default defineComponent({
       onSelectBox,
       onSelectBoard,
       foo,
+      add,
     };
   },
 });
