@@ -20,10 +20,6 @@
       </template>
     </app-header>
     <board-item/>
-    <nav style="text-align: center">
-      <button type="button" @click="add">add</button>
-      <button type="button" @click="foo">foo</button>
-    </nav>
   </main>
   <teleport to="body">
     <transition name="modal-fade">
@@ -91,23 +87,14 @@ export default defineComponent({
     // check support
     if (!checkSupport()) throw 'NOT_SUPPORT';
 
-    // play setup
-    await store.dispatch('setup');
+    // make database
+    await model.modelInitialDatabase();
 
-    // set database
-    // TODO: LAB
-    await model.modelGetDatabase();
-    const add = () => {
-      model.modelAddItem('box', {
-        name: `name-${Math.floor(Math.random() * 10000)}`,
-        description: `description-${Math.floor(Math.random() * 1000)}`,
-        reset: `18:30`,
-      }).then();
-    };
-    const foo = async () => {
-      model.modelGetCountItems('box', {})
-        .then((res) => console.log(res));
-    };
+    // TODO: 박스 하나추가 (기본값으로)
+    // TODO: 보드 하나추가 (기본값으로)
+
+    // run setup
+    await store.dispatch('setup');
 
     // change language
     if (locale.value !== store.state.preference.language)
@@ -119,8 +106,6 @@ export default defineComponent({
       state,
       onSelectBox,
       onSelectBoard,
-      foo,
-      add,
     };
   },
 });

@@ -31,12 +31,12 @@ function createDatabase(e)
 }
 
 /**
- * get database
+ * initial database
  * make database and store, return database
  *
  * @return {Promise}
  */
-export function modelGetDatabase()
+export function modelInitialDatabase()
 {
   return new Promise((resolve, reject) => {
     if (DB) return resolve(DB);
@@ -50,6 +50,19 @@ export function modelGetDatabase()
     };
     // create store
     request.onupgradeneeded = e => createDatabase(e);
+  });
+}
+
+/**
+ * delete database
+ *
+ * @return {Promise}
+ */
+export function modelDeleteDatabase() {
+  return new Promise((resolve, reject) => {
+    const request = window.indexedDB.deleteDatabase(dbInformation.name);
+    request.onsuccess = () => resolve(true);
+    request.onerror = () => reject('Error deleting database.');
   });
 }
 
@@ -218,13 +231,17 @@ export function modelRemoveItem(storeName, key)
 
 /**
  * clear store
+ *
+ * @param {String} storeName
+ * @return {Promise}
  */
-export function modelClearStore()
+export function modelClearStore(storeName)
 {
-  //
+  return new Promise((resolve, reject) => {
+    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    const store = modelGetStore(storeName, 'readwrite');
+    const request = store.clear();
+    request.onsuccess = () => resolve(true);
+    request.onerror = (e) => reject(e.target.error);
+  });
 }
-
-/**
- * destroy database
- */
-export function modelDestroyDatabase() {}
