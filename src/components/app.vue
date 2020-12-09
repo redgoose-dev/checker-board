@@ -20,6 +20,10 @@
       </template>
     </app-header>
     <board-item/>
+    <hr>
+    <nav>
+      <button type="button" @click="addData">add data</button>
+    </nav>
   </main>
   <teleport to="body">
     <transition name="modal-fade">
@@ -47,13 +51,13 @@ import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { checkSupport } from '@/libs/util';
-import * as model from '@/libs/model';
 import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
 import BoardItem from '@/components/board/item';
 import Preference from '@/components/preference';
 import BoxList from '@/components/box/list';
 import BoardList from '@/components/board/list';
+import * as model from '@/libs/model';
 
 export default defineComponent({
   name: 'app',
@@ -83,15 +87,16 @@ export default defineComponent({
     const onSelectBoard = () => {
       state.showBoardList = false;
     };
+    const addData = () => {
+      model.modelAddItem('board', {
+        box: 1,
+        date: new Date(),
+        body: 'content body==' + Math.floor(Math.random() * 1000),
+      });
+    };
 
     // check support
     if (!checkSupport()) throw 'NOT_SUPPORT';
-
-    // make database
-    await model.modelInitialDatabase();
-
-    // TODO: 박스 하나추가 (기본값으로)
-    // TODO: 보드 하나추가 (기본값으로)
 
     // run setup
     await store.dispatch('setup');
@@ -106,6 +111,7 @@ export default defineComponent({
       state,
       onSelectBox,
       onSelectBoard,
+      addData,
     };
   },
 });
