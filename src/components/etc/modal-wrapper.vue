@@ -12,16 +12,23 @@ export default defineComponent({
   name: 'modal-wrapper',
   props: {
     zIndex: Number,
+    nested: Boolean,
   },
-  setup()
+  setup(props)
   {
     // mounted
     onMounted(() => {
-      document?.querySelector('html')?.classList.add('mode-modal');
+      if (!props.nested)
+      {
+        document.querySelector('html').classList.add('mode-modal');
+      }
     });
     // unmounted
     onUnmounted(() => {
-      document?.querySelector('html')?.classList.remove('mode-modal');
+      if (!props.nested)
+      {
+        document.querySelector('html').classList.remove('mode-modal');
+      }
     });
   },
 });

@@ -12,3 +12,15 @@ export function checkSupport()
     !!window.localStorage
   );
 }
+
+/**
+ * sleep
+ * delay tool
+ *
+ * @param {Number} delay
+ * @return {Promise}
+ */
+export function sleep(delay = 1000)
+{
+  return new Promise((resolve, reject) => setTimeout(resolve, delay));
+}

@@ -5,13 +5,24 @@ import { modelInitialDatabase, modelGetItem, modelGetItems } from '@/libs/model'
 
 const state = {
   preference: defaultPreference,
+  current: {
+    showBoxList: true,
+    showBoardList: false,
+    showPreference: false,
+  },
 }
 
 const actions = {
   /**
    * setup
-   * 로컬 스토리지에서 `preference`값이 없으면 만들고 있으면 가져와서 스토어에 업데이트 한다.
+   * 로컬 스토리지에서 `preference`값이 없으면 만들고 있으면 가져와서 스토어에 업데이트를 한다.
    * 만들어진 데이터베이스가 없다면 새로 만든다.
+   *
+   * 셋업 과정
+   * - 스토리지 값 가져와서 스토어에 적용
+   * - 데이터베이스 초기화
+   * - 데이터 검사하고 스토어 값 다듬기
+   * - 스토어 데이터를 스토리지 저장
    *
    * @param {Object} context
    */
@@ -22,10 +33,6 @@ const actions = {
     {
       let preference = storage.get('preference', true);
       commit('updatePreference', preference);
-    }
-    else
-    {
-      storage.set('preference', state.preference);
     }
     // make database
     const initialDatabaseType = await modelInitialDatabase();
@@ -58,11 +65,12 @@ const actions = {
         await dispatch('updatePreference', { box, board });
         break;
     }
-    // TODO: 여기까지 작업했는데 box 목록부분부터 작업하면 될것같다.
-    console.log(state.preference);
+    // update storage
+    storage.set('preference', state.preference);
   },
   /**
    * update preference
+   * 스토어에 있는 `preference`값 업데이트하고 스토리지에 있는 값 교체한다.
    *
    * @param {Object} context
    * @param {Object} value / new preference value
@@ -86,7 +94,6 @@ const mutations = {
 };
 
 const modules = {};
-
 
 export default createStore({
   state,

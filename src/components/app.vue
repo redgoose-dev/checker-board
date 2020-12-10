@@ -57,7 +57,6 @@ import BoardItem from '@/components/board/item';
 import Preference from '@/components/preference';
 import BoxList from '@/components/box/list';
 import BoardList from '@/components/board/list';
-import * as model from '@/libs/model';
 
 export default defineComponent({
   name: 'app',
@@ -75,7 +74,7 @@ export default defineComponent({
     const { locale } = useI18n({ useScope: 'global' });
     let state = reactive({
       showPreference: false,
-      showBoxList: false,
+      showBoxList: true,
       showBoardList: false,
     });
 
@@ -86,13 +85,6 @@ export default defineComponent({
     };
     const onSelectBoard = () => {
       state.showBoardList = false;
-    };
-    const addData = () => {
-      model.modelAddItem('board', {
-        box: 1,
-        date: new Date(),
-        body: 'content body==' + Math.floor(Math.random() * 1000),
-      });
     };
 
     // check support
@@ -111,7 +103,6 @@ export default defineComponent({
       state,
       onSelectBox,
       onSelectBoard,
-      addData,
     };
   },
 });

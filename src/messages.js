@@ -1,7 +1,9 @@
 export default {
   en: {
     box: {
-      title: 'Box list',
+      listTitle: 'Box list',
+      listAddTitle: 'Add box',
+      listEditTitle: 'Edit box',
     },
     board: {
       today: 'Go to today',
@@ -28,7 +30,9 @@ export default {
   },
   ko: {
     box: {
-      title: '박스목록',
+      listTitle: '박스 목록',
+      listAddTitle: '박스 추가',
+      listEditTitle: '박스 수정',
     },
     board: {
       today: '오늘로 이동',
