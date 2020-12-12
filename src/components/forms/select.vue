@@ -23,7 +23,7 @@ export default defineComponent({
   props: {
     name: { type: String, required: true },
     id: String,
-    modelValue: [String, Number],
+    modelValue: [ String, Number ],
   },
   emits: {
     'update:modelValue': null,

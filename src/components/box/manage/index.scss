@@ -1,0 +1,50 @@
+.box-manage {
+  padding: 30px var(--size-side-padding);
+  &__title {
+    margin: 0 0 16px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--color-theme-dark-gray);
+    font-family: var(--font-point);
+  }
+  &__fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    > legend {
+      font-size: 0;
+      visibility: hidden;
+      & + * {
+        margin-top: 0;
+      }
+    }
+  }
+  &__nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    background-color: var(--color-bg);
+    box-shadow: 0 -1px 12px rgba(0,0,0,.1);
+    > *:nth-child(n+2) {
+      margin-left: 1px;
+    }
+  }
+}
+
+.field {
+  margin-top: 24px;
+  &__label {
+    margin: 0;
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.42;
+    }
+  }
+  &__body {
+    margin: 4px 0 0;
+  }
+}

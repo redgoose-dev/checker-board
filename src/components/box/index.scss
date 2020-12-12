@@ -1,0 +1,14 @@
+@import "../../css/mixins";
+
+.box-list-header {
+  --header-height: var(--size-modal-header-height);
+}
+
+.header-button {
+  --button-width: var(--size-modal-header-height);
+  --button-height: var(--size-modal-header-height);
+  --icon-stroke-width: 1.5px;
+  --icon-color: #fff;
+  --icon-size: 22px;
+  margin-right: -2px;
+}

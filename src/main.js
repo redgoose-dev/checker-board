@@ -5,7 +5,7 @@ import store from './store';
 import messages from './messages';
 
 // import scss
-import './css/app.scss';
+import './css/base.scss';
 
 // call with I18n option
 const i18n = createI18n({

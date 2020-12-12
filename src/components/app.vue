@@ -32,7 +32,7 @@
         @close="state.showPreference = false"/>
     </transition>
     <transition name="modal-fade">
-      <box-list
+      <box
         v-if="state.showBoxList"
         @select-item="onSelectBox"
         @close="state.showBoxList = false"/>
@@ -55,9 +55,8 @@ import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
 import BoardItem from '@/components/board/item';
 import Preference from '@/components/preference';
-import BoxList from '@/components/box/list';
+import Box from '@/components/box';
 import BoardList from '@/components/board/list';
-
 export default defineComponent({
   name: 'app',
   components: {
@@ -65,7 +64,7 @@ export default defineComponent({
     'buttons-icon': ButtonsIcon,
     'board-item': BoardItem,
     'preference': Preference,
-    'box-list': BoxList,
+    'box': Box,
     'board-list': BoardList,
   },
   async setup()
@@ -74,7 +73,7 @@ export default defineComponent({
     const { locale } = useI18n({ useScope: 'global' });
     let state = reactive({
       showPreference: false,
-      showBoxList: true,
+      showBoxList: false,
       showBoardList: false,
     });
 

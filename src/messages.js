@@ -1,9 +1,18 @@
 export default {
   en: {
+    base: {
+      add: 'Add',
+      edit: 'Edit',
+      cancel: 'Cancel',
+    },
     box: {
-      listTitle: 'Box list',
-      listAddTitle: 'Add box',
-      listEditTitle: 'Edit box',
+      title: 'Box',
+      submitAdd: 'Add box',
+      submitEdit: 'Edit box',
+      placeholder: {
+        name: 'Please input name.',
+        description: 'Please input description.',
+      },
     },
     board: {
       today: 'Go to today',
@@ -29,10 +38,19 @@ export default {
     },
   },
   ko: {
+    base: {
+      add: '추가하기',
+      edit: '수정하기',
+      cancel: '취소하기',
+    },
     box: {
-      listTitle: '박스 목록',
-      listAddTitle: '박스 추가',
-      listEditTitle: '박스 수정',
+      title: '박스',
+      submitAdd: '추가하기',
+      submitEdit: '수정하기',
+      placeholder: {
+        name: '이름을 입력해주세요.',
+        description: '설명을 입력해주세요.',
+      },
     },
     board: {
       today: '오늘로 이동',

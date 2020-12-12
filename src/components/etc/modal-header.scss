@@ -5,6 +5,7 @@
   align-items: center;
   background: var(--color-theme-red);
   height: var(--header-height, 52px);
+  box-shadow: 0 1px 12px rgba(0,0,0,.1);
   &__title {
     flex: 1;
     margin: 0;
@@ -15,6 +16,7 @@
     user-select: none;
   }
   &__nav {
+    display: flex;
     > button {
       --button-width: var(--header-height, 52px);
       --button-height: var(--header-height, 52px);
