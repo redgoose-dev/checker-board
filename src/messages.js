@@ -33,7 +33,7 @@ export default {
       },
       unknown: {
         title: 'Unknown error',
-        description: '',
+        description: 'An unknown error has occurred.',
       },
     },
   },

@@ -1,34 +1,49 @@
 @import "../../../css/mixins";
 
-$self: '.board-list-item';
-
 .board-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #f0f0f0;
-  padding: 0 var(--size-side-padding);
+  display: block;
+  width: 100%;
+  background-color: var(--color-theme-green);
+  padding: 0;
+  margin: 0;
   height: var(--item-height, 54px);
   box-sizing: border-box;
   border-radius: 2px;
   text-decoration: none;
   transition: opacity var(--speed-button-active) ease-out;
+  user-select: none;
+  cursor: default;
+  border: none;
+  outline: none;
 
-  &:active {
-    opacity: .5;
+  &:not(.board-list-item--active) {
+    cursor: pointer;
+    &:active {
+      opacity: .5;
+    }
+  }
+
+  &__wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--size-side-padding);
+    box-sizing: border-box;
+    height: 100%;
   }
 
   .label {
     font-size: 16px;
-    color: var(--color-text-base);
+    color: var(--color-text-light);
+    font-style: normal;
   }
   .icon {
     --icon-color: var(--color-text-light);
     --icon-stroke-width: 1.5px;
   }
 
-  &--today {
-    background: var(--color-theme-green);
+  &--active {
+    background-color: var(--color-theme-red);
     .label {
       color: var(--color-text-light);
     }

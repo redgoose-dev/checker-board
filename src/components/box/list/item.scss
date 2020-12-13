@@ -5,35 +5,55 @@
   border-radius: 2px;
   background: var(--color-theme-green);
   box-sizing: border-box;
-  padding: var(--size-side-padding);
   user-select: none;
-  text-decoration: none;
+  &__head {
+    display: block;
+    padding: var(--size-side-padding) var(--size-side-padding) 12px var(--size-side-padding);
+    text-decoration: none;
+  }
   &__title {
     margin: 0;
     font-family: var(--font-point);
     color: #fff;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 500;
     line-height: 1.15;
   }
   &__description {
     margin: 4px 0 0;
     color: #fff;
-    font-size: 13px;
-    font-weight: 400;
+    font-size: 12px;
+    font-weight: 300;
     line-height: 1.2;
     @include text-multi-line(13px * 1.2, 2);
+  }
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 8px var(--size-side-padding);
+    border-top: 1px solid rgba(255,255,255,.25);
+  }
+  &__reset {
+    margin: 0;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
   }
   &__nav {
     display: flex;
     align-items: center;
-    margin: 4px 0 -4px -8px;
+    margin: 0 -6px 0 0;
     .button {
       --icon-size: 16px;
       --icon-stroke-width: 1.5px;
       --icon-color: #fff;
-      width: 32px;
+      width: 30px;
       height: 32px;
     }
+  }
+  &--active {
+    background: var(--color-theme-red);
   }
 }

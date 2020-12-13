@@ -40,19 +40,6 @@
       }
     }
   }
-  &__top-nav {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    margin: 0 -8px 0 0;
-    .button {
-      --button-width: 40px;
-      --button-height: 100%;
-      --icon-stroke-width: 1.5px;
-      --icon-size: 20px;
-      --icon-color: var(--color-theme-green);
-    }
-  }
   &__body {
     height: calc(100vh - var(--header-height) - var(--filter-height));
     box-sizing: border-box;
@@ -73,4 +60,13 @@
       }
     }
   }
+}
+
+.header-button {
+  --button-width: var(--size-modal-header-height);
+  --button-height: var(--size-modal-header-height);
+  --icon-stroke-width: 1.5px;
+  --icon-color: #fff;
+  --icon-size: 20px;
+  margin-right: -2px;
 }

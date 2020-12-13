@@ -6,6 +6,7 @@
       :id="id"
       :value="modelValue"
       :placeholder="placeholder"
+      :required="required"
       class="forms-input__unit"
       @input="$emit('update:modelValue', $event.target.value)">
   </label>
@@ -20,6 +21,7 @@ export default defineComponent({
     name: String,
     id: String,
     placeholder: String,
+    required: Boolean,
     modelValue: [ String, Number ],
   },
   emits: {

@@ -20,44 +20,38 @@
       v-else-if="compute.mode === 'manage'"
       :type="state.mode"
       :selected-item="state.selectedItem"
-      @submit=""
+      @submit="onSubmitManage"
       @cancel="gotoList"/>
-    <teleport to="body">
-      <confirm-dialog
-        v-if="state.showRemoveDialog"
-        :nested="true"/>
-    </teleport>
   </modal-wrapper>
 </template>
 
 <script>
 import { defineComponent, reactive, computed, onMounted } from 'vue';
-import { modelGetItems } from '@/libs/model';
+import { useStore } from 'vuex';
+import { modelGetItems, modelRemoveItem } from '@/libs/model';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
-import ConfirmDialog from '@/components/etc/confirm-dialog';
 import ButtonsIcon from '@/components/buttons/icon';
 import Manage from '@/components/box/manage';
 import BoxList from '@/components/box/list';
-
 export default defineComponent({
   name: 'box',
   components: {
     'modal-wrapper': ModalWrapper,
     'modal-header': ModalHeader,
-    'confirm-dialog': ConfirmDialog,
     'buttons-icon': ButtonsIcon,
     'box-list': BoxList,
     'manage': Manage,
   },
   setup()
   {
+    const store = useStore();
+
     let state = reactive({
       mode: 'list', // list,add,edit
       loading: true,
       items: [],
       selectedItem: null,
-      showRemoveDialog: false,
     });
     let compute = reactive({
       mode: computed(() => {
@@ -78,22 +72,36 @@ export default defineComponent({
       state.selectedItem = item;
       state.mode = 'edit';
     };
-    const onClickRemoveItem = item => {
-      state.selectedItem = item;
-      state.showRemoveDialog = true;
-      // TODO: 작업 필요한 부분
-      console.log('remove: ', item);
+    const onClickRemoveItem = async item => {
+      if (item?.srl && confirm('foo'))
+      {
+        await modelRemoveItem('box', item.srl);
+        state.loading = true;
+        state.items = await fetchItems();
+        state.loading = false;
+      }
     };
     const gotoList = () => {
       state.selectedItem = null;
       state.mode = 'list';
     };
+    const onSubmitManage = async () => {
+      gotoList();
+      state.loading = true;
+      state.items = await fetchItems();
+      state.loading = false;
+    }
+    const fetchItems = async () => {
+      let items = await modelGetItems('box');
+      return (items && items.length > 0) ? items.reverse().map(o => ({
+        ...o,
+        active: o.srl === store.state.preference.box,
+      })) : [];
+    };
 
     // lifecycles
     onMounted(async () => {
-      // get box items
-      let items = await modelGetItems('box');
-      state.items = (items && items.length > 0) ? items : [];
+      state.items = await fetchItems();
       state.loading = false;
     });
 
@@ -103,6 +111,7 @@ export default defineComponent({
       onClickEditItem,
       onClickRemoveItem,
       gotoList,
+      onSubmitManage,
     };
   },
   emits: {

@@ -41,6 +41,7 @@
       <board-list
         v-if="state.showBoardList"
         @select-item="onSelectBoard"
+        @goto-box="state.showBoardList = false; state.showBoxList = true"
         @close="state.showBoardList = false"/>
     </transition>
   </teleport>
@@ -71,6 +72,8 @@ export default defineComponent({
   {
     const store = useStore();
     const { locale } = useI18n({ useScope: 'global' });
+
+    // state
     let state = reactive({
       showPreference: false,
       showBoxList: false,
@@ -78,7 +81,8 @@ export default defineComponent({
     });
 
     // methods
-    const onSelectBox = () => {
+    const onSelectBox = async srl => {
+      await store.dispatch('updatePreference', { box: srl });
       state.showBoxList = false;
       state.showBoardList = true;
     };

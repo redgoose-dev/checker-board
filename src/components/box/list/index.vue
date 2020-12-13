@@ -10,6 +10,8 @@
         <item
           :title="o.name"
           :description="o.description"
+          :reset="o.reset"
+          :active="o.active"
           @click-item="$emit('click-item', o.srl)"
           @click-edit="$emit('click-edit', o)"
           @click-remove="$emit('click-remove', o)"/>

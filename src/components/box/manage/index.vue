@@ -15,6 +15,7 @@
             name="name"
             id="name"
             :placeholder="$t('box.placeholder.name')"
+            :required="true"
             v-model="state.forms.name"/>
         </p>
       </div>
@@ -28,6 +29,7 @@
             name="description"
             id="description"
             :placeholder="$t('box.placeholder.description')"
+            :required="true"
             v-model="state.forms.description"/>
         </p>
       </div>
@@ -40,6 +42,7 @@
             type="time"
             name="reset"
             id="reset"
+            :required="true"
             v-model="state.forms.reset"/>
         </p>
       </div>
@@ -57,8 +60,11 @@
 
 <script>
 import { defineComponent, reactive, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ButtonsBasic from '@/components/buttons/basic';
 import FormsInput from '@/components/forms/input';
+import { modelAddItem, modelEditItem } from '@/libs/model';
+import { convertPureObject } from '@/libs/util';
 export default defineComponent({
   name: 'box-manage',
   components: {
@@ -69,20 +75,20 @@ export default defineComponent({
     type: { type: String, default: 'add' }, // add,edit
     selectedItem: Object,
   },
-  setup(props)
+  setup(props, context)
   {
+    const { locale, t } = useI18n({ useScope: 'global' });
     let state = reactive({
       forms: props.selectedItem ? {
-        name: props.selectedItem.name,
-        description: props.selectedItem.description,
-        reset: props.selectedItem.reset,
+        name: props.selectedItem?.name,
+        description: props.selectedItem?.description,
+        reset: props.selectedItem?.reset,
       } : {
         name: '',
         description: '',
         reset: '',
       },
     });
-    console.log(props.selectedItem);
     let compute = reactive({
       submitLabel: computed(() => {
         switch (props.type)
@@ -96,8 +102,28 @@ export default defineComponent({
       }),
     });
 
-    const onSubmit = e => {
-      console.log('call onsubmit', e);
+    const onSubmit = async () => {
+      try
+      {
+        switch (props.type)
+        {
+          case 'add':
+            await modelAddItem('box', convertPureObject(state.forms));
+            break;
+          case 'edit':
+            if (!props.selectedItem.srl) throw new Error(t('error.unknown.description'));
+            await modelEditItem('box', props.selectedItem.srl, true, convertPureObject(state.forms));
+            break;
+          default:
+            throw new Error(t('error.unknown.description'));
+        }
+        context.emit('submit');
+      }
+      catch(e)
+      {
+        alert(e.message);
+        context.emit('cancel');
+      }
     };
 
     return {
@@ -108,6 +134,7 @@ export default defineComponent({
   },
   emits: {
     'cancel': null,
+    'submit': null,
   },
 });
 </script>

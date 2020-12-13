@@ -1,39 +1,39 @@
 <template>
-  <a
-    href="#"
+  <button
+    type="button"
     :class="[
       'board-list-item',
-      state.today && 'board-list-item--today',
+      active && `board-list-item--active`,
     ]"
     @click.prevent="$emit('select-item')">
-    <p class="label">
-      {{state.label}}
-    </p>
-    <icons v-if="state.today" icon="check" class="icon"/>
-  </a>
+    <span class="board-list-item__wrap">
+      <em class="label">
+        {{state.label}}
+      </em>
+      <icons v-if="state.today" icon="check" class="icon"/>
+    </span>
+  </button>
 </template>
 
 <script>
-import { defineComponent, reactive, computed, PropType } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { convertFormat, checkToday } from '@/libs/dates';
 import Icons from '@/components/icons';
-
 export default defineComponent({
   name: 'board-list-item',
   components: {
-    Icons,
+    'icons': Icons,
   },
   props: {
-    date: {
-      type: Date,
-      required: true,
-    },
+    date: { type: Date, required: true },
+    dateType: { type: Number, default: 0 },
+    active: Boolean,
   },
   setup(props)
   {
     return {
       state: reactive({
-        label: computed(() => convertFormat(props.date, 3)),
+        label: computed(() => convertFormat(props.date, props.dateType)),
         today: computed(() => checkToday(props.date)),
       }),
     };
