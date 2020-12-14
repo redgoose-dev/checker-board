@@ -21,7 +21,7 @@
             <forms-select
               name="filter_year"
               v-model="state.selectedFilter.year">
-              <option v-for="n in state.filters.years" :value="n" :key="n">
+              <option v-for="n in filters.years" :value="n" :key="n">
                 {{n}}
               </option>
             </forms-select>
@@ -32,7 +32,7 @@
               name="filter_month"
               v-model="state.selectedFilter.month">
               <option
-                v-for="n in state.filters.months"
+                v-for="n in filters.months"
                 :value="n"
                 :key="n">
                 {{n}}
@@ -79,26 +79,27 @@ export default defineComponent({
     'item': Item,
     'loading': Loading,
   },
-  async setup(props, context)
+  setup(props, context)
   {
-    // TODO: 전체 보드 목록에서 시작 날짜와 오늘날짜를 구해서 필터의 날짜를 만들어야 한다.
     const store = useStore();
     const { preference } = store.state;
+    const today = new Date();
 
     // state
     let state = reactive({
       loading: true,
       boxName: '',
-      // TODO: 필터 날짜출력 부분부터 작업하기
       selectedFilter: {
-        year: 2000,
-        month: 1,
+        year: today.getFullYear(),
+        month: today.getMonth() + 1,
       },
       index: [],
-      filters: {
-        years: computed(() => rangeNumbers(2000, 2010)),
-        months: computed(() => rangeNumbers(1, 12)),
-      },
+    });
+    let filters = reactive({
+      rangeYear: [ today.getFullYear(), today.getFullYear() ],
+      rangeMonth: [ 1, today.getMonth() + 1 ],
+      years: computed(() => rangeNumbers(Number(filters.rangeYear[0]), Number(filters.rangeYear[1]))),
+      months: computed(() => rangeNumbers(Number(filters.rangeMonth[0]), Number(filters.rangeMonth[1]))),
     });
 
     // methods
@@ -118,12 +119,19 @@ export default defineComponent({
     onMounted(async () => {
       try
       {
+        // get box item
         let box = await modelGetItem('box', preference.box);
         if (!box) return;
         state.boxName = box.name;
+        // get board items
         let boards = await modelGetItems('board', 'box', box.srl);
         if (!(boards && boards.length > 0)) state.index = [];
         state.index = boards.reverse();
+        // set date range in filters
+        const dateRange = [ state.index[0]?.date, state.index[state.index.length - 1]?.date ];
+        filters.rangeYear = [ dateRange[0]?.getFullYear(), dateRange[1]?.getFullYear() ];
+        filters.rangeMonth = [ dateRange[0]?.getMonth() + 1, dateRange[1]?.getMonth() + 1 ];
+        // off loading
         state.loading = false;
       }
       catch (e)
@@ -135,6 +143,7 @@ export default defineComponent({
 
     return {
       state,
+      filters,
       preference,
       onSelectItem,
       onClickEditBox,

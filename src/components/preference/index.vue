@@ -39,7 +39,7 @@
               <option value="0">2020-12-25</option>
               <option value="1">12-25-2020</option>
               <option v-if="state.visibleDateformat2" value="2">
-                2020{{$t('preference.year')}} 12{{$t('preference.month')}} 25{{$t('preference.date')}}
+                2020{{$t('preference.year')}} 12{{$t('preference.month')}} 25{{$t('preference.day')}}
               </option>
               <option value="3">25 December, 2020</option>
             </forms-select>

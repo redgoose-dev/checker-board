@@ -1,4 +1,5 @@
-import { dateFormatType, monthNames } from "./const";
+import { dateFormatType, monthNames } from './const';
+import { useI18n } from 'vue-i18n';
 
 /**
  * convert date format
@@ -24,7 +25,8 @@ export function convertFormat(date, type) {
       return `${month}-${day}-${year}`;
     // 2020{0} 12{1} 25{2} (이 부분은 printf 방식으로 처리해야한다.)
     case Number(keys[2]):
-      return `${year}{0} ${month}{1} ${day}{2}`;
+      const { t } = useI18n({ useScope: 'global' });
+      return `${year}${t('preference.year')} ${month}${t('preference.month')} ${day}${t('preference.day')}`;
     // 25 December, 2020
     case Number(keys[3]):
       return `${day} ${monthName}, ${year}`;

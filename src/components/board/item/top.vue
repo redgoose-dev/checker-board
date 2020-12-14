@@ -32,7 +32,7 @@ export default defineComponent({
         switch (formatType)
         {
           case 2:
-            date = printf(date, t('preference.year'), t('preference.month'), t('preference.date'));
+            date = printf(date, t('preference.year'), t('preference.month'), t('preference.day'));
             break;
         }
         return date;

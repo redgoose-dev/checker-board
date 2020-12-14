@@ -26,14 +26,14 @@ export default defineComponent({
   },
   props: {
     date: { type: Date, required: true },
-    dateType: { type: Number, default: 0 },
+    dateType: { type: [String, Number], default: 0 },
     active: Boolean,
   },
   setup(props)
   {
     return {
       state: reactive({
-        label: computed(() => convertFormat(props.date, props.dateType)),
+        label: computed(() => convertFormat(props.date, Number(props.dateType))),
         today: computed(() => checkToday(props.date)),
       }),
     };

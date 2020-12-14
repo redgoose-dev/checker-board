@@ -20,10 +20,6 @@
       </template>
     </app-header>
     <board-item/>
-    <hr>
-    <nav>
-      <button type="button" @click="addData">add data</button>
-    </nav>
   </main>
   <teleport to="body">
     <transition name="modal-fade">
@@ -52,6 +48,8 @@ import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { checkSupport } from '@/libs/util';
+import { modelGetItems, modelAddItem } from "@/libs/model";
+import { defaultModelData } from '@/assets/defaults';
 import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
 import BoardItem from '@/components/board/item';
@@ -82,7 +80,20 @@ export default defineComponent({
 
     // methods
     const onSelectBox = async srl => {
-      await store.dispatch('updatePreference', { box: srl });
+      let boardSrl = null;
+      const boards = await modelGetItems('board', 'box', srl);
+      if (boards?.length > 0)
+      {
+        boardSrl = boards[boards.length - 1]?.srl;
+      }
+      else
+      {
+        boardSrl = await modelAddItem('board', {
+          ...defaultModelData.board,
+          box: srl,
+        });
+      }
+      await store.dispatch('updatePreference', { box: srl, board: boardSrl });
       state.showBoxList = false;
       state.showBoardList = true;
     };

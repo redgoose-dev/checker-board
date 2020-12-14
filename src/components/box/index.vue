@@ -28,6 +28,7 @@
 <script>
 import { defineComponent, reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import { modelGetItems, modelRemoveItem } from '@/libs/model';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
@@ -46,7 +47,9 @@ export default defineComponent({
   setup()
   {
     const store = useStore();
+    const { t } = useI18n({ useScope: 'global' });
 
+    // state
     let state = reactive({
       mode: 'list', // list,add,edit
       loading: true,
@@ -73,7 +76,7 @@ export default defineComponent({
       state.mode = 'edit';
     };
     const onClickRemoveItem = async item => {
-      if (item?.srl && confirm('foo'))
+      if (item?.srl && confirm(t('box.removeMessage')))
       {
         await modelRemoveItem('box', item.srl);
         state.loading = true;

@@ -13,6 +13,7 @@ export default {
         name: 'Please input name.',
         description: 'Please input description.',
       },
+      removeMessage: 'Are you sure you want to delete it?',
     },
     board: {
       today: 'Go to today',
@@ -24,7 +25,7 @@ export default {
       dateFormat: 'Date format',
       year: 'Year',
       month: 'Month',
-      date: 'Date',
+      day: 'Date',
     },
     error: {
       notSupport: {
@@ -51,6 +52,7 @@ export default {
         name: '이름을 입력해주세요.',
         description: '설명을 입력해주세요.',
       },
+      removeMessage: '정말 삭제하겠습니까?',
     },
     board: {
       today: '오늘로 이동',
@@ -62,7 +64,7 @@ export default {
       dateFormat: '날짜포맷',
       year: '년',
       month: '월',
-      date: '일',
+      day: '일',
     },
     error: {
       notSupport: {
