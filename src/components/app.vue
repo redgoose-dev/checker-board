@@ -76,18 +76,21 @@ export default defineComponent({
       showPreference: false,
       showBoxList: false,
       showBoardList: false,
+      item: null,
     });
 
     // methods
     const onSelectBox = async srl => {
       let boardSrl = null;
       const boards = await modelGetItems('board', 'box', srl);
+      // TODO: 오늘날짜 확인하는 조건문 추가하기
       if (boards?.length > 0)
       {
         boardSrl = boards[boards.length - 1]?.srl;
       }
       else
       {
+        // TODO: body 값은 이전 데이터껄로 가져오기
         boardSrl = await modelAddItem('board', {
           ...defaultModelData.board,
           box: srl,

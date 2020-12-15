@@ -5,6 +5,7 @@ let DB = null;
 let errorPrefix = 'indexedDB:';
 let errorMessageStoreName = 'No store name.';
 let errorMessageDatabase = `Can't get database.`;
+let errorMessageNotKey = `No key`;
 
 /**
  * create database
@@ -182,6 +183,7 @@ export function modelGetItem(storeName, key = null, value = null)
 {
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    if (!key) return reject(`${errorPrefix} ${errorMessageNotKey}`);
     const store = modelGetStore(storeName, 'readonly');
     const request = key && value ? store.index(key).get(value) : store.get(key);
     request.onsuccess = e => resolve(e.target.result);

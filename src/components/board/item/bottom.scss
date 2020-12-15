@@ -12,21 +12,11 @@
   align-items: center;
 
   &__edit {
-    display: block;
-    width: 48px;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: none;
-    border-radius: 0;
-    @include button-touch-options(true);
-    svg {
-      margin: 0 auto;
-      --icon-size: 20px;
-      --icon-color: var(--color-theme-red);
-      --icon-stroke-width: 1.5px;
-    }
+    --button-width: 48px;
+    --button-height: 48px;
+    --icon-size: 20px;
+    --icon-color: var(--color-theme-red);
+    --icon-stroke-width: 1.5px;
   }
   &__graph {
     position: relative;

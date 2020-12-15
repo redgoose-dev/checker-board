@@ -61,10 +61,10 @@
 <script>
 import { defineComponent, reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import ButtonsBasic from '@/components/buttons/basic';
-import FormsInput from '@/components/forms/input';
 import { modelAddItem, modelEditItem } from '@/libs/model';
 import { convertPureObject } from '@/libs/util';
+import ButtonsBasic from '@/components/buttons/basic';
+import FormsInput from '@/components/forms/input';
 export default defineComponent({
   name: 'box-manage',
   components: {

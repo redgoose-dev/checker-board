@@ -1,10 +1,9 @@
 <template>
 <div class="board-item-bottom">
-  <button
+  <buttons-icon
+    icon="edit"
     class="board-item-bottom__edit"
-    @click="$emit('click-edit')">
-    <Icons icon="edit"/>
-  </button>
+    @click="$emit('click-edit')"/>
   <p class="board-item-bottom__graph">
     <i :style="`--width: ${state.percent}%`"></i>
   </p>
@@ -16,12 +15,12 @@
 
 <script>
 import { defineComponent, reactive, computed } from 'vue';
-import Icons from '@/components/icons/index.vue';
+import ButtonsIcon from '@/components/buttons/icon';
 
 export default defineComponent({
   name: 'board-item-bottom',
   components: {
-    Icons,
+    'buttons-icon': ButtonsIcon,
   },
   setup()
   {
@@ -29,9 +28,8 @@ export default defineComponent({
     let state = reactive({
       percent: computed(() => {
         return 69;
-      })
+      }),
     });
-
     return {
       state,
     };
