@@ -37,7 +37,7 @@
       <board-list
         v-if="state.showBoardList"
         @select-item="onSelectBoard"
-        @goto-box="state.showBoardList = false; state.showBoxList = true"
+        @goto-box="onGotoBox"
         @close="state.showBoardList = false"/>
     </transition>
   </teleport>
@@ -47,7 +47,7 @@
 import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { checkSupport } from '@/libs/util';
+import { checkSupport, sleep } from '@/libs/util';
 import { modelGetItems, modelAddItem } from "@/libs/model";
 import { defaultModelData } from '@/assets/defaults';
 import AppHeader from '@/components/header';
@@ -98,10 +98,16 @@ export default defineComponent({
       }
       await store.dispatch('updatePreference', { box: srl, board: boardSrl });
       state.showBoxList = false;
+      await sleep(100);
       state.showBoardList = true;
     };
     const onSelectBoard = () => {
       state.showBoardList = false;
+    };
+    const onGotoBox = async () => {
+      state.showBoardList = false;
+      await sleep(100);
+      state.showBoxList = true;
     };
 
     // check support
@@ -120,6 +126,7 @@ export default defineComponent({
       state,
       onSelectBox,
       onSelectBoard,
+      onGotoBox,
     };
   },
 });

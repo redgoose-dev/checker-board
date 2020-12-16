@@ -1,51 +1,66 @@
 <template>
-  <modal-wrapper>
-    <modal-header
-      title="edit board"
-      @close="$emit('close')"
-      class="board-manage-header">
-    </modal-header>
-    <div class="board-manage">
-      <div class="board-manage__body">
-        <p>board edit</p>
-      </div>
-      <nav class="board-manage__nav">
-        <buttons-basic type="button" skin="dark" @click="$emit('close')">
-          {{$t(`base.cancel`)}}
-        </buttons-basic>
-        <buttons-basic type="button" @click="onSubmit">
-          {{$t(`base.edit`)}}
-        </buttons-basic>
-      </nav>
+  <div ref="root" class="board-manage">
+    <div class="board-manage__body">
+      <textarea v-model="state.body" placeholder="Please input text"/>
     </div>
-  </modal-wrapper>
+    <nav class="board-manage__nav">
+      <buttons-basic type="button" skin="dark" @click="$emit('close')">
+        {{$t(`base.cancel`)}}
+      </buttons-basic>
+      <buttons-basic type="button" @click="onSubmit">
+        {{$t(`base.edit`)}}
+      </buttons-basic>
+    </nav>
+  </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import ModalWrapper from '@/components/etc/modal-wrapper';
-import ModalHeader from '@/components/etc/modal-header';
+import { defineComponent, reactive, onMounted, ref } from 'vue';
+import { modelGetItem, modelEditItem } from '@/libs/model';
 import ButtonsBasic from '@/components/buttons/basic';
-
 export default defineComponent({
   name: 'board-manage',
   components: {
-    'modal-wrapper': ModalWrapper,
-    'modal-header': ModalHeader,
     'buttons-basic': ButtonsBasic,
   },
-  setup()
+  props: {
+    srl: Number,
+  },
+  setup(props, context)
   {
-    const onSubmit = e => {
-      console.log('on submit');
+    const root = ref(null);
+
+    // state
+    let state = reactive({
+      body: '',
+    });
+
+    // methods
+    const onSubmit = async e => {
+      await modelEditItem('board', props.srl, true, {
+        body: state.body,
+      });
+      context.emit('submit');
     }
 
+    // lifecycles
+    onMounted(async () => {
+      let item = await modelGetItem('board', props.srl);
+      state.body = item?.body || '';
+      // auto focus in body
+      const $body = root.value?.querySelector('textarea');
+      $body?.focus();
+    });
+
     return {
+      root,
+      state,
       onSubmit,
     };
   },
   emits: {
     'close': null,
+    'submit': null,
   },
 });
 </script>

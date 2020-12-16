@@ -5,6 +5,7 @@
     :class="[
       `button-basic`,
       skin && `button-basic--skin-${skin}`,
+      inline && `button-basic--inline`,
     ]">
     <slot/>
   </button>
@@ -19,6 +20,7 @@ export default defineComponent({
     title: { type: String, default: 'button' },
     type: { type: String, default: 'button' },
     skin: String,
+    inline: Boolean,
   },
 });
 </script>

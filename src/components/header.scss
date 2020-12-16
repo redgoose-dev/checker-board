@@ -7,6 +7,7 @@
   align-items: center;
   height: var(--header-height, 52px);
   background: var(--color-theme-red);
+  z-index: 1;
   &__title {
     margin: 0;
     padding: 0 0 0 var(--size-side-padding);
@@ -16,6 +17,7 @@
     line-height: 1.42;
     letter-spacing: -.5px;
     color: var(--header-fill, #fff);
+    user-select: none;
     @include text-single-line();
   }
   &__nav {

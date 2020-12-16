@@ -1,5 +1,5 @@
 <template>
-  <article class="board-item-top">
+  <header class="board-item-top">
     <h2 class="board-item-top__date">{{date}}</h2>
     <button
       v-if="!today"
@@ -8,7 +8,7 @@
       @click="$emit('click-goto-today')">
       {{$t('board.today')}}
     </button>
-  </article>
+  </header>
 </template>
 
 <script>

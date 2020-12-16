@@ -1,28 +1,31 @@
 <template>
-  <article class="board-item">
+  <div class="board-item">
     <board-item-top
       :date="computes.date"
       :today="computes.today"
+      class="board-item__top"
       @click-goto-today="onGotoToday"/>
-    <div class="board-item__body">
-      {{computes.body}}
-    </div>
-    <board-item-bottom
-      :checkbox-total="20"
-      :checkbox-checked="10"
-      @click-edit="state.showBoardManage = true"/>
-  </article>
-  <teleport to="body">
-    <transition name="modal-fade">
-      <board-manage
-        v-if="state.showBoardManage"
-        @close="state.showBoardManage = false"/>
-    </transition>
-  </teleport>
+    <template v-if="!state.showBoardManage">
+      <div class="board-item__body">
+        {{computes.body}}
+      </div>
+      <board-item-bottom
+        :checkbox-total="20"
+        :checkbox-checked="10"
+        class="board-item__bottom"
+        @click-edit="state.showBoardManage = true"/>
+    </template>
+    <board-manage
+      v-else
+      :srl="state.item.srl"
+      class="board-item__manage"
+      @close="state.showBoardManage = false"
+      @submit="onSubmitManage"/>
+  </div>
 </template>
 
 <script>
-import { computed, defineComponent, reactive } from 'vue';
+import { computed, defineComponent, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import { convertFormat } from '@/libs/dates';
 import { modelGetItem } from "@/libs/model";
@@ -44,11 +47,11 @@ export default defineComponent({
     // state
     let state = reactive({
       showBoardManage: false,
-      item: preference.board ? await modelGetItem('board', preference.board) : null,
+      item: preference.board ? await modelGetItem('board', store.state.preference.board) : null,
     });
     let computes = reactive({
       date: computed(() => {
-        return convertFormat(state.item.date, Number(preference.dateFormat));
+        return convertFormat(state.item.date, Number(store.state.preference.dateFormat));
       }),
       body: computed(() => {
         // TODO: markdown 파싱
@@ -61,21 +64,36 @@ export default defineComponent({
         return (
           today.getFullYear() === date.getFullYear() &&
           today.getMonth() === date.getMonth() &&
-          today.getDay() === date.getDay()
+          today.getDate() === date.getDate()
         );
       }),
     });
 
     // methods
+    const update = async () => {
+      let item = await modelGetItem('board', store.state.preference.board);
+      if (item) state.item = item;
+    };
     const onGotoToday = e => {
       // TODO: 오늘 board 글로 이동
       console.log('call onGotoToday()');
     };
+    const onSubmitManage = async () => {
+      state.showBoardManage = false;
+      await update();
+    };
+
+    // watch preference.board
+    watch(() => store.state.preference.board, async (newValue, value) => {
+      if (newValue === value) return;
+      await update();
+    });
 
     return {
       state,
       computes,
       onGotoToday,
+      onSubmitManage,
     };
   },
   emits: {},

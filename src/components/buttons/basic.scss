@@ -20,4 +20,9 @@
       background-color: var(--color-theme-dark-gray);
     }
   }
+  &--inline {
+    width: auto;
+    padding-left: var(--size-side-padding);
+    padding-right: var(--size-side-padding);
+  }
 }

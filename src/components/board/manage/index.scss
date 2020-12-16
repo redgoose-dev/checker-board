@@ -1,5 +1,41 @@
 .board-manage {
-  &__nav {}
+  padding: 0;
+  &__body {
+    box-sizing: border-box;
+    textarea {
+      width: 100%;
+      margin: 0;
+      padding: 30px var(--size-side-padding);
+      box-sizing: border-box;
+      font-family: var(--font-point);
+      font-size: 16px;
+      color: var(--color-text-base);
+      outline: none;
+      line-height: 1.6;
+      height: calc(100vh - var(--size-mobile-header-height) - 44px - 52px);
+      border: none;
+      &:empty:before {
+        content: attr(data-placeholder);
+        color: #777;
+      }
+      &::selection {
+        background: var(--color-theme-green);
+        color: var(--color-text-light);
+      }
+    }
+  }
+  &__nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > *:nth-child(n+2) {
+      margin-left: 1px;
+    }
+  }
 }
 
 .board-manage-header {}

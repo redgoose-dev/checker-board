@@ -2,8 +2,6 @@
 
 .board-item-top {
   position: sticky;
-  height: 44px;
-  top: var(--header-height);
   left: 0;
   right: 0;
   background: #fff;
@@ -11,7 +9,6 @@
   display: flex;
   align-items: center;
   padding: 0 var(--size-side-padding);
-
   &__date {
     flex: 1;
     margin: 0;

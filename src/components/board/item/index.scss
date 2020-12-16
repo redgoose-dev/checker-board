@@ -1,12 +1,32 @@
 @import "../../../css/mixins";
 
-// board-item
-
 .board-item {
   --bottom-height: 48px;
-  padding: 0 0 var(--bottom-height) 0;
+  --top-height: 44px;
+  &__top {
+    top: var(--size-mobile-header-height);
+    height: var(--top-height);
+  }
   &__body {
     padding: 30px var(--size-side-padding);
     font-family: var(--font-point);
+    font-size: 16px;
+    line-height: 1.6;
+    box-sizing: border-box;
+    &:after {
+      content: '';
+      display: block;
+      height: var(--bottom-height);
+    }
+    &, & * {
+      &::selection {
+        background: var(--color-theme-green);
+        color: var(--color-text-light);
+      }
+    }
   }
+  &__bottom {
+    height: var(--bottom-height);
+  }
+  &__manage {}
 }
