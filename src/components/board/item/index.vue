@@ -6,9 +6,11 @@
       class="board-item__top"
       @click-goto-today="onGotoToday"/>
     <template v-if="!state.showBoardManage">
-      <div class="board-item__body">
-        {{computes.body}}
-      </div>
+      <fieldset :disabled="state.disabledBody" class="board-item__fieldset">
+        <div
+          ref="contentBody"
+          class="board-item__body"/>
+      </fieldset>
       <board-item-bottom
         :checkbox-total="20"
         :checkbox-checked="10"
@@ -25,10 +27,11 @@
 </template>
 
 <script>
-import { computed, defineComponent, reactive, watch } from 'vue';
+import { computed, defineComponent, reactive, watch, ref, onMounted, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { convertFormat } from '@/libs/dates';
-import { modelGetItem } from "@/libs/model";
+import { modelGetItem, modelEditItem } from '@/libs/model';
+import { updateBody } from '@/libs/markdown';
 import Top from './top';
 import Bottom from './bottom';
 import BoardManage from '@/components/board/manage';
@@ -43,19 +46,20 @@ export default defineComponent({
   {
     const store = useStore();
     const { preference } = store.state;
+    const contentBody = ref('contentBody');
+
+    // lifecycles
+    onMounted(() => updateItemBody().then());
 
     // state
     let state = reactive({
       showBoardManage: false,
       item: preference.board ? await modelGetItem('board', store.state.preference.board) : null,
+      disabledBody: false,
     });
     let computes = reactive({
       date: computed(() => {
         return convertFormat(state.item.date, Number(store.state.preference.dateFormat));
-      }),
-      body: computed(() => {
-        // TODO: markdown 파싱
-        return state.item.body;
       }),
       today: computed(() => {
         if (!state.item.date) return false;
@@ -74,7 +78,7 @@ export default defineComponent({
       let item = await modelGetItem('board', store.state.preference.board);
       if (item) state.item = item;
     };
-    const onGotoToday = e => {
+    const onGotoToday = async () => {
       // TODO: 오늘 board 글로 이동
       console.log('call onGotoToday()');
     };
@@ -82,14 +86,32 @@ export default defineComponent({
       state.showBoardManage = false;
       await update();
     };
+    const updateItemBody = async () => {
+      const $body = contentBody.value;
+      $body.innerHTML = '';
+      await nextTick();
+      updateBody(state.item?.body, $body, async (str) => {
+        state.disabledBody = true;
+        await modelEditItem('board', state.item?.srl, true, { body: str });
+        state.item.body = str;
+        state.disabledBody = false;
+      });
+    };
 
-    // watch preference.board
+    // watch
     watch(() => store.state.preference.board, async (newValue, value) => {
       if (newValue === value) return;
       await update();
     });
+    watch(() => state.item?.body, updateItemBody);
+    watch(() => state.showBoardManage, async (value) => {
+      if (value) return;
+      await nextTick();
+      await updateItemBody();
+    });
 
     return {
+      contentBody,
       state,
       computes,
       onGotoToday,
@@ -100,4 +122,5 @@ export default defineComponent({
 });
 </script>
 
-<style src="./index.scss" lang="scss" scoped></style>
+<style src="./index.scoped.scss" lang="scss" scoped></style>
+<style src="./index.scss" lang="scss"></style>

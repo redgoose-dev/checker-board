@@ -1,0 +1,28 @@
+@import "../../../css/mixins";
+
+.board-item {
+  --bottom-height: 48px;
+  --top-height: 44px;
+  &__top {
+    top: var(--size-mobile-header-height);
+    height: var(--top-height);
+  }
+  &__fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  &__body {
+    padding: 30px var(--size-side-padding);
+    box-sizing: border-box;
+    &:after {
+      content: '';
+      display: block;
+      height: var(--bottom-height);
+    }
+  }
+  &__bottom {
+    height: var(--bottom-height);
+  }
+  &__manage {}
+}
