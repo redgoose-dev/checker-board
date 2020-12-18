@@ -1,17 +1,20 @@
 <template>
-  <div ref="root" class="board-manage">
+  <form ref="root" class="board-manage" @submit.prevent="onSubmit">
     <div class="board-manage__body">
-      <textarea v-model="state.body" placeholder="Please input text"/>
+      <textarea
+        v-model="state.body"
+        placeholder="Please input text"
+        @keydown="onKeydownBody"/>
     </div>
     <nav class="board-manage__nav">
       <buttons-basic type="button" skin="dark" @click="$emit('close')">
         {{$t(`base.cancel`)}}
       </buttons-basic>
-      <buttons-basic type="button" @click="onSubmit">
+      <buttons-basic type="submit">
         {{$t(`base.edit`)}}
       </buttons-basic>
     </nav>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -36,12 +39,20 @@ export default defineComponent({
     });
 
     // methods
-    const onSubmit = async e => {
+    const onSubmit = async () => {
       await modelEditItem('board', props.srl, true, {
         body: state.body,
       });
       context.emit('submit');
     }
+    const onKeydownBody = e => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter')
+      {
+        console.log('on submit', e.target);
+        e.target.blur();
+        onSubmit().then();
+      }
+    };
 
     // lifecycles
     onMounted(async () => {
@@ -56,6 +67,7 @@ export default defineComponent({
       root,
       state,
       onSubmit,
+      onKeydownBody,
     };
   },
   emits: {

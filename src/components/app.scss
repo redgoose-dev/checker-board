@@ -1,14 +1,25 @@
-main {}
+@import "../css/mixins";
+
+main {
+  --header-height: 52px;
+  @include responsive(desktop) {
+    --header-height: 44px;
+  }
+}
 
 .app-header {
   --header-fill: #fff;
-  --header-height: 52px;
   &__button {
     --button-width: 48px;
     --button-height: 100%;
     --icon-stroke-width: 1.5px;
     --icon-size: 20px;
     --icon-color: #fff;
+  }
+  @include responsive(desktop) {
+    &__button {
+      --button-width: 42px;
+    }
   }
 }
 

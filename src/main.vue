@@ -23,7 +23,6 @@
 import { defineComponent, onErrorCaptured, ref } from 'vue';
 import App from '@/components/app';
 import Loading from '@/components/etc/loading';
-
 export default defineComponent({
   name: 'app-main',
   components: {

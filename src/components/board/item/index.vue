@@ -6,11 +6,12 @@
       class="board-item__top"
       @click-goto-today="onGotoToday"/>
     <template v-if="!state.showBoardManage">
-      <fieldset :disabled="state.disabledBody" class="board-item__fieldset">
-        <div
-          ref="contentBody"
-          class="board-item__body"/>
-      </fieldset>
+      <div :class="[
+        'board-item__fieldset',
+        state.disabledBody && `disabled`,
+      ]">
+        <div ref="contentBody" class="board-item__body"/>
+      </div>
       <board-item-bottom
         :checkbox-total="20"
         :checkbox-checked="10"

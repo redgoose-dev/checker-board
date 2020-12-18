@@ -5,11 +5,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #fff;
+  background-color: rgba(255,255,255,1);
   box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15);
   display: flex;
   align-items: center;
-
   &__edit {
     --button-width: 60px;
     --button-height: 100%;
@@ -43,5 +42,21 @@
     font-size: 13px;
     letter-spacing: -.25px;
     user-select: none;
+  }
+
+  @include responsive(desktop) {
+    position: sticky;
+    left: auto;
+    bottom: 30px;
+    right: auto;
+    width: 680px;
+    margin: 0 auto;
+    &__edit {
+      padding-left: 8px;
+    }
+    &__percent {
+      width: 64px;
+      padding-right: 8px;
+    }
   }
 }

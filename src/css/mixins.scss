@@ -1,10 +1,6 @@
 // responsive
 @mixin responsive($range)
 {
-  @if $range == tablet
-  {
-    @media (min-width: 768px) { @content; }
-  }
   @if $range == desktop
   {
     @media (min-width: 1024px) { @content; }
@@ -78,4 +74,31 @@
 {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+// scroll style
+@mixin custom-scroll-style($size:4px)
+{
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.3);
+    border-radius: $size;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,.4);
+  }
+  //@include dark-mode() {
+  //  &::-webkit-scrollbar-thumb {
+  //    background: rgba(255,255,255,.2);
+  //  }
+  //  &::-webkit-scrollbar-thumb:hover {
+  //    background: rgba(255,255,255,.3);
+  //  }
+  //}
 }

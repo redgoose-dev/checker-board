@@ -1,14 +1,8 @@
 import marked from 'marked';
 
 /**
- * 마크다운 문서 파싱과 관련된 이벤트 설정
- *
- * thanks reference
- * - https://stackoverflow.com/a/62697836
- */
-
-/**
  * replace mark
+ * https://stackoverflow.com/a/62697836
  *
  * @param {String} src
  * @param {RegExp} search
@@ -28,6 +22,7 @@ function replaceMark(src, search, replace, index)
 
 /**
  * update body
+ * https://stackoverflow.com/a/62697836
  *
  * @param {String} str
  * @param {HTMLElement} $target
@@ -75,4 +70,9 @@ export function updateBody(str, $target, changeCheckEvent)
   });
 
   return parsed;
+}
+
+export function cloneBody()
+{
+  // TODO
 }

@@ -6,12 +6,12 @@
   // color
   --color-text-base: #222;
   --color-text-light: #fff;
-  --color-bg: #fff;
+  --color-bg: #f6f8fa;
   --color-theme-green: #3EBA9B;
   --color-theme-orange: #FEAD34;
   --color-theme-red: #DA3C3D;
   --color-theme-egg: #F5E4AC;
-  --color-theme-dark: #1E0413;
+  --color-theme-dark: #111;
   --color-theme-dark-gray: #222;
   --color-theme-light-gray: #F0F0F0;
   // size
@@ -28,7 +28,9 @@
   --speed-background-color: 200ms;
 
   @include dark-mode() {
+    //--color-text-base: #f4f4f4;
     //--color-bg: #222;
+    //--color-text-light: #111;
   }
 }
 

@@ -1,16 +1,26 @@
 @import "../../../css/mixins";
 
 .board-item {
-  --bottom-height: 48px;
   --top-height: 44px;
+  --bottom-height: 48px;
   &__top {
-    top: var(--size-mobile-header-height);
+    top: var(--top-height);
     height: var(--top-height);
   }
   &__fieldset {
-    margin: 0;
-    padding: 0;
-    border: none;
+    position: relative;
+    &.disabled {
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: var(--color-bg);
+        opacity: .5;
+      }
+    }
   }
   &__body {
     padding: 30px var(--size-side-padding);
@@ -24,5 +34,23 @@
   &__bottom {
     height: var(--bottom-height);
   }
-  &__manage {}
+  &__manage {
+    height: calc(100vh - var(--header-height) - var(--top-height));
+  }
+
+  @include responsive(desktop) {
+    --header-height: 44px;
+    &__body {
+      max-width: 840px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 50px 0 120px 0;
+      &:after {
+        display: none;
+      }
+    }
+    &__bottom {
+      border-radius: calc(var(--bottom-height) / 2);
+    }
+  }
 }

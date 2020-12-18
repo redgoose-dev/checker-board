@@ -1,8 +1,14 @@
+@import "../../../css/mixins";
+
 .board-manage {
+  --nav-height: 52px;
   padding: 0;
+  margin: 0;
   &__body {
     box-sizing: border-box;
+    height: calc(100%);
     textarea {
+      display: block;
       width: 100%;
       margin: 0;
       padding: 30px var(--size-side-padding);
@@ -12,8 +18,9 @@
       color: var(--color-text-base);
       outline: none;
       line-height: 1.6;
-      height: calc(100vh - var(--size-mobile-header-height) - 44px - 52px);
+      height: 100%;
       border: none;
+      background: none;
       &:empty:before {
         content: attr(data-placeholder);
         color: #777;
@@ -32,10 +39,24 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height: var(--nav-height);
     > *:nth-child(n+2) {
       margin-left: 1px;
     }
   }
+  @include responsive(desktop) {
+    &__body {
+      textarea {
+        padding: 50px calc(var(--size-side-padding) * 2) 150px;
+      }
+    }
+    &__nav {
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      width: 320px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  }
 }
-
-.board-manage-header {}
