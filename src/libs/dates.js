@@ -23,12 +23,15 @@ export function convertFormat(date, type) {
     // 00-00-0000
     case Number(keys[1]):
       return `${month}-${day}-${year}`;
-    // 2020{0} 12{1} 25{2} (이 부분은 printf 방식으로 처리해야한다.)
+    // 00. 00. 0000
     case Number(keys[2]):
+      return `${month}. ${day}. ${year}`;
+    // 2020{0} 12{1} 25{2} (이 부분은 printf 방식으로 처리해야한다.)
+    case Number(keys[3]):
       const { t } = useI18n({ useScope: 'global' });
       return `${year}${t('preference.year')} ${month}${t('preference.month')} ${day}${t('preference.day')}`;
     // 25 December, 2020
-    case Number(keys[3]):
+    case Number(keys[4]):
       return `${day} ${monthName}, ${year}`;
   }
 }

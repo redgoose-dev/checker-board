@@ -56,10 +56,11 @@
               @update:model-value="save">
               <option value="0">2020-12-25</option>
               <option value="1">12-25-2020</option>
-              <option v-if="state.visibleDateformat2" value="2">
+              <option value="2">12. 25. 2020</option>
+              <option value="3">
                 2020{{$t('preference.year')}} 12{{$t('preference.month')}} 25{{$t('preference.day')}}
               </option>
-              <option value="3">25 December, 2020</option>
+              <option value="4">25 December, 2020</option>
             </forms-select>
           </p>
         </div>
@@ -105,9 +106,6 @@ export default defineComponent({
         dateFormat: store.state.preference.dateFormat,
         theme: store.state.preference.theme,
       },
-      visibleDateformat2: computed(() => {
-        return (store.state.preference.language !== 'en');
-      }),
     });
 
     // methods
