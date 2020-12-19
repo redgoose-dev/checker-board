@@ -1,5 +1,10 @@
+@import "../../../css/mixins";
+
 .box-manage {
+  box-sizing: border-box;
+  height: calc(100% - var(--size-modal-header-height) - var(--bottom-height));
   padding: 30px var(--size-side-padding);
+  @include scroll-area();
   &__title {
     margin: 0 0 16px;
     font-size: 1.5rem;
@@ -28,6 +33,10 @@
     display: flex;
     background-color: var(--color-bg);
     box-shadow: 0 -1px 12px rgba(0,0,0,.1);
+    height: var(--bottom-height);
+    button {
+      height: 100%;
+    }
     > *:nth-child(n+2) {
       margin-left: 1px;
     }

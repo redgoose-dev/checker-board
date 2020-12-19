@@ -1,18 +1,26 @@
 <template>
-  <modal-wrapper>
+  <modal-wrapper class="box-root" @close="$emit('close')">
     <modal-header
       :title="$t('box.title')"
       @close="$emit('close')"
       class="box-list-header">
-      <template v-if="compute.mode !== 'list'" v-slot:navRight>
-        <buttons-icon icon="menu" class="header-button" @click="gotoList"/>
+      <template v-slot:navRight>
+        <buttons-icon
+          v-if="compute.mode !== 'list'"
+          icon="grid"
+          class="header-button"
+          @click="gotoList"/>
+        <buttons-icon
+          v-else
+          icon="plus"
+          class="header-button add"
+          @click="state.mode = 'add'"/>
       </template>
     </modal-header>
     <box-list
       v-if="compute.mode === 'list'"
       :loading="state.loading"
       :items="state.items"
-      @click-add="state.mode = 'add'"
       @click-item="$emit('select-item', $event)"
       @click-edit="onClickEditItem"
       @click-remove="onClickRemoveItem"/>

@@ -2,11 +2,11 @@
   <button
     type="button"
     :class="[
-      'board-list-item',
-      active && `board-list-item--active`,
+      'item',
+      active && `item--active`,
     ]"
     @click.prevent="$emit('select-item')">
-    <span class="board-list-item__wrap">
+    <span class="item__wrap">
       <em class="label">
         {{state.label}}
       </em>

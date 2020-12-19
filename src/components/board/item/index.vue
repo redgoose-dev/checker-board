@@ -6,10 +6,7 @@
       class="board-item__top"
       @click-goto-today="onGotoToday"/>
     <template v-if="!state.showBoardManage">
-      <div :class="[
-        'board-item__fieldset',
-        state.disabledBody && `disabled`,
-      ]">
+      <div :class="[ 'board-item__fieldset', state.disabledBody && `disabled` ]">
         <div ref="contentBody" class="board-item__body"/>
       </div>
       <board-item-bottom
@@ -76,6 +73,7 @@ export default defineComponent({
 
     // methods
     const update = async () => {
+      state.showBoardManage = false;
       let item = await modelGetItem('board', store.state.preference.board);
       if (item) state.item = item;
     };
@@ -100,10 +98,7 @@ export default defineComponent({
     };
 
     // watch
-    watch(() => store.state.preference.board, async (newValue, value) => {
-      if (newValue === value) return;
-      await update();
-    });
+    watch(() => store.state.preference.board, update);
     watch(() => state.item?.body, updateItemBody);
     watch(() => state.showBoardManage, async (value) => {
       if (value) return;
@@ -119,7 +114,9 @@ export default defineComponent({
       onSubmitManage,
     };
   },
-  emits: {},
+  emits: {
+    'update': null,
+  },
 });
 </script>
 

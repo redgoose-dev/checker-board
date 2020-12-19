@@ -24,4 +24,10 @@
       --icon-color: #fff;
     }
   }
+
+  @include responsive(desktop) {
+    &__title {
+      font-size: 18px;
+    }
+  }
 }

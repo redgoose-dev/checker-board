@@ -1,17 +1,18 @@
 @import "../../css/mixins";
 
-$header-height: 52px;
-$bottom-height: 52px;
-
 .preference {
   box-sizing: border-box;
-  height: calc(100vh - #{$header-height});
+  height: calc(100% - var(--size-modal-header-height));
+  padding: 30px var(--size-side-padding) 50px;
+  user-select: none;
   @include scroll-area();
-  padding: 30px var(--size-side-padding);
   > fieldset {
     margin: 0;
     padding: 0;
     border: none;
+    > * {
+      margin: 32px 0 0;
+    }
     > legend {
       font-size: 0;
       visibility: hidden;
@@ -23,20 +24,36 @@ $bottom-height: 52px;
 }
 
 .preference-header {
-  --header-height: #{$header-height};
+  --header-height: var(--size-modal-header-height);
 }
 
 .field {
-  margin-top: 24px;
   &__label {
     margin: 0;
     label {
-      font-size: 13px;
+      font-size: 16px;
       font-weight: 600;
       line-height: 1.42;
     }
   }
   &__body {
-    margin: 4px 0 0;
+    margin: 6px 0 0;
+  }
+}
+
+.section {
+  &__title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.42;
+  }
+  &__description {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--color-text-gray);
+  }
+  &__body {
+    margin: 16px 0 0;
   }
 }

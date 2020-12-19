@@ -1,6 +1,6 @@
 <template>
-<div class="modal-wrapper">
-  <div class="modal-wrapper__body">
+<div class="modal-wrapper" @click="$emit('close')">
+  <div class="modal-wrapper__body" @click.stop="">
     <slot/>
   </div>
 </div>
@@ -30,6 +30,9 @@ export default defineComponent({
         document.querySelector('html').classList.remove('mode-modal');
       }
     });
+  },
+  emits: {
+    'close': null,
   },
 });
 </script>

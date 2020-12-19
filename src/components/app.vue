@@ -1,6 +1,6 @@
 <template>
   <main>
-    <app-header title="하루하루의 운동운동~" class="app-header">
+    <app-header :title="computes.title" class="app-header">
       <template v-slot:navRight>
         <buttons-icon
           title="box list"
@@ -19,7 +19,8 @@
           @click="state.showPreference = true"/>
       </template>
     </app-header>
-    <board-item/>
+    <board-item
+      @update=""/>
   </main>
   <teleport to="body">
     <transition name="modal-fade">
@@ -44,11 +45,11 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { checkSupport, sleep } from '@/libs/util';
-import { modelGetItems, modelAddItem } from "@/libs/model";
+import { modelGetItems, modelGetItem, modelAddItem } from "@/libs/model";
 import { defaultModelData } from '@/assets/defaults';
 import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
@@ -76,7 +77,10 @@ export default defineComponent({
       showPreference: false,
       showBoxList: false,
       showBoardList: false,
-      item: null,
+      box: null,
+    });
+    let computes = reactive({
+      title: computed(() => (state.box ? state.box.name : 'none title')),
     });
 
     // methods
@@ -98,8 +102,6 @@ export default defineComponent({
       }
       await store.dispatch('updatePreference', { box: srl, board: boardSrl });
       state.showBoxList = false;
-      await sleep(100);
-      state.showBoardList = true;
     };
     const onSelectBoard = () => {
       state.showBoardList = false;
@@ -109,6 +111,23 @@ export default defineComponent({
       await sleep(100);
       state.showBoxList = true;
     };
+    const changeTheme = (theme) => {
+      if (!theme) return;
+      const $html = document.querySelector('html');
+      if ($html.classList.contains(theme)) return;
+      $html.dataset.color = theme;
+    };
+    const update = async (srl) => {
+      try
+      {
+        if (!srl) throw '';
+        state.box = await modelGetItem('box', srl);
+      }
+      catch(e)
+      {
+        state.box = null;
+      }
+    };
 
     // check support
     if (!checkSupport()) throw 'NOT_SUPPORT';
@@ -116,14 +135,25 @@ export default defineComponent({
     // run setup
     await store.dispatch('setup');
 
+    // set color theme
+    changeTheme(store.state.preference.theme);
+
+    // get box item
+    await update(store.state.preference?.box);
+
     // change language
     if (locale.value !== store.state.preference.language)
     {
       locale.value = store.state.preference.language;
     }
 
+    // watch
+    watch(() => store.state.preference.theme, changeTheme);
+    watch(() => store.state.preference.box, update);
+
     return {
       state,
+      computes,
       onSelectBox,
       onSelectBoard,
       onGotoBox,

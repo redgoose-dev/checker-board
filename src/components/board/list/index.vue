@@ -1,9 +1,6 @@
 <template>
-  <modal-wrapper class="board-list">
-    <modal-header
-      :title="state.boxName"
-      class="board-list__header"
-      @close="$emit('close')">
+  <modal-wrapper class="board-list" @close="$emit('close')">
+    <modal-header :title="state.boxName" @close="$emit('close')">
       <template v-slot:navRight>
         <buttons-icon
           icon="grid"
@@ -11,7 +8,7 @@
           @click="$emit('goto-box')"/>
       </template>
     </modal-header>
-    <loading v-if="state.loading"/>
+    <loading v-if="state.loading" class="board-list__loading"/>
     <template v-else>
       <div class="board-list__control">
         <fieldset class="board-list__filter">

@@ -39,6 +39,8 @@
       margin: 0 0 0 -20px;
       input {
         vertical-align: middle;
+        margin-right: 3px;
+        margin-top: -2px;
       }
     }
     p {
@@ -46,7 +48,7 @@
     }
   }
   a {
-    color: var(--color-theme-red);
+    color: var(--color-theme-green);
     word-break: break-all;
   }
   img {
@@ -84,12 +86,11 @@
   table {
     margin: var(--size-margin-vertical) 0;
     border-collapse: collapse;
-    font-size: .875em;
+    font-size: 14px;
     box-sizing: border-box;
-    background: #fff;
     th, td {
       padding: .5rem 1rem;
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
       box-sizing: border-box;
     }
     thead {
@@ -107,19 +108,19 @@
   code {
     word-break: break-word;
     font-size: 92.5%;
-    color: var(--color-theme-green);
+    color: var(--color-theme-orange);
   }
   pre {
     margin: var(--size-margin-vertical) 0;
     padding: 1rem;
-    background: #e6e6e6;
-    font-size: .9375em;
+    background-color: var(--color-content-bg);
+    font-size: 15px;
     line-height: 1.5;
     max-width: 100%;
     box-sizing: border-box;
     border-radius: 2px;
+    box-shadow: 0 2px 15px rgba(0,0,0,.15);
     @include scroll-area();
-    @include custom-scroll-style();
     > code {
       margin: 0;
       padding: 0;
@@ -129,9 +130,6 @@
       color: var(--color-text-base);
       font-size: 1em;
     }
-  }
-  input[type=checkbox] {
-    margin-right: 3px;
   }
   iframe {
     display: block;
@@ -164,10 +162,10 @@
     position: relative;
     margin: var(--size-margin-vertical) 0;
     padding: 1rem 1rem 1rem calc(1rem + var(--border-width));
-    box-shadow: inset 0 0 0 1px #ddd;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: var(--color-content-bg);
     border-radius: 2px;
+    box-shadow: 0 2px 15px rgba(0,0,0,.15);
     &:before {
       content: '';
       display: block;
@@ -186,7 +184,7 @@
       top: 0;
       bottom: 0;
       width: var(--border-width);
-      background: var(--color-theme-green);
+      background: var(--color-theme-orange);
       border-top-left-radius: 2px;
       border-bottom-left-radius: 2px;
     }
@@ -218,8 +216,16 @@
       }
     }
   }
-
   @include dark-mode() {
-    //
+    table {
+      th, td {
+        border-color: #181818;
+      }
+      thead {
+        th, td {
+          background-color: #181818;
+        }
+      }
+    }
   }
 }

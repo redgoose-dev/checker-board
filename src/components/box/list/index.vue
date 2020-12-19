@@ -3,9 +3,6 @@
     <h2 class="box-list__title">Box list</h2>
     <loading v-if="loading"/>
     <ul v-else class="box-list__index">
-      <li>
-        <add-item @click="$emit('click-add')"/>
-      </li>
       <li v-for="(o,k) in items" :key="k">
         <item
           :title="o.name"
@@ -23,13 +20,11 @@
 <script>
 import { defineComponent } from 'vue';
 import Loading from '@/components/etc/loading';
-import AddItem from './add-item';
 import Item from './item';
 export default defineComponent({
   name: 'box-list',
   components: {
     'loading': Loading,
-    'add-item': AddItem,
     'item': Item,
   },
   props: {
@@ -37,7 +32,6 @@ export default defineComponent({
     items: Array,
   },
   emits: {
-    'click-add': null,
     'click-item': null,
     'click-edit': null,
     'click-remove': null,

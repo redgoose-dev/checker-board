@@ -26,6 +26,8 @@ export default {
       year: 'Year',
       month: 'Month',
       day: 'Date',
+      theme: 'Theme',
+      resetDatabase: 'Reset Database',
     },
     error: {
       notSupport: {
@@ -65,6 +67,8 @@ export default {
       year: '년',
       month: '월',
       day: '일',
+      theme: '테마',
+      resetDatabase: '데이터베이스 초기화',
     },
     error: {
       notSupport: {

@@ -1,6 +1,7 @@
 export const defaultPreference = {
   language: "ko",
   dateFormat: "0",
+  theme: 'system', // light, dark, system
   box: null,
   board: null,
 };

@@ -6,7 +6,9 @@
   // color
   --color-text-base: #222;
   --color-text-light: #fff;
+  --color-text-gray: #888;
   --color-bg: #f6f8fa;
+  --color-bg-rgba: 246,248,250;
   --color-theme-green: #3EBA9B;
   --color-theme-orange: #FEAD34;
   --color-theme-red: #DA3C3D;
@@ -14,10 +16,11 @@
   --color-theme-dark: #111;
   --color-theme-dark-gray: #222;
   --color-theme-light-gray: #F0F0F0;
+  --color-content-bg: #fff;
   // size
-  --size-side-padding: 20px;
-  --size-mobile-header-height: 52px;
+  --size-side-padding: 24px;
   --size-modal-header-height: 52px;
+  --size-modal-bottom-height: 52px;
   // font
   --font-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   --font-point: 'Arita-buri', Helvetica, Arial, sans-serif;
@@ -27,10 +30,22 @@
   --speed-border-color: 200ms;
   --speed-background-color: 200ms;
 
-  @include dark-mode() {
-    //--color-text-base: #f4f4f4;
-    //--color-bg: #222;
-    //--color-text-light: #111;
+  @include responsive(desktop) {
+    --size-modal-header-height: 48px;
+    --size-modal-bottom-height: 48px;
+  }
+  @include dark-mode(true) {
+    --color-text-base: #f4f4f4;
+    --color-text-gray: #888;
+    --color-bg: #222;
+    --color-bg-rgba: 34,34,34;
+    --color-theme-green: #20b675;
+    --color-theme-orange: #FEAD34;
+    --color-theme-red: #d83334;
+    --color-theme-egg: #F5E4AC;
+    --color-theme-dark: #111;
+    --color-content-bg: #181818;
+    --color-theme-dark-gray: #181818;
   }
 }
 
@@ -43,6 +58,7 @@ body {
   font-size: 16px;
   line-height: 1.6;
   background: var(--color-bg);
+  @include custom-scroll-style();
 }
 body, button, input, textarea, select {
   font-family: var(--font-base);

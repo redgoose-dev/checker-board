@@ -1,3 +1,5 @@
+@import "../../css/mixins";
+
 .forms-select {
   position: relative;
   display: block;
@@ -7,6 +9,7 @@
   border-radius: 2px;
   height: var(--select-height, 42px);
   transition: border-color var(--speed-border-color) ease-out;
+  background: var(--color-content-bg);
   &:focus-within {
     border-color: var(--color-theme-red);
     & > .forms-select__icon {
@@ -25,9 +28,11 @@
     text-indent: 0;
     border: none;
     outline: none;
+    background: none;
   }
   &__icon {
     --icon-stroke-width: 2px;
+    --icon-color: var(--color-theme-green);
     position: absolute;
     top: 50%;
     right: 8px;

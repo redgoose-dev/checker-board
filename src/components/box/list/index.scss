@@ -2,10 +2,9 @@
 
 .box-list {
   box-sizing: border-box;
-  height: calc(100vh - var(--size-modal-header-height));
-  @include scroll-area();
+  height: calc(100% - var(--size-modal-header-height));
   padding: 30px var(--size-side-padding);
-
+  @include scroll-area();
   &__title {
     margin: 0;
     font-size: 0;
@@ -16,7 +15,17 @@
     list-style: none;
     > li {
       &:nth-child(n+2) {
-        margin-top: 10px;
+        margin-top: 12px;
+      }
+    }
+  }
+
+  @include responsive(desktop) {
+    &__index {
+      > li {
+        &:nth-child(n+2) {
+          margin-top: 16px;
+        }
       }
     }
   }

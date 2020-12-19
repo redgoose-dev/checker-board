@@ -25,4 +25,10 @@
     padding-left: var(--size-side-padding);
     padding-right: var(--size-side-padding);
   }
+
+  @include dark-mode() {
+    &:active {
+      filter: brightness(80%);
+    }
+  }
 }

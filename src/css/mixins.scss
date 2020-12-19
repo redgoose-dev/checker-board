@@ -55,9 +55,22 @@
 }
 
 // dark mode
-@mixin dark-mode()
+@mixin dark-mode($root: false)
 {
-  @media (prefers-color-scheme: dark) { @content; }
+  @if $root
+  {
+    &[data-color=dark] { @content; }
+    &[data-color=system] {
+      @media (prefers-color-scheme: dark) { @content; }
+    }
+  }
+  @else
+  {
+    html[data-color=dark] & { @content; }
+    @media (prefers-color-scheme: dark) {
+      html[data-color=system] & { @content; }
+    }
+  }
 }
 
 // background blur
@@ -74,31 +87,35 @@
 {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  @include custom-scroll-style();
 }
 
 // scroll style
-@mixin custom-scroll-style($size:4px)
+@mixin custom-scroll-style()
 {
+  $size: 18px;
   &::-webkit-scrollbar {
     width: $size;
     height: $size;
   }
   &::-webkit-scrollbar-track {
-    background: transparent;
+    box-shadow: inset 0 0 10px 10px transparent;
+    border: solid 5px transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,.3);
+    box-shadow: inset 0 0 10px 10px #aaa;
+    border: solid 5px transparent;
     border-radius: $size;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,0,0,.4);
+    box-shadow: inset 0 0 10px 10px #888;
   }
-  //@include dark-mode() {
-  //  &::-webkit-scrollbar-thumb {
-  //    background: rgba(255,255,255,.2);
-  //  }
-  //  &::-webkit-scrollbar-thumb:hover {
-  //    background: rgba(255,255,255,.3);
-  //  }
-  //}
+  @include dark-mode() {
+    &::-webkit-scrollbar-thumb {
+      box-shadow: inset 0 0 10px 10px #444;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      box-shadow: inset 0 0 10px 10px #666;
+    }
+  }
 }

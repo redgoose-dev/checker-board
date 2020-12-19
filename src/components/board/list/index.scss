@@ -1,20 +1,18 @@
 @import "../../../css/mixins";
 
 .board-list {
-  --header-height: 52px;
+  --header-height: var(--size-modal-header-height);
   --filter-height: 52px;
-  &__header {
-
-  }
+  height: 100%;
   &__control {
     display: flex;
     align-items: center;
     height: var(--filter-height);
     box-shadow: 0 2px 8px 0 rgba(0,0,0,.15);
     padding: 0 var(--size-side-padding);
+    background-color: var(--color-content-bg);
   }
   &__filter {
-    flex: 1;
     display: flex;
     align-items: center;
     height: 100%;
@@ -41,9 +39,9 @@
     }
   }
   &__body {
-    height: calc(100vh - var(--header-height) - var(--filter-height));
+    height: calc(100% - var(--header-height) - var(--filter-height));
     box-sizing: border-box;
-    padding: var(--size-side-padding);
+    padding: 30px var(--size-side-padding);
     @include scroll-area();
   }
   &__title {
@@ -56,15 +54,27 @@
     list-style: none;
     > li {
       &:nth-child(n+2) {
-        margin-top: 10px;
+        margin-top: 12px;
+      }
+    }
+  }
+  &__loading {}
+
+  @include responsive(desktop) {
+    --filter-height: 50px;
+    &__index {
+      > li {
+        &:nth-child(n+2) {
+          margin-top: 16px;
+        }
       }
     }
   }
 }
 
 .header-button {
-  --button-width: var(--size-modal-header-height);
-  --button-height: var(--size-modal-header-height);
+  --button-width: var(--header-height);
+  --button-height: var(--header-height);
   --icon-stroke-width: 1.5px;
   --icon-color: #fff;
   --icon-size: 20px;

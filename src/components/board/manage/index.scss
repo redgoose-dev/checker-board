@@ -21,6 +21,7 @@
       height: 100%;
       border: none;
       background: none;
+      @include custom-scroll-style();
       &:empty:before {
         content: attr(data-placeholder);
         color: #777;
@@ -57,6 +58,7 @@
       width: 320px;
       border-radius: 8px;
       overflow: hidden;
+      box-shadow: 0 1px 12px rgba(0,0,0,.2);
     }
   }
 }

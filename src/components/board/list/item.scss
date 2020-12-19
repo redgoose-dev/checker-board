@@ -1,9 +1,9 @@
 @import "../../../css/mixins";
 
-.board-list-item {
+.item {
   display: block;
   width: 100%;
-  background-color: var(--color-theme-green);
+  background-color: #eee;
   padding: 0;
   margin: 0;
   height: var(--item-height, 54px);
@@ -12,15 +12,11 @@
   text-decoration: none;
   transition: opacity var(--speed-button-active) ease-out;
   user-select: none;
-  cursor: default;
   border: none;
   outline: none;
-
-  &:not(.board-list-item--active) {
-    cursor: pointer;
-    &:active {
-      opacity: .5;
-    }
+  cursor: pointer;
+  &:active {
+    opacity: .5;
   }
 
   &__wrap {
@@ -33,19 +29,32 @@
   }
 
   .label {
-    font-size: 16px;
-    color: var(--color-text-light);
     font-style: normal;
   }
   .icon {
-    --icon-color: var(--color-text-light);
-    --icon-stroke-width: 1.5px;
+    --icon-color: var(--color-text-base);
+    --icon-stroke-width: 2px;
   }
 
   &--active {
-    background-color: var(--color-theme-red);
+    background-color: var(--color-theme-green);
     .label {
       color: var(--color-text-light);
+    }
+    .icon {
+      --icon-color: #fff;
+    }
+  }
+
+  @include responsive(desktop) {
+  }
+  @include dark-mode() {
+    background-color: #181818;
+    &--active {
+      background-color: var(--color-theme-green);
+      & .item {
+        //
+      }
     }
   }
 }
