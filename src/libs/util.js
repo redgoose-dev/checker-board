@@ -34,3 +34,16 @@ export function convertPureObject(obj)
   if (!obj) return null;
   return JSON.parse(JSON.stringify(obj));
 }
+
+/**
+ * change theme
+ *
+ * @param {String} theme
+ */
+export function changeTheme(theme)
+{
+  if (!theme) return;
+  const $html = document.querySelector('html');
+  if ($html.classList.contains(theme)) return;
+  $html.dataset.color = theme;
+}

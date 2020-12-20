@@ -52,8 +52,9 @@ export default defineComponent({
     'box-list': BoxList,
     'manage': Manage,
   },
-  setup()
+  setup(props, context)
   {
+    const { emit } = context;
     const store = useStore();
     const { t } = useI18n({ useScope: 'global' });
 
@@ -96,11 +97,12 @@ export default defineComponent({
       state.selectedItem = null;
       state.mode = 'list';
     };
-    const onSubmitManage = async () => {
+    const onSubmitManage = async (updatedSrl) => {
       gotoList();
       state.loading = true;
       state.items = await fetchItems();
       state.loading = false;
+      if (updatedSrl) emit('update', updatedSrl);
     }
     const fetchItems = async () => {
       let items = await modelGetItems('box');
@@ -127,6 +129,7 @@ export default defineComponent({
   },
   emits: {
     'select-item': null,
+    'update': null,
     'close': null,
   },
 });

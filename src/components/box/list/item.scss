@@ -8,15 +8,20 @@
   user-select: none;
   &__head {
     display: block;
+    width: 100%;
+    margin: 0;
     padding: 20px var(--size-side-padding);
     text-decoration: none;
     color: var(--color-text-base);
+    box-sizing: border-box;
+    text-align: left;
+    background: none;
+    border: none;
     transition: opacity 150ms ease-out;
-    &:active {
-      opacity: .5;
-    }
+    @include button-touch-options(true);
   }
   &__title {
+    display: block;
     margin: 0;
     font-family: var(--font-point);
     font-size: 22px;
@@ -24,6 +29,7 @@
     line-height: 1.15;
   }
   &__description {
+    display: block;
     margin: 4px 0 0;
     font-size: 12px;
     font-weight: 400;
@@ -60,6 +66,10 @@
     & .item {
       &__head {
         color: #fff;
+        cursor: default;
+        &:active {
+          opacity: 1;
+        }
       }
       &__bottom {
         border-color: rgba(255,255,255,.25);

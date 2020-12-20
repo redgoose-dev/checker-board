@@ -71,8 +71,3 @@ export function updateBody(str, $target, changeCheckEvent)
 
   return parsed;
 }
-
-export function cloneBody()
-{
-  // TODO
-}

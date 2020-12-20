@@ -1,7 +1,9 @@
 import { createStore } from "vuex";
 import * as storage from '@/libs/storage';
-import { defaultPreference } from "@/assets/defaults";
-import { modelInitialDatabase, modelGetItem, modelGetItems } from '@/libs/model';
+import { useI18n } from 'vue-i18n';
+import { defaultPreference } from '@/assets/defaults';
+import { modelInitialDatabase, modelGetItem, modelGetItems, makeTodayItem } from '@/libs/model';
+import { changeTheme } from '@/libs/util';
 
 const state = {
   preference: defaultPreference,
@@ -28,6 +30,7 @@ const actions = {
    */
   async setup(context)
   {
+    const { locale } = useI18n({ useScope: 'global' });
     const { state, commit, dispatch } = context;
     if (storage.check('preference'))
     {
@@ -67,6 +70,15 @@ const actions = {
     }
     // update storage
     storage.set('preference', state.preference);
+    // change language
+    if (locale.value !== state.preference.language)
+    {
+      locale.value = state.preference.language;
+    }
+    // set color theme
+    changeTheme(state.preference.theme);
+    // make today item
+    await makeTodayItem(state.preference.box);
   },
   /**
    * update preference

@@ -50,3 +50,21 @@ export function checkToday(date) {
     date.getFullYear() === today.getFullYear()
   );
 }
+
+/**
+ * compare time and current
+ * 현재 시간이 타겟 시간보다 지나있을때 `true`값을 리턴한다.
+ *
+ * @param {String} target `HH:MM`
+ * @return {Boolean}
+ */
+export function compareTime(target)
+{
+  const splitTime = target.split(':');
+  const current = new Date();
+  const targetTime = new Date();
+  targetTime.setHours(Number(splitTime[0]));
+  targetTime.setMinutes(Number(splitTime[1]));
+  targetTime.setSeconds(0);
+  return current.getTime() > targetTime.getTime();
+}

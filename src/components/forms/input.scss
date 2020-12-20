@@ -1,3 +1,5 @@
+@import "../../css/mixins";
+
 .forms-input {
   display: block;
   height: var(--input-height, 42px);
@@ -5,6 +7,7 @@
   border-radius: 2px;
   box-sizing: border-box;
   transition: border-color var(--speed-border-color) ease-out;
+  background-color: var(--color-content-bg);
   &:focus-within {
     border-color: var(--color-theme-red);
   }
@@ -19,5 +22,13 @@
     margin: 0;
     padding: 0 12px;
     border: none;
+    @include selection();
+  }
+  @include dark-mode {
+    &__unit {
+      &::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+      }
+    }
   }
 }

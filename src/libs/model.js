@@ -1,5 +1,6 @@
 import { dbInformation } from './const';
-import { defaultModelData } from "@/assets/defaults";
+import { defaultModelData } from '@/assets/defaults';
+import { checkToday, compareTime } from '@/libs/dates';
 
 let DB = null;
 let errorPrefix = 'indexedDB:';
@@ -73,11 +74,11 @@ export function modelInitialDatabase()
 }
 
 /**
- * delete database
+ * remove database
  *
  * @return {Promise}
  */
-export function modelDeleteDatabase() {
+export function removeDatabase() {
   return new Promise((resolve, reject) => {
     const request = window.indexedDB.deleteDatabase(dbInformation.name);
     request.onsuccess = () => resolve(true);
@@ -138,16 +139,18 @@ export function modelAddItem(storeName, value)
 
 /**
  * get count items
+ * TODO: 동작 검사하기.. 뭔가 문제있고, 필요엇으면 함수 삭제하기
  *
  * @param {String} storeName
+ * @param {Number} key
  * @return {Promise}
  */
-export function modelGetCountItems(storeName)
+export function modelGetCountItems(storeName, key)
 {
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
     const store = modelGetStore(storeName, 'readonly');
-    const request = store.count(11);
+    const request = store.count(key);
     request.onsuccess = e => resolve(e.target.result);
   });
 }
@@ -166,7 +169,7 @@ export function modelGetItems(storeName, key = null, value= null)
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
     const store = modelGetStore(storeName, 'readonly');
     const request = key && value ? store.index(key).getAll(value) : store.getAll();
-    request.onsuccess = e => resolve(e.target.result);
+    request.onsuccess = e => resolve(e.target?.result);
     request.onerror = e => resolve([]);
   });
 }
@@ -268,5 +271,63 @@ export function modelClearStore(storeName)
     const request = store.clear();
     request.onsuccess = () => resolve(true);
     request.onerror = (e) => reject(e.target.error);
+  });
+}
+
+/**
+ * make today item
+ * 리셋시간이 지났을때 새로운 데이터를 만드는 일을한다.
+ *
+ * @param {Number} box
+ * @return {Promise}
+ */
+export async function makeTodayItem(box)
+{
+  /**
+   * clone item
+   *
+   * @param {Object} prevItem
+   * @return {Promise}
+   */
+  async function cloneItem(prevItem)
+  {
+    return await modelAddItem('board', prevItem ? {
+      box,
+      date: new Date,
+      body: prevItem.body.replace(/\- \[x\]/g, '- [ ]'),
+    } : {
+      ...defaultModelData.board,
+      box,
+    });
+  }
+
+  // get and check box item
+  let boxItem = await modelGetItem('box', box);
+  if (!boxItem) throw new Error('no box');
+
+  // check today item
+  let boardItems = await modelGetItems('board', 'box', box);
+  let lastBoardItem = boardItems[boardItems.length - 1];
+  // 보드 아이템이 하나도 없을때
+  if (!(boardItems && boardItems.length > 0))
+  {
+    await cloneItem(null);
+    return;
+  }
+  // 현재 시간이 리셋 시간 이후이며 오늘날짜 보드 아이템이 없을때
+  if (compareTime(boxItem?.reset) && !checkToday(lastBoardItem.date))
+  {
+    await cloneItem(lastBoardItem);
+    return;
+  }
+
+  return lastBoardItem;
+}
+
+export function backupDatabase()
+{
+  // TODO: 작업예정
+  return new Promise((resolve, reject) => {
+    //
   });
 }

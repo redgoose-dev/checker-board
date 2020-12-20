@@ -11,13 +11,8 @@
   border-radius: 2px;
   text-decoration: none;
   transition: opacity var(--speed-button-active) ease-out;
-  user-select: none;
   border: none;
-  outline: none;
-  cursor: pointer;
-  &:active {
-    opacity: .5;
-  }
+  @include button-touch-options(true);
 
   &__wrap {
     display: flex;
@@ -36,8 +31,12 @@
     --icon-stroke-width: 2px;
   }
 
-  &--active {
+  &:disabled {
     background-color: var(--color-theme-green);
+    cursor: default;
+    &:active {
+      opacity: 1;
+    }
     .label {
       color: var(--color-text-light);
     }
@@ -50,11 +49,8 @@
   }
   @include dark-mode() {
     background-color: #181818;
-    &--active {
+    &:disabled {
       background-color: var(--color-theme-green);
-      & .item {
-        //
-      }
     }
   }
 }

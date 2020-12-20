@@ -57,12 +57,13 @@ export default defineComponent({
     });
     let computes = reactive({
       date: computed(() => {
-        return convertFormat(state.item.date, Number(store.state.preference.dateFormat));
+        return convertFormat(state.item?.date, Number(store.state.preference.dateFormat));
       }),
       today: computed(() => {
-        if (!state.item.date) return false;
+        if (!state.item?.date) return false;
         const today = new Date();
         const { date } = state.item;
+        // TODO: 여기는 날짜뿐만 아니라 리셋시간이 지났는지 검사해봐야한다.
         return (
           today.getFullYear() === date.getFullYear() &&
           today.getMonth() === date.getMonth() &&

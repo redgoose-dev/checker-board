@@ -77,7 +77,7 @@ export default defineComponent({
   },
   setup(props, context)
   {
-    const { locale, t } = useI18n({ useScope: 'global' });
+    const { t } = useI18n({ useScope: 'global' });
     let state = reactive({
       forms: props.selectedItem ? {
         name: props.selectedItem?.name,
@@ -109,15 +109,16 @@ export default defineComponent({
         {
           case 'add':
             await modelAddItem('box', convertPureObject(state.forms));
+            context.emit('submit', null);
             break;
           case 'edit':
             if (!props.selectedItem.srl) throw new Error(t('error.unknown.description'));
             await modelEditItem('box', props.selectedItem.srl, true, convertPureObject(state.forms));
+            context.emit('submit', props.selectedItem.srl);
             break;
           default:
             throw new Error(t('error.unknown.description'));
         }
-        context.emit('submit');
       }
       catch(e)
       {

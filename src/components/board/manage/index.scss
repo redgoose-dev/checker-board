@@ -22,13 +22,10 @@
       border: none;
       background: none;
       @include custom-scroll-style();
+      @include selection();
       &:empty:before {
         content: attr(data-placeholder);
         color: #777;
-      }
-      &::selection {
-        background: var(--color-theme-green);
-        color: var(--color-text-light);
       }
     }
   }

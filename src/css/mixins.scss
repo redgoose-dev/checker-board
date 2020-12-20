@@ -119,3 +119,11 @@
     }
   }
 }
+
+@mixin selection()
+{
+  &::selection {
+    background-color: var(--color-theme-green);
+    color: #fff;
+  }
+}

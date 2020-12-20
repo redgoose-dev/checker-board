@@ -32,6 +32,7 @@
       <box
         v-if="state.showBoxList"
         @select-item="onSelectBox"
+        @update="onUpdateBox"
         @close="state.showBoxList = false"/>
     </transition>
     <transition name="modal-fade">
@@ -47,10 +48,8 @@
 <script>
 import { defineComponent, reactive, watch, computed } from 'vue';
 import { useStore } from 'vuex';
-import { useI18n } from 'vue-i18n';
-import { checkSupport, sleep } from '@/libs/util';
-import { modelGetItems, modelGetItem, modelAddItem } from "@/libs/model";
-import { defaultModelData } from '@/assets/defaults';
+import { checkSupport, sleep, changeTheme } from '@/libs/util';
+import { modelGetItem, makeTodayItem } from '@/libs/model';
 import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
 import BoardItem from '@/components/board/item';
@@ -70,7 +69,6 @@ export default defineComponent({
   async setup()
   {
     const store = useStore();
-    const { locale } = useI18n({ useScope: 'global' });
 
     // state
     let state = reactive({
@@ -85,22 +83,11 @@ export default defineComponent({
 
     // methods
     const onSelectBox = async srl => {
-      let boardSrl = null;
-      const boards = await modelGetItems('board', 'box', srl);
-      // TODO: 오늘날짜 확인하는 조건문 추가하기
-      if (boards?.length > 0)
-      {
-        boardSrl = boards[boards.length - 1]?.srl;
-      }
-      else
-      {
-        // TODO: body 값은 이전 데이터껄로 가져오기
-        boardSrl = await modelAddItem('board', {
-          ...defaultModelData.board,
-          box: srl,
-        });
-      }
-      await store.dispatch('updatePreference', { box: srl, board: boardSrl });
+      if (store.state.preference.box === srl) return;
+      // check new item
+      let newItem = await makeTodayItem(srl);
+      // update preference
+      await store.dispatch('updatePreference', { box: srl, board: newItem?.srl });
       state.showBoxList = false;
     };
     const onSelectBoard = () => {
@@ -111,11 +98,8 @@ export default defineComponent({
       await sleep(100);
       state.showBoxList = true;
     };
-    const changeTheme = (theme) => {
-      if (!theme) return;
-      const $html = document.querySelector('html');
-      if ($html.classList.contains(theme)) return;
-      $html.dataset.color = theme;
+    const onUpdateBox = async (boxSrl) => {
+      if (boxSrl === store.state.preference.box) await makeTodayItem(boxSrl);
     };
     const update = async (srl) => {
       try
@@ -129,27 +113,18 @@ export default defineComponent({
       }
     };
 
+    // watch
+    watch(() => store.state.preference.theme, changeTheme);
+    watch(() => store.state.preference.box, update);
+
     // check support
     if (!checkSupport()) throw 'NOT_SUPPORT';
 
     // run setup
     await store.dispatch('setup');
 
-    // set color theme
-    changeTheme(store.state.preference.theme);
-
     // get box item
-    await update(store.state.preference?.box);
-
-    // change language
-    if (locale.value !== store.state.preference.language)
-    {
-      locale.value = store.state.preference.language;
-    }
-
-    // watch
-    watch(() => store.state.preference.theme, changeTheme);
-    watch(() => store.state.preference.box, update);
+    await update(store.state.preference.box);
 
     return {
       state,
@@ -157,6 +132,7 @@ export default defineComponent({
       onSelectBox,
       onSelectBoard,
       onGotoBox,
+      onUpdateBox,
     };
   },
 });

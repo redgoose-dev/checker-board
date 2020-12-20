@@ -1,10 +1,8 @@
 <template>
   <button
     type="button"
-    :class="[
-      'item',
-      active && `item--active`,
-    ]"
+    :disabled="active"
+    class="item"
     @click.prevent="$emit('select-item')">
     <span class="item__wrap">
       <em class="label">

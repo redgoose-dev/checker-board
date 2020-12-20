@@ -1,11 +1,13 @@
 <template>
   <div :class="[`item`, active && `item--active`]">
-    <a href="#" class="item__head" @click.prevent="$emit('click-item')">
-      <h3 class="item__title">{{title}}</h3>
-      <p class="item__description">
-        {{description}}
-      </p>
-    </a>
+    <button
+      type="button"
+      :disabled="active"
+      class="item__head"
+      @click.prevent="onClickItem">
+      <strong class="item__title">{{title}}</strong>
+      <span class="item__description">{{description}}</span>
+    </button>
     <div class="item__bottom">
       <p class="item__reset">
         Reset time: {{reset}}
@@ -42,6 +44,15 @@ export default defineComponent({
     'click-item': null,
     'click-edit': null,
     'click-remove': null,
+  },
+  setup(props, { emit })
+  {
+    const onClickItem = e => {
+      if (!props.active) emit('click-item', e);
+    }
+    return {
+      onClickItem,
+    };
   },
 });
 </script>

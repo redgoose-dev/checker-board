@@ -5,12 +5,14 @@
   height: calc(100% - var(--size-modal-header-height) - var(--bottom-height));
   padding: 30px var(--size-side-padding);
   @include scroll-area();
+  & * {
+    @include selection();
+  }
   &__title {
     margin: 0 0 16px;
     font-size: 1.5rem;
     font-weight: 800;
     line-height: 1.15;
-    color: var(--color-theme-dark-gray);
     font-family: var(--font-point);
   }
   &__fieldset {
