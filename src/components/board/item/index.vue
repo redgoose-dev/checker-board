@@ -12,6 +12,7 @@
       <board-item-bottom
         :checkbox-total="20"
         :checkbox-checked="10"
+        :today="computes.today"
         class="board-item__bottom"
         @click-edit="state.showBoardManage = true"/>
     </template>
@@ -28,7 +29,7 @@
 import { computed, defineComponent, reactive, watch, ref, onMounted, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { convertFormat } from '@/libs/dates';
-import { modelGetItem, modelEditItem } from '@/libs/model';
+import { modelGetItem, modelEditItem, makeTodayItem } from '@/libs/model';
 import { updateBody } from '@/libs/markdown';
 import Top from './top';
 import Bottom from './bottom';
@@ -40,7 +41,10 @@ export default defineComponent({
     'board-item-bottom': Bottom,
     'board-manage': BoardManage,
   },
-  async setup()
+  props: {
+    reset: String,
+  },
+  async setup(props)
   {
     const store = useStore();
     const { preference } = store.state;
@@ -61,14 +65,13 @@ export default defineComponent({
       }),
       today: computed(() => {
         if (!state.item?.date) return false;
+        const reset = props.reset.split(':');
         const today = new Date();
+        today.setHours(Number(reset[0]));
+        today.setMinutes(Number(reset[1]));
         const { date } = state.item;
-        // TODO: 여기는 날짜뿐만 아니라 리셋시간이 지났는지 검사해봐야한다.
-        return (
-          today.getFullYear() === date.getFullYear() &&
-          today.getMonth() === date.getMonth() &&
-          today.getDate() === date.getDate()
-        );
+        // 비교대상 (데이터 날짜 > 오늘+리셋시간)
+        return date.getTime() > today.getTime();
       }),
     });
 
@@ -79,8 +82,9 @@ export default defineComponent({
       if (item) state.item = item;
     };
     const onGotoToday = async () => {
-      // TODO: 오늘 board 글로 이동
-      console.log('call onGotoToday()');
+      let item = await makeTodayItem(state.item?.box);
+      await store.dispatch('updatePreference', { board: item?.srl });
+      state.item = item;
     };
     const onSubmitManage = async () => {
       state.showBoardManage = false;
@@ -88,13 +92,19 @@ export default defineComponent({
     };
     const updateItemBody = async () => {
       const $body = contentBody.value;
+      if (!$body) return;
       $body.innerHTML = '';
       await nextTick();
-      updateBody(state.item?.body, $body, async (str) => {
-        state.disabledBody = true;
-        await modelEditItem('board', state.item?.srl, true, { body: str });
-        state.item.body = str;
-        state.disabledBody = false;
+      updateBody({
+        body: state.item?.body,
+        $el: $body,
+        today: computes.today,
+        callback: async (str) => {
+          state.disabledBody = true;
+          await modelEditItem('board', state.item?.srl, true, { body: str });
+          state.item.body = str;
+          state.disabledBody = false;
+        },
       });
     };
 
@@ -114,9 +124,6 @@ export default defineComponent({
       onGotoToday,
       onSubmitManage,
     };
-  },
-  emits: {
-    'update': null,
   },
 });
 </script>

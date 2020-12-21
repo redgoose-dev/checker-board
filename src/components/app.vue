@@ -19,8 +19,7 @@
           @click="state.showPreference = true"/>
       </template>
     </app-header>
-    <board-item
-      @update=""/>
+    <board-item :reset="state.box?.reset"/>
   </main>
   <teleport to="body">
     <transition name="modal-fade">
@@ -39,7 +38,6 @@
       <board-list
         v-if="state.showBoardList"
         @select-item="onSelectBoard"
-        @goto-box="onGotoBox"
         @close="state.showBoardList = false"/>
     </transition>
   </teleport>
@@ -48,7 +46,7 @@
 <script>
 import { defineComponent, reactive, watch, computed } from 'vue';
 import { useStore } from 'vuex';
-import { checkSupport, sleep, changeTheme } from '@/libs/util';
+import { checkSupport, changeTheme } from '@/libs/util';
 import { modelGetItem, makeTodayItem } from '@/libs/model';
 import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
@@ -93,11 +91,6 @@ export default defineComponent({
     const onSelectBoard = () => {
       state.showBoardList = false;
     };
-    const onGotoBox = async () => {
-      state.showBoardList = false;
-      await sleep(100);
-      state.showBoxList = true;
-    };
     const onUpdateBox = async (boxSrl) => {
       if (boxSrl === store.state.preference.box) await makeTodayItem(boxSrl);
     };
@@ -131,7 +124,6 @@ export default defineComponent({
       computes,
       onSelectBox,
       onSelectBoard,
-      onGotoBox,
       onUpdateBox,
     };
   },

@@ -1,13 +1,6 @@
 <template>
   <modal-wrapper class="board-list" @close="$emit('close')">
-    <modal-header :title="state.boxName" @close="$emit('close')">
-      <template v-slot:navRight>
-        <buttons-icon
-          icon="grid"
-          class="header-button"
-          @click="$emit('goto-box')"/>
-      </template>
-    </modal-header>
+    <modal-header :title="state.boxName" @close="$emit('close')"/>
     <loading v-if="state.loading" class="board-list__loading"/>
     <template v-else>
       <div class="board-list__control">
@@ -149,7 +142,6 @@ export default defineComponent({
   },
   emits: {
     'select-item': null,
-    'goto-box': null,
     'close': null,
   },
 });

@@ -24,23 +24,24 @@ function replaceMark(src, search, replace, index)
  * update body
  * https://stackoverflow.com/a/62697836
  *
- * @param {String} str
- * @param {HTMLElement} $target
- * @param {Function} changeCheckEvent
+ * @param {String} body
+ * @param {HTMLElement} $el
+ * @param {Boolean} today
+ * @param {Function} callback
  */
-export function updateBody(str, $target, changeCheckEvent)
+export function updateBody({ body, $el, today, callback })
 {
   const onChangeCheckbox = e => {
     const index = Number(e.target.dataset?.index);
     const checkMark = e.target.checked ? 'x' : ' ';
-    str = replaceMark(
-      str,
+    body = replaceMark(
+      body,
       /\- \[[x|\s]\]/gmi,
       `- [${checkMark}]`,
       index + 1
     );
     // 수정된 소스로 호출한곳으로 콜백 이벤트로 호출한다.
-    if (changeCheckEvent) changeCheckEvent(str).then();
+    if (callback) callback(body).then();
   }
 
   // set renderer markdown
@@ -58,15 +59,22 @@ export function updateBody(str, $target, changeCheckEvent)
   };
 
   // parse markdown
-  let parsed = marked(str, { renderer });
+  let parsed = marked(body, { renderer });
   if (!parsed) return '';
-  $target.innerHTML = parsed;
+  $el.innerHTML = parsed;
 
   // set checkboxes event
-  const checkboxElements = $target.querySelectorAll('input[type=checkbox]');
+  const checkboxElements = $el.querySelectorAll('input[type=checkbox]');
   checkboxElements.forEach((o, k) => {
-    o.setAttribute('data-index', String(k));
-    o.addEventListener('change', onChangeCheckbox);
+    if (today)
+    {
+      o.setAttribute('data-index', String(k));
+      o.addEventListener('change', onChangeCheckbox);
+    }
+    else
+    {
+      o.setAttribute('disabled', 'disabled');
+    }
   });
 
   return parsed;

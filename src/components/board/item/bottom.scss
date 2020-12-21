@@ -9,12 +9,23 @@
   box-shadow: 0 -1px 12px 0 rgba(0,0,0,.15);
   display: flex;
   align-items: center;
+  padding: 0 24px;
+  box-sizing: border-box;
   &__edit {
-    --button-width: 60px;
+    --button-width: auto;
     --button-height: 100%;
     --icon-size: 20px;
     --icon-color: var(--color-theme-green);
     --icon-stroke-width: 1.5px;
+    padding: 0 16px;
+    margin-left: -16px;
+    &:disabled {
+      cursor: default;
+      --icon-color: #999;
+      &:active {
+        opacity: 1;
+      }
+    }
   }
   &__graph {
     position: relative;
@@ -35,8 +46,7 @@
     }
   }
   &__percent {
-    margin: 0;
-    width: 56px;
+    margin: 0 0 0 16px;
     text-align: center;
     font-weight: 600;
     font-size: 13px;
@@ -51,17 +61,16 @@
     right: auto;
     width: 680px;
     transform: translateX(-50%);
-    &__edit {
-      padding-left: 8px;
-    }
-    &__percent {
-      width: 64px;
-      padding-right: 8px;
-    }
+    padding: 0 30px;
   }
   @include dark-mode() {
     &__graph {
       background-color: #252525;
+    }
+    &__edit {
+      &:disabled {
+        --icon-color: #555;
+      }
     }
   }
 }
