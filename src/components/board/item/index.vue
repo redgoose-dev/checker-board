@@ -10,8 +10,7 @@
         <div ref="contentBody" class="board-item__body"/>
       </div>
       <board-item-bottom
-        :checkbox-total="20"
-        :checkbox-checked="10"
+        :count-checkbox="state.bodyCheckCount"
         :today="computes.today"
         class="board-item__bottom"
         @click-edit="state.showBoardManage = true"/>
@@ -58,6 +57,7 @@ export default defineComponent({
       showBoardManage: false,
       item: preference.board ? await modelGetItem('board', store.state.preference.board) : null,
       disabledBody: false,
+      bodyCheckCount: {},
     });
     let computes = reactive({
       date: computed(() => {
@@ -79,7 +79,11 @@ export default defineComponent({
     const update = async () => {
       state.showBoardManage = false;
       let item = await modelGetItem('board', store.state.preference.board);
-      if (item) state.item = item;
+      if (item)
+      {
+        state.item = item;
+        state.bodyCheckCount = updateCheckboxCount(state.item.body);
+      }
     };
     const onGotoToday = async () => {
       let item = await makeTodayItem(state.item?.box);
@@ -91,6 +95,7 @@ export default defineComponent({
       await update();
     };
     const updateItemBody = async () => {
+      // 마크다운 본문에서 업데이트될때 호출되는 이벤트 함수
       const $body = contentBody.value;
       if (!$body) return;
       $body.innerHTML = '';
@@ -103,10 +108,21 @@ export default defineComponent({
           state.disabledBody = true;
           await modelEditItem('board', state.item?.srl, true, { body: str });
           state.item.body = str;
+          state.bodyCheckCount = updateCheckboxCount(state.item.body);
           state.disabledBody = false;
         },
       });
     };
+    const updateCheckboxCount = body => (!body ? {
+      total: 0,
+      checked: 0,
+    } : {
+      total: (body.match(/\- \[x\]|\- \[ \]/g) || []).length,
+      checked: (body.match(/\- \[x\]/g) || []).length,
+    });
+
+    // counting body checkbox
+    state.bodyCheckCount = updateCheckboxCount(state.item?.body);
 
     // watch
     watch(() => store.state.preference.board, update);

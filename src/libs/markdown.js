@@ -44,6 +44,7 @@ export function updateBody({ body, $el, today, callback })
     if (callback) callback(body).then();
   }
 
+  if (!body) return;
   // set renderer markdown
   const renderer = new marked.Renderer();
   renderer.listitem = (text, task) => {

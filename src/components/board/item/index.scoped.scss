@@ -3,6 +3,7 @@
 .board-item {
   --top-height: 44px;
   --bottom-height: 48px;
+  --bottom-height-manage: 52px;
   &__top {
     top: var(--top-height);
     height: var(--top-height);
@@ -23,7 +24,7 @@
     }
   }
   &__body {
-    padding: 30px var(--size-side-padding);
+    padding: 30px var(--size-side-padding) 60px;
     box-sizing: border-box;
     &:after {
       content: '';
@@ -35,7 +36,7 @@
     height: var(--bottom-height);
   }
   &__manage {
-    height: calc(100vh - var(--header-height) - var(--top-height));
+    height: calc(100vh - var(--header-height) - var(--top-height) - var(--bottom-height-manage));
   }
 
   @include responsive(desktop) {
@@ -51,6 +52,9 @@
     }
     &__bottom {
       border-radius: calc(var(--bottom-height) / 2);
+    }
+    &__manage {
+      height: calc(100vh - var(--header-height) - var(--top-height));
     }
   }
 }

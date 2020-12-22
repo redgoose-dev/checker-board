@@ -45,12 +45,20 @@ export default defineComponent({
       });
       context.emit('submit');
     }
+    // keyboard input event
     const onKeydownBody = e => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter')
+      switch (e.key)
       {
-        console.log('on submit', e.target);
-        e.target.blur();
-        onSubmit().then();
+        case 'Escape':
+          context.emit('close');
+          break;
+        case 'Enter':
+          if ((e.metaKey || e.ctrlKey))
+          {
+            e.target.blur();
+            onSubmit().then();
+          }
+          break;
       }
     };
 

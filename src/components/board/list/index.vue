@@ -98,12 +98,6 @@ export default defineComponent({
       await store.dispatch('updatePreference', { board: srl });
       context.emit('select-item');
     };
-    const onClickEditBox = () => {
-      console.log('on click edit box in board-list');
-    };
-    const onClickRemoveBox = () => {
-      console.log('on click remove box in board-list');
-    };
 
     // lifecycles
     onMounted(async () => {
@@ -136,8 +130,6 @@ export default defineComponent({
       filters,
       preference,
       onSelectItem,
-      onClickEditBox,
-      onClickRemoveBox,
     };
   },
   emits: {

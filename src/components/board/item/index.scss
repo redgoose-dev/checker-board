@@ -1,11 +1,11 @@
 @import "../../../css/mixins";
 
 .board-item__body {
-  --size-margin-vertical: 2rem;
+  --size-margin-vertical: 1.5rem;
 
   font-family: var(--font-point);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 2;
 
   &, & * {
     @include selection();
@@ -29,19 +29,20 @@
   ul, ol {
     margin: var(--size-margin-vertical) 0;
     padding-left: 1.5rem;
-  }
-  ul {
-    .checkbox-item {
-      list-style: none;
-      margin: 0 0 0 -20px;
-      input {
-        vertical-align: middle;
-        margin-right: 3px;
-        margin-top: -2px;
-      }
-    }
     p {
       margin: 0;
+    }
+    > li {
+      line-height: 28px;
+      &.checkbox-item {
+        list-style: none;
+        margin: 0 0 0 -20px;
+        input {
+          vertical-align: middle;
+          margin-right: 3px;
+          margin-top: -2px;
+        }
+      }
     }
   }
   a {
@@ -206,7 +207,10 @@
     }
   }
 
-  @include responsive(max) {
+  @include responsive(desktop) {
+    --size-margin-vertical: 2rem;
+  }
+  @include responsive(desktop-1280) {
     @include retina() {
       img {
         zoom: .75;

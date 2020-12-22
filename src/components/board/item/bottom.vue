@@ -24,13 +24,18 @@ export default defineComponent({
   },
   props: {
     today: Boolean,
+    countCheckbox: {
+      total: { type: Number, default: 0 },
+      checked: { type: Number, default: 0 },
+    },
   },
-  setup()
+  setup(props)
   {
     // state
     let state = reactive({
       percent: computed(() => {
-        return 69;
+        if (props.countCheckbox.total <= 0 ) return 0;
+        return Math.floor(props.countCheckbox.checked / props.countCheckbox.total * 100);
       }),
     });
     return {
