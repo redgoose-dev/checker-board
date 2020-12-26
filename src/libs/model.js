@@ -215,24 +215,6 @@ export function modelEditItem(storeName, key, update, value)
 }
 
 /**
- * remove item
- * // TODO: 이 함수는 `modelRemoveItems` 함수랑 합치기
- *
- * @param {String} storeName
- * @param {Number} key
- * @return {Promise}
- */
-export function modelRemoveItem(storeName, key)
-{
-  return new Promise((resolve, reject) => {
-    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
-    const store = modelGetStore(storeName, 'readwrite');
-    const requestRemoveItem = store.delete(key);
-    requestRemoveItem.onsuccess = () => resolve(true);
-  });
-}
-
-/**
  * remove items
  *
  * @param {String} storeName
