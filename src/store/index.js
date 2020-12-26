@@ -54,7 +54,12 @@ const actions = {
         if (!res)
         {
           res = await modelGetItems('box');
-          box = res[res.length - 1].srl;
+          box = res[res.length - 1]?.srl;
+        }
+        if (!board)
+        {
+          res = await modelGetItems('board', 'box', box);
+          board = res[res.length - 1]?.srl;
         }
         res = await modelGetItem('board', board);
         if (!(res && res.box === box))

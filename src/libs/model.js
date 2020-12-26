@@ -1,12 +1,13 @@
 import { dbInformation } from './const';
 import { defaultModelData } from '@/assets/defaults';
-import { checkToday, compareTime } from '@/libs/dates';
+import { compareDate } from '@/libs/dates';
 
 let DB = null;
 let errorPrefix = 'indexedDB:';
 let errorMessageStoreName = 'No store name.';
 let errorMessageDatabase = `Can't get database.`;
 let errorMessageNotKey = `No key`;
+let errorMessageNotValue = `No value`;
 
 /**
  * create database
@@ -36,8 +37,8 @@ export function createDatabase(e)
     // complete transaction
     e.target.transaction.oncomplete = () => {
       // push default data
-      modelAddItem('box', defaultModelData.box)
-        .then(() => modelAddItem('board', defaultModelData.board))
+      addItem('box', defaultModelData.box)
+        .then(() => addItem('board', defaultModelData.board))
         .then(resolve);
     };
   });
@@ -83,6 +84,7 @@ export function removeDatabase() {
     const request = window.indexedDB.deleteDatabase(dbInformation.name);
     request.onsuccess = () => resolve(true);
     request.onerror = () => reject('Error deleting database.');
+    request.onblocked = () => resolve(true);
   });
 }
 
@@ -119,7 +121,7 @@ export function modelGetStore(name, mode)
  * @param {Object} value
  * @return {Promise}
  */
-export function modelAddItem(storeName, value)
+export function addItem(storeName, value)
 {
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
@@ -134,24 +136,6 @@ export function modelAddItem(storeName, value)
     {
       reject(`${errorPrefix} Failed add data.`);
     }
-  });
-}
-
-/**
- * get count items
- * TODO: 동작 검사하기.. 뭔가 문제있고, 필요엇으면 함수 삭제하기
- *
- * @param {String} storeName
- * @param {Number} key
- * @return {Promise}
- */
-export function modelGetCountItems(storeName, key)
-{
-  return new Promise((resolve, reject) => {
-    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
-    const store = modelGetStore(storeName, 'readonly');
-    const request = store.count(key);
-    request.onsuccess = e => resolve(e.target.result);
   });
 }
 
@@ -232,6 +216,7 @@ export function modelEditItem(storeName, key, update, value)
 
 /**
  * remove item
+ * // TODO: 이 함수는 `modelRemoveItems` 함수랑 합치기
  *
  * @param {String} storeName
  * @param {Number} key
@@ -242,35 +227,47 @@ export function modelRemoveItem(storeName, key)
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
     const store = modelGetStore(storeName, 'readwrite');
-    const requestGetItem = store.count(key);
-    requestGetItem.onsuccess = e => {
-      if (e.target.result > 0)
-      {
-        const requestRemoveItem = store.delete(key);
-        requestRemoveItem.onsuccess = e => resolve(true);
-      }
-      else
-      {
-        reject(`${errorPrefix} There are no items that can be remove.`);
-      }
-    };
+    const requestRemoveItem = store.delete(key);
+    requestRemoveItem.onsuccess = () => resolve(true);
   });
 }
 
 /**
- * clear store
+ * remove items
  *
  * @param {String} storeName
- * @return {Promise}
+ * @param {String|Number|Boolean} value
+ * @param {String} key
+ * @return {Promise<boolean>}
  */
-export function modelClearStore(storeName)
+export function removeItems(storeName, value, key = null)
 {
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    if (!value) return reject(`${errorPrefix} ${errorMessageNotValue}`);
     const store = modelGetStore(storeName, 'readwrite');
-    const request = store.clear();
-    request.onsuccess = () => resolve(true);
-    request.onerror = (e) => reject(e.target.error);
+    if (key)
+    {
+      const index = store.index(key);
+      const req = index.openCursor(IDBKeyRange.only(value));
+      req.onsuccess = (e) => {
+        const cursor = e.target?.result;
+        if (cursor)
+        {
+          cursor.delete();
+          cursor.continue();
+        }
+        else
+        {
+          resolve(true);
+        }
+      }
+    }
+    else
+    {
+      const req = store.delete(Number(value));
+      req.onsuccess = () => resolve(true);
+    }
   });
 }
 
@@ -291,7 +288,7 @@ export async function makeTodayItem(box)
    */
   async function cloneItem(prevItem)
   {
-    return await modelAddItem('board', prevItem ? {
+    return await addItem('board', prevItem ? {
       box,
       date: new Date,
       body: prevItem.body.replace(/\- \[x\]/g, '- [ ]'),
@@ -307,23 +304,36 @@ export async function makeTodayItem(box)
 
   // check today item
   let boardItems = await modelGetItems('board', 'box', box);
-  let lastBoardItem = boardItems[boardItems.length - 1];
-  // 보드 아이템이 하나도 없을때
   if (!(boardItems && boardItems.length > 0))
   {
-    await cloneItem(null);
-    return;
+    let res = await cloneItem(null);
+    return await modelGetItem('board', res);
   }
-  // 현재 시간이 리셋 시간 이후이며 오늘날짜 보드 아이템이 없을때
-  if (compareTime(boxItem?.reset) && !checkToday(lastBoardItem.date))
+  let lastBoardItem = boardItems[boardItems.length - 1];
+  // 새로운 보드 아이템이 만들어지는 조건을 통과하면 아이템이 복제된다.
+  // 아이템이 클론되는 조건이 다음과 같다.
+  // 조건1: 현재시간이 리셋시간보다 높아야한다.
+  // 조건2: 마지막 아이템의 날짜가 어제까지.. (오늘, 그 후는 false)
+  const now = new Date();
+  const reset = new Date();
+  reset.setHours(Number(boxItem?.reset.split(':')[0]));
+  reset.setMinutes(Number(boxItem?.reset.split(':')[1]));
+  reset.setSeconds(0);
+  reset.setMilliseconds(0);
+  if ((now.getTime() > reset.getTime()) && compareDate(lastBoardItem.date, now, '<'))
   {
-    await cloneItem(lastBoardItem);
-    return;
+    let res = await cloneItem(lastBoardItem);
+    return await modelGetItem('board', res);
   }
 
   return lastBoardItem;
 }
 
+/**
+ * backup database
+ *
+ * @return {Promise}
+ */
 export function backupDatabase()
 {
   // TODO: 작업예정

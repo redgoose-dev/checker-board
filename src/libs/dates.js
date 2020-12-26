@@ -52,19 +52,27 @@ export function checkToday(date) {
 }
 
 /**
- * compare time and current
- * 현재 시간이 타겟 시간보다 지나있을때 `true`값을 리턴한다.
+ * compare date
  *
- * @param {String} target `HH:MM`
+ * @param {Date} date1
+ * @param {Date} date2
+ * @param {String} compare
  * @return {Boolean}
- */
-export function compareTime(target)
+ * @throws
+ * */
+export function compareDate(date1, date2, compare = '<')
 {
-  const splitTime = target.split(':');
-  const current = new Date();
-  const targetTime = new Date();
-  targetTime.setHours(Number(splitTime[0]));
-  targetTime.setMinutes(Number(splitTime[1]));
-  targetTime.setSeconds(0);
-  return current.getTime() > targetTime.getTime();
+  if (!(date1 && date2)) throw new Error('no date1 or date2');
+  let d1 = date1.setHours(0,0,0,0);
+  let d2 = date2.setHours(0,0,0,0);
+  switch (compare)
+  {
+    case '<':
+      return d1 < d2;
+    case '>':
+      return d1 > d2;
+    case '=':
+    default:
+      return d1 === d2;
+  }
 }

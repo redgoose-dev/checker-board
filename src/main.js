@@ -15,7 +15,13 @@ const i18n = createI18n({
 });
 
 // play app
-createApp(main)
+const app = createApp(main)
   .use(store)
   .use(i18n)
   .mount('#app');
+
+// run development
+if (process.env.NODE_ENV === 'development')
+{
+  require('./dev-scripts').default();
+}

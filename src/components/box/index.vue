@@ -37,7 +37,7 @@
 import { defineComponent, reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { modelGetItems, modelRemoveItem } from '@/libs/model';
+import { modelGetItems, modelRemoveItem, removeItems } from '@/libs/model';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import ButtonsIcon from '@/components/buttons/icon';
@@ -87,7 +87,8 @@ export default defineComponent({
     const onClickRemoveItem = async item => {
       if (item?.srl && confirm(t('box.removeMessage')))
       {
-        await modelRemoveItem('box', item.srl);
+        await removeItems('box', item.srl);
+        await removeItems('board', item.srl, 'box');
         state.loading = true;
         state.items = await fetchItems();
         state.loading = false;

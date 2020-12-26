@@ -28,6 +28,7 @@ export default {
       day: 'd',
       theme: 'Theme',
       resetDatabase: 'Reset Database',
+      confirmResetDatabase: `Do you really want to reset the database?\nThis action refreshes the page.`,
     },
     error: {
       notSupport: {
@@ -69,6 +70,7 @@ export default {
       day: '일',
       theme: '테마',
       resetDatabase: '데이터베이스 초기화',
+      confirmResetDatabase: `정말 데이터베이스를 재설정 할까요?\n이 작업은 페이지를 새로고침 합니다.`,
     },
     error: {
       notSupport: {

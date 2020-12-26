@@ -82,6 +82,7 @@
 import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { removeDatabase } from '@/libs/model';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import FormsSelect from '@/components/forms/select';
@@ -97,7 +98,7 @@ export default defineComponent({
   setup()
   {
     const store = useStore();
-    const { locale } = useI18n({ useScope: 'global' });
+    const { locale, t } = useI18n({ useScope: 'global' });
 
     // state
     let state = reactive({
@@ -118,8 +119,9 @@ export default defineComponent({
       }
     };
     const onClickResetDatabase = async () => {
-      // TODO: 작업 필요함
-      console.log('call onClickResetDatabase()');
+      if (!confirm(t('preference.confirmResetDatabase'))) return;
+      await removeDatabase();
+      location.reload();
     };
 
     return {

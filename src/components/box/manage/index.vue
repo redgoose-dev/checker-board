@@ -61,7 +61,7 @@
 <script>
 import { defineComponent, reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { modelAddItem, modelEditItem } from '@/libs/model';
+import { addItem, modelEditItem } from '@/libs/model';
 import { convertPureObject } from '@/libs/util';
 import ButtonsBasic from '@/components/buttons/basic';
 import FormsInput from '@/components/forms/input';
@@ -108,7 +108,7 @@ export default defineComponent({
         switch (props.type)
         {
           case 'add':
-            await modelAddItem('box', convertPureObject(state.forms));
+            await addItem('box', convertPureObject(state.forms));
             context.emit('submit', null);
             break;
           case 'edit':

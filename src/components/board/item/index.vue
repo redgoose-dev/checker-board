@@ -27,7 +27,7 @@
 <script>
 import { computed, defineComponent, reactive, watch, ref, onMounted, nextTick } from 'vue';
 import { useStore } from 'vuex';
-import { convertFormat } from '@/libs/dates';
+import { convertFormat, compareDate } from '@/libs/dates';
 import { modelGetItem, modelEditItem, makeTodayItem } from '@/libs/model';
 import { updateBody } from '@/libs/markdown';
 import Top from './top';
@@ -64,14 +64,15 @@ export default defineComponent({
         return convertFormat(state.item?.date, Number(store.state.preference.dateFormat));
       }),
       today: computed(() => {
-        if (!state.item?.date) return false;
-        const reset = props.reset.split(':');
-        const today = new Date();
-        today.setHours(Number(reset[0]));
-        today.setMinutes(Number(reset[1]));
         const { date } = state.item;
-        // 비교대상 (데이터 날짜 > 오늘+리셋시간)
-        return date.getTime() > today.getTime();
+        if (!date) return false;
+        const now = new Date();
+        const reset = new Date();
+        reset.setHours(Number(props.reset.split(':')[0]));
+        reset.setMinutes(Number(props.reset.split(':')[1]));
+        reset.setSeconds(0);
+        reset.setMilliseconds(0);
+        return !((now.getTime() > reset.getTime()) && compareDate(date, now, '<'));
       }),
     });
 
@@ -126,11 +127,10 @@ export default defineComponent({
 
     // watch
     watch(() => store.state.preference.board, update);
+    watch(() => state.item?.srl, updateItemBody);
     watch(() => state.item?.body, updateItemBody);
-    watch(() => state.showBoardManage, async (value) => {
-      if (value) return;
-      await nextTick();
-      await updateItemBody();
+    watch(() => state.showBoardManage, value => {
+      if (!value) nextTick().then(() => updateItemBody());
     });
 
     return {
