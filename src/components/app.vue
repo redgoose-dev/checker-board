@@ -47,7 +47,7 @@
 import { defineComponent, reactive, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import { checkSupport, changeTheme } from '@/libs/util';
-import { modelGetItem, makeTodayItem } from '@/libs/model';
+import { getItem, makeTodayItem } from '@/libs/model';
 import AppHeader from '@/components/header';
 import ButtonsIcon from '@/components/buttons/icon';
 import BoardItem from '@/components/board/item';
@@ -98,7 +98,7 @@ export default defineComponent({
       try
       {
         if (!srl) throw '';
-        state.box = await modelGetItem('box', srl);
+        state.box = await getItem('box', srl);
       }
       catch(e)
       {

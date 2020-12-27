@@ -27,8 +27,24 @@ export default {
       month: 'm',
       day: 'd',
       theme: 'Theme',
-      resetDatabase: 'Reset Database',
-      confirmResetDatabase: `Do you really want to reset the database?\nThis action refreshes the page.`,
+      reset: {
+        title: 'Reset Database',
+        description: 'You can reset the database.',
+        confirm: `Do you really want to reset the database?\nThis action refreshes the page.`,
+      },
+      backup: {
+        title: 'Backup data',
+        description: 'Save the database and preference as a JSON file.',
+        buttonLabel: 'Backup all data',
+        confirm: 'Do you really want to backup the all data?',
+      },
+      restore: {
+        title: 'Restore data',
+        description: 'All data is restored.',
+        buttonLabel: 'Restore all data',
+        confirm: `Do you really want to restore all your data?\nThis will delete all current data.`,
+      },
+
     },
     error: {
       notSupport: {
@@ -69,8 +85,23 @@ export default {
       month: '월',
       day: '일',
       theme: '테마',
-      resetDatabase: '데이터베이스 초기화',
-      confirmResetDatabase: `정말 데이터베이스를 재설정 할까요?\n이 작업은 페이지를 새로고침 합니다.`,
+      reset: {
+        title: '데이터베이스 초기화',
+        description: '데이터베이스를 초기화 할 수 있습니다.',
+        confirm: `정말 데이터베이스를 재설정 할까요?\n이 작업은 페이지를 새로고침 합니다.`,
+      },
+      backup: {
+        title: '데이터 백업',
+        description: '데이터베이스와 설정값을 JSON 파일로 저장합니다.',
+        buttonLabel: '모든 데이터 백업',
+        confirm: '정말 모든 데이터를 백업할까요?',
+      },
+      restore: {
+        title: '데이터 복원',
+        description: '모든 데이터를 복원합니다.',
+        buttonLabel: '모든 데이터 복원',
+        confirm: `정말 모든 데이터를 복원할까요?\n이 작업은 현재 데이터가 모두 삭제됩니다.`,
+      },
     },
     error: {
       notSupport: {

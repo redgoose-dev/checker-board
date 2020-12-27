@@ -28,7 +28,7 @@
 import { computed, defineComponent, reactive, watch, ref, onMounted, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { convertFormat, compareDate } from '@/libs/dates';
-import { modelGetItem, modelEditItem, makeTodayItem } from '@/libs/model';
+import { getItem, editItem, makeTodayItem } from '@/libs/model';
 import { updateBody } from '@/libs/markdown';
 import Top from './top';
 import Bottom from './bottom';
@@ -55,7 +55,7 @@ export default defineComponent({
     // state
     let state = reactive({
       showBoardManage: false,
-      item: preference.board ? await modelGetItem('board', store.state.preference.board) : null,
+      item: preference.board ? await getItem('board', store.state.preference.board) : null,
       disabledBody: false,
       bodyCheckCount: {},
     });
@@ -79,7 +79,7 @@ export default defineComponent({
     // methods
     const update = async () => {
       state.showBoardManage = false;
-      let item = await modelGetItem('board', store.state.preference.board);
+      let item = await getItem('board', store.state.preference.board);
       if (item)
       {
         state.item = item;
@@ -107,7 +107,7 @@ export default defineComponent({
         today: computes.today,
         callback: async (str) => {
           state.disabledBody = true;
-          await modelEditItem('board', state.item?.srl, true, { body: str });
+          await editItem('board', state.item?.srl, true, { body: str });
           state.item.body = str;
           state.bodyCheckCount = updateCheckboxCount(state.item.body);
           state.disabledBody = false;

@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 import * as storage from '@/libs/storage';
 import { useI18n } from 'vue-i18n';
 import { defaultPreference } from '@/assets/defaults';
-import { modelInitialDatabase, modelGetItem, modelGetItems, makeTodayItem } from '@/libs/model';
+import { initialDatabase, getItem, getItems, makeTodayItem } from '@/libs/model';
 import { changeTheme } from '@/libs/util';
 
 const state = {
@@ -38,7 +38,7 @@ const actions = {
       commit('updatePreference', preference);
     }
     // make database
-    const initialDatabaseType = await modelInitialDatabase();
+    const initialDatabaseType = await initialDatabase();
     // check box,board srl
     switch (initialDatabaseType)
     {
@@ -50,21 +50,21 @@ const actions = {
         // 데이터베이스 값을 조회하여 값을 검증해보고 번호를 다시 맞추는 작업을 한다.
         let box = state.preference.box;
         let board = state.preference.board;
-        let res = await modelGetItem('box', box);
+        let res = await getItem('box', box);
         if (!res)
         {
-          res = await modelGetItems('box');
+          res = await getItems('box');
           box = res[res.length - 1]?.srl;
         }
         if (!board)
         {
-          res = await modelGetItems('board', 'box', box);
+          res = await getItems('board', 'box', box);
           board = res[res.length - 1]?.srl;
         }
-        res = await modelGetItem('board', board);
+        res = await getItem('board', board);
         if (!(res && res.box === box))
         {
-          res = await modelGetItems('board', 'box', box);
+          res = await getItems('board', 'box', box);
           if (res.length > 0)
           {
             board = res[res.length - 1].srl;

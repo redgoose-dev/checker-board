@@ -52,7 +52,7 @@ export function createDatabase(e)
  *
  * @return {Promise}
  */
-export function modelInitialDatabase()
+export function initialDatabase()
 {
   return new Promise((resolve, reject) => {
     if (DB) return resolve(DB);
@@ -89,26 +89,13 @@ export function removeDatabase() {
 }
 
 /**
- * get transaction
- *
- * @param {String} name
- * @param {String} mode
- * @return {IDBTransaction}
- */
-export function modelGetTransaction(name, mode)
-{
-  if (!DB) throw new Error(`${errorPrefix} ${errorMessageDatabase}`);
-  return DB.transaction(name, mode);
-}
-
-/**
  * get store
  *
  * @param {String} name
  * @param {String} mode
  * @return {IDBObjectStore}
  */
-export function modelGetStore(name, mode)
+export function getStore(name, mode)
 {
   if (!DB) throw new Error(`${errorPrefix} ${errorMessageDatabase}`);
   return DB.transaction(name, mode).objectStore(name);
@@ -125,7 +112,7 @@ export function addItem(storeName, value)
 {
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
-    const store = modelGetStore(storeName, 'readwrite');
+    const store = getStore(storeName, 'readwrite');
     try
     {
       const req = store.add(value);
@@ -147,11 +134,11 @@ export function addItem(storeName, value)
  * @param {String|Number|Boolean} value
  * @return {Promise<array>}
  */
-export function modelGetItems(storeName, key = null, value= null)
+export function getItems(storeName, key = null, value= null)
 {
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
-    const store = modelGetStore(storeName, 'readonly');
+    const store = getStore(storeName, 'readonly');
     const request = key && value ? store.index(key).getAll(value) : store.getAll();
     request.onsuccess = e => resolve(e.target?.result);
     request.onerror = e => resolve([]);
@@ -166,12 +153,12 @@ export function modelGetItems(storeName, key = null, value= null)
  * @param {Number|String|Boolean} value
  * @return {Promise<object|null>}
  */
-export function modelGetItem(storeName, key = null, value = null)
+export function getItem(storeName, key = null, value = null)
 {
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
     if (!key) return reject(`${errorPrefix} ${errorMessageNotKey}`);
-    const store = modelGetStore(storeName, 'readonly');
+    const store = getStore(storeName, 'readonly');
     const request = key && value ? store.index(key).get(value) : store.get(key);
     request.onsuccess = e => resolve(e.target.result);
     request.onerror = e => resolve(null);
@@ -187,11 +174,11 @@ export function modelGetItem(storeName, key = null, value = null)
  * @param {Object} value
  * @return {Promise}
  */
-export function modelEditItem(storeName, key, update, value)
+export function editItem(storeName, key, update, value)
 {
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
-    const store = modelGetStore(storeName, 'readwrite');
+    const store = getStore(storeName, 'readwrite');
     const requestGetItem = store.get(key);
     requestGetItem.onsuccess = e => {
       if (e.target.result)
@@ -227,7 +214,7 @@ export function removeItems(storeName, value, key = null)
   return new Promise((resolve, reject) => {
     if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
     if (!value) return reject(`${errorPrefix} ${errorMessageNotValue}`);
-    const store = modelGetStore(storeName, 'readwrite');
+    const store = getStore(storeName, 'readwrite');
     if (key)
     {
       const index = store.index(key);
@@ -281,15 +268,15 @@ export async function makeTodayItem(box)
   }
 
   // get and check box item
-  let boxItem = await modelGetItem('box', box);
+  let boxItem = await getItem('box', box);
   if (!boxItem) throw new Error('no box');
 
   // check today item
-  let boardItems = await modelGetItems('board', 'box', box);
+  let boardItems = await getItems('board', 'box', box);
   if (!(boardItems && boardItems.length > 0))
   {
     let res = await cloneItem(null);
-    return await modelGetItem('board', res);
+    return await getItem('board', res);
   }
   let lastBoardItem = boardItems[boardItems.length - 1];
   // 새로운 보드 아이템이 만들어지는 조건을 통과하면 아이템이 복제된다.
@@ -305,21 +292,35 @@ export async function makeTodayItem(box)
   if ((now.getTime() > reset.getTime()) && compareDate(lastBoardItem.date, now, '<'))
   {
     let res = await cloneItem(lastBoardItem);
-    return await modelGetItem('board', res);
+    return await getItem('board', res);
   }
 
   return lastBoardItem;
 }
 
 /**
- * backup database
+ * backup data
  *
  * @return {Promise}
  */
-export function backupDatabase()
+export function backupData()
 {
   // TODO: 작업예정
   return new Promise((resolve, reject) => {
+    Promise.all([
+      getItems('box'),
+      getItems('board'),
+    ]).then(([ boxes, boards ]) => {
+      console.log(boxes, boards);
+    });
     //
+  });
+}
+
+export function restoreData()
+{
+  return new Promise((resolve, reject) => {
+    console.log('call restoreDatabase()');
+    resolve();
   });
 }

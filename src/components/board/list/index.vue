@@ -57,8 +57,7 @@ import FormsSelect from '@/components/forms/select';
 import ButtonsIcon from '@/components/buttons/icon';
 import Item from './item';
 import Loading from '@/components/etc/loading';
-import { modelGetItem, modelGetItems } from '@/libs/model';
-import * as util from '@/libs/util';
+import { getItem, getItems } from '@/libs/model';
 export default defineComponent({
   name: 'board-list',
   components: {
@@ -104,11 +103,11 @@ export default defineComponent({
       try
       {
         // get box item
-        let box = await modelGetItem('box', preference.box);
+        let box = await getItem('box', preference.box);
         if (!box) return;
         state.boxName = box.name;
         // get board items
-        let boards = await modelGetItems('board', 'box', box.srl);
+        let boards = await getItems('board', 'box', box.srl);
         if (!(boards && boards.length > 0)) state.index = [];
         state.index = boards.reverse();
         // set date range in filters

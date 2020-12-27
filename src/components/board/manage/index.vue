@@ -19,7 +19,7 @@
 
 <script>
 import { defineComponent, reactive, onMounted, ref } from 'vue';
-import { modelGetItem, modelEditItem } from '@/libs/model';
+import { getItem, editItem } from '@/libs/model';
 import ButtonsBasic from '@/components/buttons/basic';
 export default defineComponent({
   name: 'board-manage',
@@ -40,7 +40,7 @@ export default defineComponent({
 
     // methods
     const onSubmit = async () => {
-      await modelEditItem('board', props.srl, true, {
+      await editItem('board', props.srl, true, {
         body: state.body,
       });
       context.emit('submit');
@@ -64,7 +64,7 @@ export default defineComponent({
 
     // lifecycles
     onMounted(async () => {
-      let item = await modelGetItem('board', props.srl);
+      let item = await getItem('board', props.srl);
       state.body = item?.body || '';
       // auto focus in body
       const $body = root.value?.querySelector('textarea');

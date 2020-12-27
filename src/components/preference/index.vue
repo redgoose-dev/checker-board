@@ -65,11 +65,29 @@
           </p>
         </div>
         <section class="section">
-          <p class="section__title">데이터베이스 리셋</p>
-          <p class="section__description">데이터베이스를 초기화 할 수 있습니다.</p>
+          <p class="section__title">{{$t('preference.reset.title')}}</p>
+          <p class="section__description">{{$t('preference.reset.description')}}</p>
           <nav class="section__body">
-            <buttons-basic type="button" @click="onClickResetDatabase">
-              {{$t('preference.resetDatabase')}}
+            <buttons-basic type="button" @click="onClickResetData">
+              {{$t('preference.reset.title')}}
+            </buttons-basic>
+          </nav>
+        </section>
+        <section class="section">
+          <p class="section__title">{{$t('preference.backup.title')}}</p>
+          <p class="section__description">{{$t('preference.backup.description')}}</p>
+          <nav class="section__body">
+            <buttons-basic type="button" @click="onClickBackupData">
+              {{$t('preference.backup.buttonLabel')}}
+            </buttons-basic>
+          </nav>
+        </section>
+        <section class="section">
+          <p class="section__title">{{$t('preference.restore.title')}}</p>
+          <p class="section__description">{{$t('preference.restore.description')}}</p>
+          <nav class="section__body">
+            <buttons-basic type="button" @click="onClickRestoreData">
+              {{$t('preference.restore.buttonLabel')}}
             </buttons-basic>
           </nav>
         </section>
@@ -79,10 +97,10 @@
 </template>
 
 <script>
-import { defineComponent, reactive, computed } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { removeDatabase } from '@/libs/model';
+import { removeDatabase, backupData, restoreData } from '@/libs/model';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import FormsSelect from '@/components/forms/select';
@@ -118,16 +136,27 @@ export default defineComponent({
         locale.value = state.forms.language;
       }
     };
-    const onClickResetDatabase = async () => {
-      if (!confirm(t('preference.confirmResetDatabase'))) return;
+    const onClickResetData = async () => {
+      if (!confirm(t('preference.reset.confirm'))) return;
       await removeDatabase();
       location.reload();
+    };
+    const onClickBackupData = async () => {
+      if (!confirm(t('preference.backup.confirm'))) return;
+      await backupData();
+    };
+    const onClickRestoreData = async () => {
+      if (!confirm(t('preference.restore.confirm'))) return;
+      console.log('call onClickRestoreData()')
+      // TODO: 작업해야하는 부분
     };
 
     return {
       state,
       save,
-      onClickResetDatabase,
+      onClickResetData,
+      onClickBackupData,
+      onClickRestoreData,
     };
   },
   emits: {

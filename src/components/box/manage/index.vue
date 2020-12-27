@@ -61,7 +61,7 @@
 <script>
 import { defineComponent, reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { addItem, modelEditItem } from '@/libs/model';
+import { addItem, editItem } from '@/libs/model';
 import { convertPureObject } from '@/libs/util';
 import ButtonsBasic from '@/components/buttons/basic';
 import FormsInput from '@/components/forms/input';
@@ -113,7 +113,7 @@ export default defineComponent({
             break;
           case 'edit':
             if (!props.selectedItem.srl) throw new Error(t('error.unknown.description'));
-            await modelEditItem('box', props.selectedItem.srl, true, convertPureObject(state.forms));
+            await editItem('box', props.selectedItem.srl, true, convertPureObject(state.forms));
             context.emit('submit', props.selectedItem.srl);
             break;
           default:
