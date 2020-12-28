@@ -15,8 +15,9 @@ let errorMessageNotValue = `No value`;
  * @param {IDBVersionChangeEvent} e
  * @return {Promise}
  */
-export function createDatabase(e)
+export function createDatabase(e = null)
 {
+  const transaction = e ? e.target.transaction : DB;
   return new Promise((resolve, reject) => {
     // make `box` store
     const box = DB.createObjectStore(dbInformation.store.box, {
@@ -35,12 +36,7 @@ export function createDatabase(e)
     board.createIndex('date', 'date', { unique: true });
     board.createIndex('body', 'body', {});
     // complete transaction
-    e.target.transaction.oncomplete = () => {
-      // push default data
-      addItem('box', defaultModelData.box)
-        .then(() => addItem('board', defaultModelData.board))
-        .then(resolve);
-    };
+    transaction.oncomplete = () => resolve();
   });
 }
 
@@ -69,7 +65,12 @@ export function initialDatabase()
     request.onupgradeneeded = e => {
       upgradeneeded = true;
       DB = e.target.result;
-      createDatabase(e).then(() => resolve('create'));
+      createDatabase(e).then(() => {
+        // push default data
+        addItem('box', defaultModelData.box)
+          .then(() => addItem('board', defaultModelData.board))
+          .then(() => resolve('create'));
+      });
     };
   });
 }
@@ -240,6 +241,16 @@ export function removeItems(storeName, value, key = null)
   });
 }
 
+export function clearStore(storeName)
+{
+  return new Promise((resolve, reject) => {
+    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    const store = getStore(storeName, 'readwrite');
+    const req = store.clear();
+    req.onsuccess = () => resolve();
+  });
+}
+
 /**
  * make today item
  * 리셋시간이 지났을때 새로운 데이터를 만드는 일을한다.
@@ -296,31 +307,4 @@ export async function makeTodayItem(box)
   }
 
   return lastBoardItem;
-}
-
-/**
- * backup data
- *
- * @return {Promise}
- */
-export function backupData()
-{
-  // TODO: 작업예정
-  return new Promise((resolve, reject) => {
-    Promise.all([
-      getItems('box'),
-      getItems('board'),
-    ]).then(([ boxes, boards ]) => {
-      console.log(boxes, boards);
-    });
-    //
-  });
-}
-
-export function restoreData()
-{
-  return new Promise((resolve, reject) => {
-    console.log('call restoreDatabase()');
-    resolve();
-  });
 }

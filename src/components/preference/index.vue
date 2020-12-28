@@ -100,7 +100,9 @@
 import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { removeDatabase, backupData, restoreData } from '@/libs/model';
+import { removeDatabase, getItems, clearStore, addItem } from '@/libs/model';
+import { convertPureObject } from '@/libs/util';
+import { convertFormat } from '@/libs/dates';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import FormsSelect from '@/components/forms/select';
@@ -143,12 +145,61 @@ export default defineComponent({
     };
     const onClickBackupData = async () => {
       if (!confirm(t('preference.backup.confirm'))) return;
-      await backupData();
+      const [ box, board ] = await Promise.all([
+        getItems('box'),
+        getItems('board'),
+      ]);
+      const preference = convertPureObject(store.state.preference);
+      let result = { box, board, preference };
+      let date = new Date();
+      const el = document.createElement('a');
+      el.setAttribute('href', `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(result))}`);
+      el.setAttribute('download', `checker-board_${convertFormat(date, 5)}.json`);
+      el.click();
     };
-    const onClickRestoreData = async () => {
-      if (!confirm(t('preference.restore.confirm'))) return;
-      console.log('call onClickRestoreData()')
-      // TODO: 작업해야하는 부분
+    const onClickRestoreData = () => {
+      return new Promise((resolve, reject) => {
+        const el = document.createElement('input');
+        el.setAttribute('type', 'file');
+        el.setAttribute('accept', 'application/JSON');
+        el.addEventListener('change', e => {
+          if (!(e.target.files && e.target.files.length > 0))
+          {
+            alert(t('preference.restore.errorNoFile'));
+            return;
+          }
+          const file = e.target.files[0];
+          const reader = new FileReader();
+          reader.onload = async e => {
+            try
+            {
+              let json = JSON.parse(String(e.target.result));
+              if (!confirm(t('preference.restore.confirm'))) return;
+              if (!(json.preference && json.box && json.board)) throw new Error('no data');
+              await Promise.all([
+                clearStore('box'),
+                clearStore('board'),
+              ]);
+              await store.dispatch('updatePreference', json.preference);
+              await Promise.all(json.box.map(o => addItem('box', o)));
+              await Promise.all(json.board.map(o => {
+                return addItem('board', {
+                  ...o,
+                  date: new Date(o.date),
+                });
+              }));
+              alert(t('preference.restore.complete'));
+              location.reload();
+            }
+            catch(e)
+            {
+              reject(e.message);
+            }
+          };
+          reader.readAsText(file);
+        }, false);
+        el.click();
+      });
     };
 
     return {

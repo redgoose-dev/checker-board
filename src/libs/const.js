@@ -5,6 +5,7 @@ export const dateFormatType = {
   2: "12. 25. 2020",
   3: "2020年 12月 25日", // 언어에 맞춘 방식
   4: "25 December, 2020", // 미국 표기방식
+  5: "20201215",
 };
 
 // month names

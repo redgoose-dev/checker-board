@@ -33,6 +33,8 @@ export function convertFormat(date, type) {
     // 25 December, 2020
     case Number(keys[4]):
       return `${day} ${monthName}, ${year}`;
+    case Number(keys[5]):
+      return `${year}${month}${day}`;
   }
 }
 
