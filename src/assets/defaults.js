@@ -1,5 +1,5 @@
 export const defaultPreference = {
-  language: 'ko',
+  language: 'en', // en,ko
   dateFormat: '{yyyy}-{mm}-{dd}',
   theme: 'system', // light, dark, system
   box: null,

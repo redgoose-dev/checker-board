@@ -33,7 +33,10 @@ export default defineComponent({
   {
     const error = ref(null);
     onErrorCaptured(e => {
-      if (typeof e !== 'string') console.error(e);
+      if (process.env.NODE_ENV === 'development' && typeof e !== 'string')
+      {
+        console.error(e);
+      }
       switch (e)
       {
         case 'NOT_SUPPORT':

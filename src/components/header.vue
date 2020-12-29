@@ -3,9 +3,7 @@
     <nav v-if="$slots.navLeft" class="header__nav left">
       <slot name="navLeft"/>
     </nav>
-    <h2 v-if="title" class="header__title">
-      {{title}}
-    </h2>
+    <h2 v-if="title" class="header__title">{{title}}</h2>
     <nav v-if="$slots.navRight" class="header__nav right">
       <slot name="navRight"/>
     </nav>

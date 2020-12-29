@@ -7,11 +7,6 @@ import { changeTheme } from '@/libs/util';
 
 const state = {
   preference: defaultPreference,
-  current: {
-    showBoxList: true,
-    showBoardList: false,
-    showPreference: false,
-  },
 }
 
 const actions = {

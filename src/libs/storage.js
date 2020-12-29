@@ -43,6 +43,18 @@ export function set(key, value)
 }
 
 /**
+ * remove key in localStorage
+ *
+ * @param {String} key
+ */
+export function remove(key)
+{
+  if (!checkObject()) return undefined;
+  if (!key) return undefined;
+  window.localStorage.removeItem(key);
+}
+
+/**
  * set value in localStorage
  *
  * @param {String} key

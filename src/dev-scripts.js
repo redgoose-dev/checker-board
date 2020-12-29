@@ -34,7 +34,3 @@ export default function ()
     removeItems
   }
 }
-
-
-
-// await removeItems('board', 1, 'box');

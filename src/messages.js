@@ -27,9 +27,9 @@ export default {
       dateFormatGuide: `{0}: 2020, {1}: 12, {2}: 25, {3}: December, {4}: Monday, {5}: Mon`,
       theme: 'Theme',
       reset: {
-        title: 'Reset Database',
-        description: 'You can reset the database.',
-        confirm: `Do you really want to reset the database?\nThis action refreshes the page.`,
+        title: 'Reset Data',
+        description: 'You can reset the all data.',
+        confirm: `Do you really want to reset the database and preference?\nThis action refreshes the page.`,
       },
       backup: {
         title: 'Backup data',
@@ -117,9 +117,9 @@ export default {
       dateFormatGuide: `{0}: 2020, {1}: 12, {2}: 25, {3}: 12월, {4}: 월요일, {5}: 월`,
       theme: '테마',
       reset: {
-        title: '데이터베이스 초기화',
-        description: '데이터베이스를 초기화 할 수 있습니다.',
-        confirm: `정말 데이터베이스를 재설정 할까요?\n이 작업은 페이지를 새로고침 합니다.`,
+        title: '모든 데이터 초기화',
+        description: '모든 데이터를를 초기화 할 수 있습니다.',
+        confirm: `정말 모든 데이터와 환경설정을 재설정 할까요?\n이 작업은 페이지를 새로고침 합니다.`,
       },
       backup: {
         title: '데이터 백업',

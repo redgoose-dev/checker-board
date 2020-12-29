@@ -56,7 +56,8 @@
             <forms-input
               name="dateFormat"
               id="dateFormat"
-              v-model="state.forms.dateFormat"/>
+              v-model="state.forms.dateFormat"
+              @blur:model-value="save"/>
           </p>
         </div>
         <section class="section">
@@ -101,6 +102,7 @@ import { useI18n } from 'vue-i18n';
 import { removeDatabase, getItems, clearStore, addItem } from '@/libs/model';
 import { convertPureObject } from '@/libs/util';
 import { twoDigit } from '@/libs/string';
+import * as storage from '@/libs/storage';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import FormsSelect from '@/components/forms/select';
@@ -141,6 +143,7 @@ export default defineComponent({
     const onClickResetData = async () => {
       if (!confirm(t('preference.reset.confirm'))) return;
       await removeDatabase();
+      storage.remove('preference');
       location.reload();
     };
     const onClickBackupData = async () => {

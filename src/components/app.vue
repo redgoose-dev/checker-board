@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main v-if="computes.ready">
     <app-header :title="computes.title" class="app-header">
       <template v-slot:navRight>
         <buttons-icon
@@ -21,7 +21,7 @@
     </app-header>
     <board-item :reset="state.box?.reset"/>
   </main>
-  <teleport to="body">
+  <teleport to="body" v-if="computes.ready">
     <transition name="modal-fade">
       <preference
         v-if="state.showPreference"
@@ -70,13 +70,14 @@ export default defineComponent({
 
     // state
     let state = reactive({
-      showPreference: true,
+      showPreference: false,
       showBoxList: false,
       showBoardList: false,
       box: null,
     });
     let computes = reactive({
       title: computed(() => (state.box ? state.box.name : 'none title')),
+      ready: computed(() => !!store.state.preference),
     });
 
     // methods
