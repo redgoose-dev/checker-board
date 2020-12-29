@@ -36,8 +36,13 @@
       line-height: 1.42;
     }
   }
+  &__description {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--color-text-gray);
+  }
   &__body {
-    margin: 6px 0 0;
+    margin: 12px 0 0;
   }
 }
 
@@ -49,11 +54,11 @@
     line-height: 1.42;
   }
   &__description {
-    margin: 6px 0 0;
+    margin: 4px 0 0;
     font-size: 13px;
     color: var(--color-text-gray);
   }
   &__body {
-    margin: 16px 0 0;
+    margin: 12px 0 0;
   }
 }

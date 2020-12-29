@@ -31,7 +31,7 @@ export default defineComponent({
   {
     return {
       state: reactive({
-        label: computed(() => convertFormat(props.date, Number(props.dateType))),
+        label: computed(() => convertFormat(props.date, props.dateType)),
         today: computed(() => checkToday(props.date)),
       }),
     };

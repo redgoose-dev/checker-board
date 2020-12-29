@@ -1,7 +1,6 @@
 <template>
   <button
     :type="type"
-    :title="title"
     :class="[
       `button-basic`,
       skin && `button-basic--skin-${skin}`,
@@ -17,7 +16,6 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'button-basic',
   props: {
-    title: { type: String, default: 'button' },
     type: { type: String, default: 'button' },
     skin: String,
     inline: Boolean,

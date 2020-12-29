@@ -48,31 +48,17 @@
               {{$t('preference.dateFormat')}}
             </label>
           </p>
+          <p class="field__description">
+            {{$t('preference.dateFormatDescription')}}<br/>
+            {{$t('preference.dateFormatGuide', [`{yyyy}`, `{mm}`, `{dd}`, `{month}`, `{week}`, `{weekShort}`])}}
+          </p>
           <p class="field__body">
-            <forms-select
+            <forms-input
               name="dateFormat"
               id="dateFormat"
-              v-model="state.forms.dateFormat"
-              @update:model-value="save">
-              <option value="0">2020-12-25</option>
-              <option value="1">12-25-2020</option>
-              <option value="2">12. 25. 2020</option>
-              <option value="3">
-                2020{{$t('preference.year')}} 12{{$t('preference.month')}} 25{{$t('preference.day')}}
-              </option>
-              <option value="4">25 December, 2020</option>
-            </forms-select>
+              v-model="state.forms.dateFormat"/>
           </p>
         </div>
-        <section class="section">
-          <p class="section__title">{{$t('preference.reset.title')}}</p>
-          <p class="section__description">{{$t('preference.reset.description')}}</p>
-          <nav class="section__body">
-            <buttons-basic type="button" @click="onClickResetData">
-              {{$t('preference.reset.title')}}
-            </buttons-basic>
-          </nav>
-        </section>
         <section class="section">
           <p class="section__title">{{$t('preference.backup.title')}}</p>
           <p class="section__description">{{$t('preference.backup.description')}}</p>
@@ -91,6 +77,18 @@
             </buttons-basic>
           </nav>
         </section>
+        <section class="section">
+          <p class="section__title">{{$t('preference.reset.title')}}</p>
+          <p class="section__description">{{$t('preference.reset.description')}}</p>
+          <nav class="section__body">
+            <buttons-basic
+              type="button"
+              skin="red"
+              @click="onClickResetData">
+              {{$t('preference.reset.title')}}
+            </buttons-basic>
+          </nav>
+        </section>
       </fieldset>
     </form>
   </modal-wrapper>
@@ -102,10 +100,11 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { removeDatabase, getItems, clearStore, addItem } from '@/libs/model';
 import { convertPureObject } from '@/libs/util';
-import { convertFormat } from '@/libs/dates';
+import { twoDigit } from '@/libs/string';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import FormsSelect from '@/components/forms/select';
+import FormsInput from '@/components/forms/input';
 import ButtonsBasic from '@/components/buttons/basic';
 export default defineComponent({
   name: 'preference',
@@ -113,6 +112,7 @@ export default defineComponent({
     'modal-wrapper': ModalWrapper,
     'modal-header': ModalHeader,
     'forms-select': FormsSelect,
+    'forms-input': FormsInput,
     'buttons-basic': ButtonsBasic,
   },
   setup()
@@ -152,9 +152,10 @@ export default defineComponent({
       const preference = convertPureObject(store.state.preference);
       let result = { box, board, preference };
       let date = new Date();
+      let dateFormat = `${date.getFullYear()}${twoDigit(date.getMonth() + 1)}${twoDigit(date.getDate())}`;
       const el = document.createElement('a');
       el.setAttribute('href', `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(result))}`);
-      el.setAttribute('download', `checker-board_${convertFormat(date, 5)}.json`);
+      el.setAttribute('download', `checker-board_${dateFormat}.json`);
       el.click();
     };
     const onClickRestoreData = () => {

@@ -70,7 +70,7 @@ export default defineComponent({
 
     // state
     let state = reactive({
-      showPreference: false,
+      showPreference: true,
       showBoxList: false,
       showBoardList: false,
       box: null,
@@ -92,7 +92,11 @@ export default defineComponent({
       state.showBoardList = false;
     };
     const onUpdateBox = async (boxSrl) => {
-      if (boxSrl === store.state.preference.box) await makeTodayItem(boxSrl);
+      if (boxSrl === store.state.preference.box)
+      {
+        await makeTodayItem(boxSrl);
+        await update(boxSrl);
+      }
     };
     const update = async (srl) => {
       try

@@ -61,7 +61,7 @@ export default defineComponent({
     });
     let computes = reactive({
       date: computed(() => {
-        return convertFormat(state.item?.date, Number(store.state.preference.dateFormat));
+        return convertFormat(state.item?.date, store.state.preference.dateFormat);
       }),
       today: computed(() => {
         const { date } = state.item;

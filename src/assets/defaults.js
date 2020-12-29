@@ -1,6 +1,6 @@
 export const defaultPreference = {
-  language: "ko",
-  dateFormat: "0",
+  language: 'ko',
+  dateFormat: '{yyyy}-{mm}-{dd}',
   theme: 'system', // light, dark, system
   box: null,
   board: null,
@@ -8,7 +8,7 @@ export const defaultPreference = {
 
 export const defaultModelData = {
   box: {
-    name: 'Welcome Box',
+    name: 'Welcome',
     description: 'first box',
     reset: '06:00',
   },

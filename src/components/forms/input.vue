@@ -8,7 +8,8 @@
       :placeholder="placeholder"
       :required="required"
       class="forms-input__unit"
-      @input="$emit('update:modelValue', $event.target.value)">
+      @input="$emit('update:modelValue', $event.target.value)"
+      @blur="$emit('blur:modelValue', $event.target.value)">
   </label>
 </template>
 
@@ -26,6 +27,7 @@ export default defineComponent({
   },
   emits: {
     'update:modelValue': null,
+    'blur:modelValue': null,
   },
 });
 </script>

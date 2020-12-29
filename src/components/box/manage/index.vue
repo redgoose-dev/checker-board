@@ -86,7 +86,7 @@ export default defineComponent({
       } : {
         name: '',
         description: '',
-        reset: '',
+        reset: '05:00',
       },
     });
     let compute = reactive({
