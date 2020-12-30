@@ -66,6 +66,9 @@ body, button, input, textarea, select {
   text-size-adjust: none;
   color: var(--color-text-base);
 }
+a {
+  color: var(--color-theme-green);
+}
 
 // modal
 .mode-modal {

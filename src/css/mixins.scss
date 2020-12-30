@@ -111,6 +111,9 @@
     box-shadow: inset 0 0 10px 10px #888;
   }
   @include dark-mode() {
+    &::-webkit-scrollbar {
+      background: var(--color-bg);
+    }
     &::-webkit-scrollbar-thumb {
       box-shadow: inset 0 0 10px 10px #444;
     }

@@ -5,8 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve --host 0.0.0.0 --port 3000",
-    "build": "vue-cli-service build",
-    "eletron-dev": "electron ./electron/main.js"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "core-js": "^3.8.0",
@@ -20,7 +19,6 @@
     "@vue/cli-plugin-vuex": "~4.5.9",
     "@vue/cli-service": "~4.5.9",
     "@vue/compiler-sfc": "^3.0.4",
-    "electron": "^11.1.1",
     "fibers": "^5.0.0",
     "sass": "^1.29.0",
     "sass-loader": "^10.1.0"

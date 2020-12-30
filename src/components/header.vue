@@ -14,13 +14,8 @@
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'app-header',
-  components: {},
   props: {
     title: String,
-  },
-  setup()
-  {
-    return {};
   },
 });
 </script>

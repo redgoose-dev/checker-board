@@ -45,6 +45,10 @@ export default {
         confirm: `Do you really want to restore all your data?\nThis will delete all current data.`,
         complete: 'Complete restore data.',
       },
+      information: {
+        title: 'Project information',
+        version: 'Version',
+      },
     },
     error: {
       notSupport: {
@@ -134,6 +138,10 @@ export default {
         buttonLabel: '모든 데이터 복원',
         confirm: `정말 모든 데이터를 복원할까요?\n이 작업은 현재 데이터가 모두 삭제됩니다.`,
         complete: '복원을 완료했습니다.',
+      },
+      information: {
+        title: '프로젝트 정보',
+        version: '버전',
       },
     },
     error: {

@@ -90,6 +90,15 @@
             </buttons-basic>
           </nav>
         </section>
+        <section class="section">
+          <p class="section__title">{{$t('preference.information.title')}}</p>
+          <ul class="section__description">
+            <li>{{$t('preference.information.version')}}: {{$store.state.version}}</li>
+            <li>
+              <a href="https://github.com/redgoose-dev/checker-board" target="_blank">GitHub Project</a>
+            </li>
+          </ul>
+        </section>
       </fieldset>
     </form>
   </modal-wrapper>

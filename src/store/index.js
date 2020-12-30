@@ -4,9 +4,11 @@ import { useI18n } from 'vue-i18n';
 import { defaultPreference } from '@/assets/defaults';
 import { initialDatabase, getItem, getItems, makeTodayItem } from '@/libs/model';
 import { changeTheme } from '@/libs/util';
+const pkg = require('../../package.json');
 
 const state = {
   preference: defaultPreference,
+  version: pkg.version,
 }
 
 const actions = {
@@ -105,11 +107,8 @@ const mutations = {
   },
 };
 
-const modules = {};
-
 export default createStore({
   state,
   mutations,
   actions,
-  modules,
 });
