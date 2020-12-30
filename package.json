@@ -1,0 +1,8 @@
+{
+  "name": "checker-board-electron",
+  "version": "1.0.0",
+  "main": "main.js",
+  "repository": "https://github.com/redgoose-dev/checker-board.git",
+  "author": "redgoose <scripter@me.com>",
+  "license": "MIT"
+}
