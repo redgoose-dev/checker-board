@@ -15,9 +15,9 @@
     "electron-builder": "^22.9.1"
   },
   "build": {
-    "appId": "foo.bar",
+    "appId": "redgoose.checkboard",
     "mac": {
-      "category": "your.app.category.type"
+      "category": "public.app-category.utilities"
     }
   }
 }

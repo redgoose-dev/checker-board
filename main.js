@@ -8,10 +8,11 @@ function createWindow () {
       nodeIntegration: true,
     },
   });
-  // console.log('file://' + __dirname + '/docs/index.html')
-  // win.loadFile('file://' + __dirname + 'docs/index.html');
-  win.loadFile('./docs/index.html');
+  win.loadFile('docs/index.html');
 }
+
+// disabled security warnings
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = '1';
 
 app.whenReady().then(createWindow);
 
