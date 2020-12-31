@@ -5,7 +5,7 @@
   --bottom-height: 48px;
   --bottom-height-manage: 52px;
   &__top {
-    top: var(--top-height);
+    top: var(--header-height);
     height: var(--top-height);
   }
   &__fieldset {
@@ -26,6 +26,7 @@
   &__body {
     padding: 30px var(--size-side-padding) 60px;
     box-sizing: border-box;
+    content-visibility: auto;
     &:after {
       content: '';
       display: block;

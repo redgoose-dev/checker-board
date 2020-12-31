@@ -6,6 +6,7 @@
   font-family: var(--font-point);
   font-size: 16px;
   line-height: 2;
+  word-break: break-word;
 
   &, & * {
     @include selection();

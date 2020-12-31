@@ -28,7 +28,7 @@
 import { computed, defineComponent, reactive, watch, ref, onMounted, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { convertFormat, compareDate } from '@/libs/dates';
-import { getItem, editItem, makeTodayItem } from '@/libs/model';
+import { getItem, editItem, getItems, makeTodayItem } from '@/libs/model';
 import { updateBody } from '@/libs/markdown';
 import Top from './top';
 import Bottom from './bottom';
@@ -56,6 +56,7 @@ export default defineComponent({
     let state = reactive({
       showBoardManage: false,
       item: preference.board ? await getItem('board', store.state.preference.board) : null,
+      items: preference.box ? await getItems('board', 'box', store.state.preference.box) : null,
       disabledBody: false,
       bodyCheckCount: {},
     });
@@ -64,22 +65,22 @@ export default defineComponent({
         return convertFormat(state.item?.date, store.state.preference.dateFormat);
       }),
       today: computed(() => {
-        const { date } = state.item;
-        if (!date) return false;
-        const now = new Date();
-        const reset = new Date();
-        reset.setHours(Number(props.reset.split(':')[0]));
-        reset.setMinutes(Number(props.reset.split(':')[1]));
-        reset.setSeconds(0);
-        reset.setMilliseconds(0);
-        return !((now.getTime() > reset.getTime()) && compareDate(date, now, '<'));
+        if (!(state.item?.srl && state.items?.length)) return false;
+        return state.items[state.items.length - 1]?.srl === state.item.srl;
       }),
     });
 
     // methods
     const update = async () => {
       state.showBoardManage = false;
-      let item = await getItem('board', store.state.preference.board);
+      let [ items, item ] = await Promise.all([
+        getItems('board', 'box', store.state.preference.box),
+        getItem('board', store.state.preference.board),
+      ]);
+      if (items)
+      {
+        state.items = items;
+      }
       if (item)
       {
         state.item = item;
@@ -126,6 +127,7 @@ export default defineComponent({
     state.bodyCheckCount = updateCheckboxCount(state.item?.body);
 
     // watch
+    // watch(() => store.state.preference.box, update);
     watch(() => store.state.preference.board, update);
     watch(() => state.item?.srl, updateItemBody);
     watch(() => state.item?.body, updateItemBody);

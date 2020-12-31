@@ -5,22 +5,31 @@
 
 ## Install
 
-```shell script
+```shell
 yarn install
 ```
 
 
 ## Development
 
-```shell script
+```shell
 yarn run dev
 ```
 
 
 ## Production
 
-```shell script
+```shell
 yarn run build
 ```
 
 프로젝트 빌드가 끝나면 `docs/`에 만들어집니다.
+
+
+## Preview docs
+
+빌드된 프로젝트를 프리뷰할 수 있습니다.
+
+```shell
+yarn run start
+```

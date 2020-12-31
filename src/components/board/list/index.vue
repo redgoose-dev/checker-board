@@ -114,6 +114,8 @@ export default defineComponent({
         const dateRange = [ state.index[0]?.date, state.index[state.index.length - 1]?.date ];
         filters.rangeYear = [ dateRange[0]?.getFullYear(), dateRange[1]?.getFullYear() ];
         filters.rangeMonth = [ dateRange[0]?.getMonth() + 1, dateRange[1]?.getMonth() + 1 ];
+        state.selectedFilter.year = filters.rangeYear[1];
+        state.selectedFilter.month = filters.rangeMonth[1];
         // off loading
         state.loading = false;
       }
