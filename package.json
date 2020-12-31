@@ -4,5 +4,19 @@
   "main": "main.js",
   "repository": "https://github.com/redgoose-dev/checker-board.git",
   "author": "redgoose <scripter@me.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron ./main.js",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^11.1.1",
+    "electron-builder": "^22.9.1"
+  },
+  "build": {
+    "appId": "foo.bar",
+    "mac": {
+      "category": "your.app.category.type"
+    }
+  }
 }
