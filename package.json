@@ -6,6 +6,7 @@
   "author": "redgoose <scripter@me.com>",
   "license": "MIT",
   "scripts": {
+    "upgrade-docs": "rm -rf docs && git checkout main docs",
     "dev": "electron ./main.js",
     "build": "electron-builder"
   },
