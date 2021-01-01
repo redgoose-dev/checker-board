@@ -50,10 +50,16 @@ const actions = {
         let boxItem = await getItem('box', box);
         if (!boxItem)
         {
-          let boxItems = await getItems('box');
+          let boxItems = await getItems({ store: 'box' });
           box = boxItems[boxItems.length - 1]?.srl;
         }
-        let boardItems = await getItems('board', 'box', box);
+        let boardItems = await getItems({
+          store: 'board',
+          key: 'box',
+          value: box,
+          order: 'date',
+          sort: 'asc',
+        });
         board = boardItems[boardItems.length - 1]?.srl;
         await dispatch('updatePreference', { box, board });
         break;

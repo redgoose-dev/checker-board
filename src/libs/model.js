@@ -130,18 +130,39 @@ export function addItem(storeName, value)
 /**
  * get items
  *
- * @param {String} storeName
- * @param {String} key
- * @param {String|Number|Boolean} value
+ * @param {Object} opt
  * @return {Promise<array>}
  */
-export function getItems(storeName, key = null, value= null)
+export function getItems(opt)
 {
+  // storeName, key, value, order, sort
   return new Promise((resolve, reject) => {
-    if (!storeName) return reject(`${errorPrefix} ${errorMessageStoreName}`);
-    const store = getStore(storeName, 'readonly');
-    const request = key && value ? store.index(key).getAll(value) : store.getAll();
-    request.onsuccess = e => resolve(e.target?.result);
+    if (!opt.store) return reject(`${errorPrefix} ${errorMessageStoreName}`);
+    const store = getStore(opt.store, 'readonly');
+    const request = opt.key && opt.value ? store.index(opt.key).getAll(opt.value) : store.getAll();
+    request.onsuccess = e => {
+      opt.sort = opt.sort === 'desc' ? 'desc' : 'asc';
+      let items = e.target?.result || [];
+      if (opt.order)
+      {
+        items.sort(function(a, b) {
+          switch (opt.order)
+          {
+            case 'date':
+              a = a[opt.order].getTime();
+              b = b[opt.order].getTime();
+              break;
+            default:
+              a = a[opt.order];
+              b = b[opt.order];
+              break;
+          }
+          return parseFloat(a) - parseFloat(b);
+        });
+      }
+      if (opt.sort === 'desc') items = items.reverse();
+      resolve(items);
+    };
     request.onerror = e => resolve([]);
   });
 }
@@ -283,7 +304,13 @@ export async function makeTodayItem(box)
   if (!boxItem) throw new Error('no box');
 
   // check today item
-  let boardItems = await getItems('board', 'box', box);
+  let boardItems = await getItems({
+    store: 'board',
+    key: 'box',
+    value: box,
+    order: 'date',
+    sort: 'asc',
+  });
   if (!(boardItems && boardItems.length > 0))
   {
     let res = await cloneItem(null);

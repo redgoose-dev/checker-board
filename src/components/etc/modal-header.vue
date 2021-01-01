@@ -3,9 +3,7 @@
     <nav v-if="$slots.navLeft" class="modal-header__nav">
       <slot name="navLeft"/>
     </nav>
-    <h1 class="modal-header__title">
-      {{title}}
-    </h1>
+    <h1 class="modal-header__title">{{title}}</h1>
     <nav class="modal-header__nav">
       <slot name="navRight"/>
       <buttons-icon icon="x" @click="$emit('close')"/>
@@ -23,7 +21,7 @@ export default defineComponent({
     'buttons-icon': ButtonsIcon,
   },
   props: {
-    title: { type: String, required: true },
+    title: String,
   },
   emits: {
     close: null,

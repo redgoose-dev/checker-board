@@ -158,8 +158,8 @@ export default defineComponent({
     const onClickBackupData = async () => {
       if (!confirm(t('preference.backup.confirm'))) return;
       const [ box, board ] = await Promise.all([
-        getItems('box'),
-        getItems('board'),
+        getItems({ store: 'box' }),
+        getItems({ store: 'board' }),
       ]);
       const preference = convertPureObject(store.state.preference);
       let result = { box, board, preference };

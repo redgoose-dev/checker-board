@@ -1,6 +1,6 @@
 <template>
   <modal-wrapper class="board-list" @close="$emit('close')">
-    <modal-header :title="state.boxName" @close="$emit('close')"/>
+    <modal-header :title="computes.boxName" @close="$emit('close')"/>
     <div v-if="state.loading" class="board-list__loading">
       <loading/>
     </div>
@@ -79,12 +79,16 @@ export default defineComponent({
     // state
     let state = reactive({
       loading: true,
-      boxName: '',
+      box: null,
+      // boxName: '',
       selectedFilter: {
         year: today.getFullYear(),
         month: today.getMonth() + 1,
       },
       index: [],
+    });
+    let computes = reactive({
+      boxName: computed(() => state.box?.name),
     });
     let filters = reactive({
       rangeYear: [ today.getFullYear(), today.getFullYear() ],
@@ -99,25 +103,39 @@ export default defineComponent({
       await store.dispatch('updatePreference', { board: srl });
       context.emit('select-item');
     };
+    const fetchBox = async () => {
+      return await getItem('box', preference.box);
+    };
+    const fetchBoardItems = async () => {
+      let items = await getItems({
+        store: 'board',
+        key: 'box',
+        value: state.box?.srl,
+        order: 'date',
+        sort: 'desc',
+      });
+      if (!(items && items.length > 0)) return [];
+      // items = items.reverse();
+      return items;
+    };
 
     // lifecycles
     onMounted(async () => {
       try
       {
         // get box item
-        let box = await getItem('box', preference.box);
-        if (!box) return;
-        state.boxName = box.name;
+        state.box = await fetchBox();
         // get board items
-        let boards = await getItems('board', 'box', box.srl);
-        if (!(boards && boards.length > 0)) state.index = [];
-        state.index = boards.reverse();
+        state.index = await fetchBoardItems();
         // set date range in filters
-        const dateRange = [ state.index[0]?.date, state.index[state.index.length - 1]?.date ];
-        filters.rangeYear = [ dateRange[0]?.getFullYear(), dateRange[1]?.getFullYear() ];
-        filters.rangeMonth = [ dateRange[0]?.getMonth() + 1, dateRange[1]?.getMonth() + 1 ];
-        state.selectedFilter.year = filters.rangeYear[1];
-        state.selectedFilter.month = filters.rangeMonth[1];
+        if (state.index?.length > 0)
+        {
+          const dateRange = [ state.index[0]?.date, state.index[state.index.length - 1]?.date ];
+          filters.rangeYear = [ dateRange[0]?.getFullYear(), dateRange[1]?.getFullYear() ];
+          filters.rangeMonth = [ dateRange[0]?.getMonth() + 1, dateRange[1]?.getMonth() + 1 ];
+          state.selectedFilter.year = filters.rangeYear[1];
+          state.selectedFilter.month = filters.rangeMonth[1];
+        }
         // off loading
         state.loading = false;
       }
@@ -130,6 +148,7 @@ export default defineComponent({
 
     return {
       state,
+      computes,
       filters,
       preference,
       onSelectItem,

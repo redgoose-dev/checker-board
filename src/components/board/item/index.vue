@@ -27,7 +27,7 @@
 <script>
 import { computed, defineComponent, reactive, watch, ref, onMounted, nextTick } from 'vue';
 import { useStore } from 'vuex';
-import { convertFormat, compareDate } from '@/libs/dates';
+import { convertFormat } from '@/libs/dates';
 import { getItem, editItem, getItems, makeTodayItem } from '@/libs/model';
 import { updateBody } from '@/libs/markdown';
 import Top from './top';
@@ -56,7 +56,13 @@ export default defineComponent({
     let state = reactive({
       showBoardManage: false,
       item: preference.board ? await getItem('board', store.state.preference.board) : null,
-      items: preference.box ? await getItems('board', 'box', store.state.preference.box) : null,
+      items: preference.box ? await getItems({
+        store: 'board',
+        key: 'box',
+        value: store.state.preference.box,
+        order: 'date',
+        sort: 'desc',
+      }) : null,
       disabledBody: false,
       bodyCheckCount: {},
     });
@@ -66,7 +72,7 @@ export default defineComponent({
       }),
       today: computed(() => {
         if (!(state.item?.srl && state.items?.length)) return false;
-        return state.items[state.items.length - 1]?.srl === state.item.srl;
+        return state.items[0]?.srl === state.item.srl;
       }),
     });
 
@@ -74,7 +80,13 @@ export default defineComponent({
     const update = async () => {
       state.showBoardManage = false;
       let [ items, item ] = await Promise.all([
-        getItems('board', 'box', store.state.preference.box),
+        getItems({
+          store: 'board',
+          key: 'box',
+          value: store.state.preference.box,
+          order: 'date',
+          sort: 'desc',
+        }),
         getItem('board', store.state.preference.board),
       ]);
       if (items)
