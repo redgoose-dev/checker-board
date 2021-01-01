@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, computed, onMounted } from 'vue';
+import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { rangeNumbers } from '@/libs/number';
 import ModalWrapper from '@/components/etc/modal-wrapper';
@@ -80,7 +80,6 @@ export default defineComponent({
     let state = reactive({
       loading: true,
       box: null,
-      // boxName: '',
       selectedFilter: {
         year: today.getFullYear(),
         month: today.getMonth() + 1,
@@ -92,7 +91,7 @@ export default defineComponent({
     });
     let filters = reactive({
       rangeYear: [ today.getFullYear(), today.getFullYear() ],
-      rangeMonth: [ 1, today.getMonth() + 1 ],
+      rangeMonth: [ 1, 12 ],
       years: computed(() => rangeNumbers(Number(filters.rangeYear[0]), Number(filters.rangeYear[1]))),
       months: computed(() => rangeNumbers(Number(filters.rangeMonth[0]), Number(filters.rangeMonth[1]))),
     });
@@ -118,6 +117,17 @@ export default defineComponent({
       // items = items.reverse();
       return items;
     };
+    const updateSelectedDateInFilter = () => {
+      const dateRange = [ state.index[state.index.length - 1]?.date, state.index[0]?.date ];
+      filters.rangeYear = [ dateRange[0]?.getFullYear(), dateRange[1]?.getFullYear() ];
+      state.selectedFilter.year = filters.rangeYear[1];
+      state.selectedFilter.month = dateRange[1].getMonth() + 1;
+    }
+    const updateFilter = async (value, oldValue) => {
+      console.log('updateFilter()', state.selectedFilter);
+      // TODO: 사용할 예정
+      // state.index = await fetchBoardItems();
+    };
 
     // lifecycles
     onMounted(async () => {
@@ -130,11 +140,7 @@ export default defineComponent({
         // set date range in filters
         if (state.index?.length > 0)
         {
-          const dateRange = [ state.index[0]?.date, state.index[state.index.length - 1]?.date ];
-          filters.rangeYear = [ dateRange[0]?.getFullYear(), dateRange[1]?.getFullYear() ];
-          filters.rangeMonth = [ dateRange[0]?.getMonth() + 1, dateRange[1]?.getMonth() + 1 ];
-          state.selectedFilter.year = filters.rangeYear[1];
-          state.selectedFilter.month = filters.rangeMonth[1];
+          updateSelectedDateInFilter();
         }
         // off loading
         state.loading = false;
@@ -145,6 +151,10 @@ export default defineComponent({
         state.loading = false;
       }
     });
+
+    // watch
+    watch(() => state.selectedFilter.year, updateFilter);
+    watch(() => state.selectedFilter.month, updateFilter);
 
     return {
       state,

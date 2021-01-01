@@ -72,7 +72,7 @@ export default defineComponent({
     let state = reactive({
       showPreference: false,
       showBoxList: false,
-      showBoardList: false,
+      showBoardList: true,
       box: null,
     });
     let computes = reactive({
