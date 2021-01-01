@@ -47,26 +47,14 @@ const actions = {
         // 데이터베이스 값을 조회하여 값을 검증해보고 번호를 다시 맞추는 작업을 한다.
         let box = state.preference.box;
         let board = state.preference.board;
-        let res = await getItem('box', box);
-        if (!res)
+        let boxItem = await getItem('box', box);
+        if (!boxItem)
         {
-          res = await getItems('box');
-          box = res[res.length - 1]?.srl;
+          let boxItems = await getItems('box');
+          box = boxItems[boxItems.length - 1]?.srl;
         }
-        if (!board)
-        {
-          res = await getItems('board', 'box', box);
-          board = res[res.length - 1]?.srl;
-        }
-        res = await getItem('board', board);
-        if (!(res && res.box === box))
-        {
-          res = await getItems('board', 'box', box);
-          if (res.length > 0)
-          {
-            board = res[res.length - 1].srl;
-          }
-        }
+        let boardItems = await getItems('board', 'box', box);
+        board = boardItems[boardItems.length - 1]?.srl;
         await dispatch('updatePreference', { box, board });
         break;
     }
