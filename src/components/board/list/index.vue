@@ -1,7 +1,9 @@
 <template>
   <modal-wrapper class="board-list" @close="$emit('close')">
     <modal-header :title="state.boxName" @close="$emit('close')"/>
-    <loading v-if="state.loading" class="board-list__loading"/>
+    <div v-if="state.loading" class="board-list__loading">
+      <loading/>
+    </div>
     <template v-else>
       <div class="board-list__control">
         <fieldset class="board-list__filter">

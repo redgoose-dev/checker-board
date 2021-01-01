@@ -58,7 +58,15 @@
       }
     }
   }
-  &__loading {}
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    > .loading {
+      padding-bottom: 40px;
+    }
+  }
 
   @include responsive(desktop) {
     --filter-height: 50px;

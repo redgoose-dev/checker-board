@@ -1,7 +1,9 @@
 <template>
   <article class="box-list">
     <h2 class="box-list__title">Box list</h2>
-    <loading v-if="loading"/>
+    <div v-if="loading" class="box-list__loading">
+      <loading/>
+    </div>
     <ul v-else class="box-list__index">
       <li v-for="(o,k) in items" :key="k">
         <item

@@ -1,0 +1,56 @@
+@import "./css/mixins";
+
+.loading-wrap {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error {
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 100px;
+  &__wrap {
+    text-align: center;
+  }
+  &__title {
+    margin: 0;
+    font-size: 36px;
+    color: var(--color-theme-red);
+    line-height: 1.2;
+    font-weight: 800;
+    font-family: var(--font-point);
+    letter-spacing: -.5px;
+    @include selection();
+  }
+  &__description {
+    margin: 6px 0 0;
+    font-size: 15px;
+    line-height: 1.4;
+    @include selection();
+  }
+  &__nav {
+    margin: 36px 0 0;
+    padding: 36px 0 0;
+    border-top: 1px solid #ccc;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    > * {
+      border-radius: 2px;
+      --button-height: 44px;
+      &:nth-child(n+2) {
+        margin-left: 8px;
+      }
+    }
+  }
+  @include dark-mode() {
+    &__nav {
+      border-color: #333;
+    }
+  }
+}

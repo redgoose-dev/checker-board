@@ -150,7 +150,7 @@ export default {
         description: '이 브라우저는 지원되지 않습니다.',
       },
       unknown: {
-        title: '알 수 없는 오류',
+        title: '기묘한 오류',
         description: '알 수 없는 오류가 발생했습니다.',
       },
     },
