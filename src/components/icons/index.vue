@@ -7,7 +7,6 @@
     :aria-labelledby="icon"
     role="presentation"
     class="icons">
-    <title :id="icon" lang="en">{{ icon }} icon</title>
     <g fill="none" fill-rule="evenodd">
       <component :is="state.computedIconComponent" class="icons__unit"/>
     </g>

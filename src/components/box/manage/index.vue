@@ -7,7 +7,7 @@
       <legend>manage box form</legend>
       <div class="field">
         <p class="field__label">
-          <label for="name">이름</label>
+          <label for="name">{{$t('box.manage.name')}}</label>
         </p>
         <p class="field__body">
           <forms-input
@@ -21,7 +21,7 @@
       </div>
       <div class="field">
         <p class="field__label">
-          <label for="description">설명</label>
+          <label for="description">{{$t('box.manage.description')}}</label>
         </p>
         <p class="field__body">
           <forms-input
@@ -35,7 +35,7 @@
       </div>
       <div class="field">
         <p class="field__label">
-          <label for="reset">리셋시간</label>
+          <label for="reset">{{$t('box.manage.resetTime')}}</label>
         </p>
         <p class="field__body">
           <forms-input

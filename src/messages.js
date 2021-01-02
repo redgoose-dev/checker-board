@@ -14,9 +14,16 @@ export default {
         description: 'Please input description.',
       },
       removeMessage: 'Are you sure you want to delete it?',
+      manage: {
+        name: 'Name',
+        description: 'Description',
+        resetTime: 'Reset time',
+      },
     },
     board: {
       today: 'Go to today',
+      year: 'Year',
+      month: 'Month',
     },
     preference: {
       title: 'Preference',
@@ -108,9 +115,16 @@ export default {
         description: '설명을 입력해주세요.',
       },
       removeMessage: '정말 삭제하겠습니까?',
+      manage: {
+        name: '이름',
+        description: '설명',
+        resetTime: '리셋시간',
+      },
     },
     board: {
       today: '오늘로 이동',
+      year: '년도',
+      month: '월',
     },
     preference: {
       title: '설정',

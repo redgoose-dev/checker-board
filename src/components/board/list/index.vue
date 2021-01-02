@@ -9,7 +9,7 @@
         <fieldset class="board-list__filter">
           <legend>filter</legend>
           <label>
-            <span>년도:</span>
+            <span>{{$t('board.year')}}:</span>
             <forms-select
               name="filter_year"
               v-model="state.selectedFilter.year">
@@ -19,7 +19,7 @@
             </forms-select>
           </label>
           <label>
-            <span>월:</span>
+            <span>{{$t('board.month')}}:</span>
             <forms-select
               name="filter_month"
               v-model="state.selectedFilter.month">

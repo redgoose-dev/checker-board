@@ -10,14 +10,16 @@
     </button>
     <div class="item__bottom">
       <p class="item__reset">
-        Reset time: {{reset}}
+        {{$t('box.manage.resetTime')}}: {{reset}}
       </p>
       <nav class="item__nav">
         <buttons-icon
+          title="Edit"
           icon="edit"
           class="button"
           @click.prevent.stop="$emit('click-edit')"/>
         <buttons-icon
+          title="Remove"
           icon="trash"
           class="button"
           @click.prevent.stop="$emit('click-remove')"/>
