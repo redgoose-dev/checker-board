@@ -60,6 +60,43 @@
               @blur:model-value="save"/>
           </p>
         </div>
+        <div class="field">
+          <p class="field__label">
+            <label for="dateRange">
+              날짜범위
+            </label>
+          </p>
+          <p class="field__description">
+            이용하는 날짜의 범위를 설정합니다.
+          </p>
+          <div class="field__body field__flex">
+            <div>
+              <forms-input
+                type="date"
+                name="dateRange"
+                id="dateRange"
+                v-model="state.forms.dateRange[0]"
+                @blur:model-value="foo"/>
+            </div>
+            <div>
+              <forms-input
+                type="date"
+                name="dateRange2"
+                id="dateRange2"
+                v-model="state.forms.dateRange[1]"
+                @blur:model-value="foo"/>
+            </div>
+          </div>
+        </div>
+        <section class="section">
+          <p class="section__title">{{$t('preference.backup.title')}}</p>
+          <p class="section__description">{{$t('preference.backup.description')}}</p>
+          <nav class="section__body">
+            <buttons-basic type="button" @click="onClickBackupData">
+              {{$t('preference.backup.buttonLabel')}}
+            </buttons-basic>
+          </nav>
+        </section>
         <section class="section">
           <p class="section__title">{{$t('preference.backup.title')}}</p>
           <p class="section__description">{{$t('preference.backup.description')}}</p>
@@ -136,6 +173,7 @@ export default defineComponent({
       forms: {
         language: store.state.preference.language,
         dateFormat: store.state.preference.dateFormat,
+        dateRange: [0, 1],
         theme: store.state.preference.theme,
       },
     });
@@ -221,6 +259,9 @@ export default defineComponent({
       onClickResetData,
       onClickBackupData,
       onClickRestoreData,
+      foo: (e) => {
+        console.log(state.forms.dateRange);
+      },
     };
   },
   emits: {

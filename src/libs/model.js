@@ -135,35 +135,52 @@ export function addItem(storeName, value)
  */
 export function getItems(opt)
 {
-  // storeName, key, value, order, sort
+  function filtering(items)
+  {
+    opt.sort = opt.sort === 'desc' ? 'desc' : 'asc';
+    if (opt.where && opt.range)
+    {
+      items = items.filter(o => o[opt.where.key] === opt.where.value);
+    }
+    if (opt.order)
+    {
+      items.sort(function(a, b) {
+        switch (opt.order)
+        {
+          case 'date':
+            a = a[opt.order].getTime();
+            b = b[opt.order].getTime();
+            break;
+          default:
+            a = a[opt.order];
+            b = b[opt.order];
+            break;
+        }
+        return parseFloat(a) - parseFloat(b);
+      });
+    }
+    if (opt.sort === 'desc') items = items.reverse();
+    return items;
+  }
+
   return new Promise((resolve, reject) => {
     if (!opt.store) return reject(`${errorPrefix} ${errorMessageStoreName}`);
     const store = getStore(opt.store, 'readonly');
-    const request = opt.key && opt.value ? store.index(opt.key).getAll(opt.value) : store.getAll();
-    request.onsuccess = e => {
-      opt.sort = opt.sort === 'desc' ? 'desc' : 'asc';
-      let items = e.target?.result || [];
-      if (opt.order)
-      {
-        items.sort(function(a, b) {
-          switch (opt.order)
-          {
-            case 'date':
-              a = a[opt.order].getTime();
-              b = b[opt.order].getTime();
-              break;
-            default:
-              a = a[opt.order];
-              b = b[opt.order];
-              break;
-          }
-          return parseFloat(a) - parseFloat(b);
-        });
-      }
-      if (opt.sort === 'desc') items = items.reverse();
-      resolve(items);
-    };
-    request.onerror = e => resolve([]);
+    let request = null;
+    if (opt.range)
+    {
+      request = store.index(opt.range.key).getAll(IDBKeyRange.bound(opt.range.value[0], opt.range.value[1]));
+    }
+    else if (opt.where)
+    {
+      request = store.index(opt.where.key).getAll(opt.where.value);
+    }
+    else
+    {
+      request = store.getAll();
+    }
+    request.onsuccess = e => resolve(filtering(e.target?.result || []));
+    request.onerror = () => resolve([]);
   });
 }
 
@@ -306,8 +323,10 @@ export async function makeTodayItem(box)
   // check today item
   let boardItems = await getItems({
     store: 'board',
-    key: 'box',
-    value: box,
+    where: {
+      key: 'box',
+      value: box,
+    },
     order: 'date',
     sort: 'asc',
   });

@@ -58,8 +58,10 @@ export default defineComponent({
       item: preference.board ? await getItem('board', store.state.preference.board) : null,
       items: preference.box ? await getItems({
         store: 'board',
-        key: 'box',
-        value: store.state.preference.box,
+        where: {
+          key: 'box',
+          value: store.state.preference.box,
+        },
         order: 'date',
         sort: 'desc',
       }) : null,
@@ -82,8 +84,10 @@ export default defineComponent({
       let [ items, item ] = await Promise.all([
         getItems({
           store: 'board',
-          key: 'box',
-          value: store.state.preference.box,
+          where: {
+            key: 'box',
+            value: store.state.preference.box,
+          },
           order: 'date',
           sort: 'desc',
         }),

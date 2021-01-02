@@ -70,7 +70,7 @@ export default defineComponent({
 
     // state
     let state = reactive({
-      showPreference: false,
+      showPreference: true,
       showBoxList: false,
       showBoardList: false,
       box: null,

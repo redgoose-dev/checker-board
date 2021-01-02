@@ -53,6 +53,7 @@
 import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { rangeNumbers } from '@/libs/number';
+import { setTime } from '@/libs/dates';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import FormsSelect from '@/components/forms/select';
@@ -106,10 +107,18 @@ export default defineComponent({
       return await getItem('box', preference.box);
     };
     const fetchBoardItems = async () => {
+      let start = setTime(state.selectedFilter.year, state.selectedFilter.month - 1, 1, [ 0, 0, 0, 0 ]);
+      let end = setTime(state.selectedFilter.year, state.selectedFilter.month, 0, [ 0, 0, 0, 0 ]);
       let items = await getItems({
         store: 'board',
-        key: 'box',
-        value: state.box?.srl,
+        where: {
+          key: 'box',
+          value: state.box?.srl,
+        },
+        range: {
+          key: 'date',
+          value: [ start, end ],
+        },
         order: 'date',
         sort: 'desc',
       });
@@ -123,10 +132,8 @@ export default defineComponent({
       state.selectedFilter.year = filters.rangeYear[1];
       state.selectedFilter.month = dateRange[1].getMonth() + 1;
     }
-    const updateFilter = async (value, oldValue) => {
-      console.log('updateFilter()', state.selectedFilter);
-      // TODO: 사용할 예정
-      // state.index = await fetchBoardItems();
+    const updateFilter = async () => {
+      state.index = await fetchBoardItems();
     };
 
     // lifecycles
@@ -138,10 +145,7 @@ export default defineComponent({
         // get board items
         state.index = await fetchBoardItems();
         // set date range in filters
-        if (state.index?.length > 0)
-        {
-          updateSelectedDateInFilter();
-        }
+        if (state.index?.length > 0) updateSelectedDateInFilter();
         // off loading
         state.loading = false;
       }

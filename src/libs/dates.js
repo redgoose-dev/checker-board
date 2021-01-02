@@ -59,3 +59,22 @@ export function compareDate(date1, date2, compare = '<')
       return d1 === d2;
   }
 }
+
+/**
+ * set date
+ *
+ * @param {Number} year
+ * @param {Number} month
+ * @param {Number} date
+ * @param {Array} hour
+ * @return {Date}
+ */
+export function setTime(year, month, date, hour)
+{
+  let dd = new Date();
+  if (year) dd.setFullYear(Number(year));
+  if (month) dd.setMonth(Number(month));
+  if (date) dd.setDate(Number(date));
+  if (hour && hour.length) dd.setHours(hour[0] || 0, hour[1] || 0, hour[2] || 0, hour[3] || 0);
+  return dd;
+}

@@ -55,8 +55,10 @@ const actions = {
         }
         let boardItems = await getItems({
           store: 'board',
-          key: 'box',
-          value: box,
+          where: {
+            key: 'box',
+            value: box,
+          },
           order: 'date',
           sort: 'asc',
         });

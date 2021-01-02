@@ -106,9 +106,7 @@ export default defineComponent({
       if (updatedSrl) emit('update', updatedSrl);
     }
     const fetchItems = async () => {
-      let items = await getItems({
-        store: 'box',
-      });
+      let items = await getItems({ store: 'box' });
       return (items && items.length > 0) ? items.reverse().map(o => ({
         ...o,
         active: o.srl === store.state.preference.box,
