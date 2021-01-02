@@ -2,7 +2,8 @@
   <form ref="root" class="board-manage" @submit.prevent="onSubmit">
     <div class="board-manage__body">
       <textarea
-        v-model="state.body"
+        v-model.lazy="state.body"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
         placeholder="Please input text"
         @keydown="onKeydownBody"/>
     </div>

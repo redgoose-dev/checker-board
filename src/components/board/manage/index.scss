@@ -14,10 +14,10 @@
       padding: 30px var(--size-side-padding);
       box-sizing: border-box;
       font-family: var(--font-point);
-      font-size: 16px;
+      font-size: 20px;
       color: var(--color-text-base);
       outline: none;
-      line-height: 2;
+      line-height: 1.4;
       height: 100%;
       border: none;
       background: none;
@@ -27,6 +27,9 @@
         content: attr(data-placeholder);
         color: #777;
       }
+    }
+    .textarea {
+      border: 1px solid lime;
     }
   }
   &__nav {
@@ -46,6 +49,7 @@
     &__body {
       textarea {
         padding: 50px calc(var(--size-side-padding) * 2) 150px;
+        font-size: 24px;
       }
     }
     &__nav {

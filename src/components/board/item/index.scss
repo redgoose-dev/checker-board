@@ -2,26 +2,25 @@
 
 .board-item__body {
   --size-margin-vertical: 1.5rem;
-
   font-family: var(--font-point);
-  font-size: 16px;
-  line-height: 2;
+  font-size: 20px;
+  line-height: 1.4;
   word-break: break-word;
 
   &, & * {
     @include selection();
   }
   h1, h2, h3, h4, h5, h6 {
-    line-height: 1.25;
+    line-height: 1;
     font-weight: 600;
   }
   h1, h2 { margin: 2.5rem 0 1.5rem; font-weight: 800; }
   h3, h4 { margin: 2rem 0 1.25rem; font-weight: 700; }
   h5, h6 { margin: 1.5rem 0 1rem; }
-  h1 { font-size: 2em; letter-spacing: -1px; }
-  h2 { font-size: 1.75em; letter-spacing: -.75px; }
-  h3 { font-size: 1.5em; letter-spacing: -.5px; }
-  h4 { font-size: 1.25em; letter-spacing: -.25px; }
+  h1 { font-size: 2em; letter-spacing: -.5px; }
+  h2 { font-size: 1.75em; letter-spacing: -.25px; }
+  h3 { font-size: 1.5em; }
+  h4 { font-size: 1.25em; }
   h5 { font-size: 1em; }
   h6 { font-size: .9375em; }
   p {
@@ -210,6 +209,7 @@
 
   @include responsive(desktop) {
     --size-margin-vertical: 2rem;
+    font-size: 24px;
   }
   @include responsive(desktop-1280) {
     @include retina() {
