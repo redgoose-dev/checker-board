@@ -8,14 +8,25 @@ import { twoDigit } from './string';
  * @param {String} format
  * @return {String}
  */
-export function convertFormat(date, format) {
-  const { t } = useI18n({ useScope: 'global' });
+export function convertFormat(date, format)
+{
+  /** @var {Function} t */
+  let t = null;
+  try
+  {
+    t = useI18n({ useScope: 'global' }).t;
+  }
+  catch(e)
+  {}
   let mix = format.replace(/\{yyyy\}/, String(date.getFullYear()));
   mix = mix.replace(/\{mm\}/, twoDigit(date.getMonth() + 1));
   mix = mix.replace(/\{dd\}/, twoDigit(date.getDate()));
-  mix = mix.replace(/\{month\}/, t(`month.${date.getMonth()}`));
-  mix = mix.replace(/\{week\}/, t(`week.${date.getDay()}`));
-  mix = mix.replace(/\{weekShort\}/, t(`weekShort.${date.getDay()}`));
+  if (t)
+  {
+    mix = mix.replace(/\{month\}/, t(`month.${date.getMonth()}`));
+    mix = mix.replace(/\{week\}/, t(`week.${date.getDay()}`));
+    mix = mix.replace(/\{weekShort\}/, t(`weekShort.${date.getDay()}`));
+  }
   return mix;
 }
 
@@ -25,7 +36,8 @@ export function convertFormat(date, format) {
  * @param {Date} date
  * @return {boolean}
  */
-export function checkToday(date) {
+export function checkToday(date)
+{
   const today = new Date();
   return (
     date.getDate() === today.getDate() &&

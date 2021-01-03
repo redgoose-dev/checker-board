@@ -29,9 +29,16 @@ export default {
       title: 'Preference',
       save: 'Save',
       language: 'Language',
-      dateFormat: 'Date format',
-      dateFormatDescription: 'It is written using the following rules.',
-      dateFormatGuide: `{0}: 2020, {1}: 12, {2}: 25, {3}: December, {4}: Monday, {5}: Mon`,
+      dateFormat: {
+        title: 'Date format',
+        description: 'It is written using the following rules.',
+        guide: `{0}: 2020, {1}: 12, {2}: 25, {3}: December, {4}: Monday, {5}: Mon`,
+      },
+      dateRange: {
+        title: 'Year range',
+        description: 'Set the range of year to use.',
+        error: 'The year range value is incorrect.',
+      },
       theme: 'Theme',
       reset: {
         title: 'Reset Data',
@@ -130,9 +137,16 @@ export default {
       title: '설정',
       save: '저장',
       language: '언어',
-      dateFormat: '날짜포맷',
-      dateFormatDescription: '다음과 같은 규칙을 이용하여 작성합니다.',
-      dateFormatGuide: `{0}: 2020, {1}: 12, {2}: 25, {3}: 12월, {4}: 월요일, {5}: 월`,
+      dateFormat: {
+        title: '날짜포맷',
+        description: '다음과 같은 규칙을 이용하여 작성합니다.',
+        guide: `{0}: 2020, {1}: 12, {2}: 25, {3}: 12월, {4}: 월요일, {5}: 월`,
+      },
+      dateRange: {
+        title: '년도범위',
+        description: '사용하는 년도의 범위를 설정합니다.',
+        error: '년도범위값이 잘못되었습니다.',
+      },
       theme: '테마',
       reset: {
         title: '모든 데이터 초기화',

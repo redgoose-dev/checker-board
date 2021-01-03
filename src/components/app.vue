@@ -54,6 +54,7 @@ import BoardItem from '@/components/board/item';
 import Preference from '@/components/preference';
 import Box from '@/components/box';
 import BoardList from '@/components/board/list';
+
 export default defineComponent({
   name: 'app',
   components: {
@@ -70,7 +71,7 @@ export default defineComponent({
 
     // state
     let state = reactive({
-      showPreference: true,
+      showPreference: false,
       showBoxList: false,
       showBoardList: false,
       box: null,

@@ -7,6 +7,10 @@
       :value="modelValue"
       :placeholder="placeholder"
       :required="required"
+      :min="min"
+      :max="max"
+      :step="step"
+      :maxlength="maxlength"
       class="forms-input__unit"
       @input="$emit('update:modelValue', $event.target.value)"
       @blur="$emit('blur:modelValue', $event.target.value)">
@@ -23,6 +27,10 @@ export default defineComponent({
     id: String,
     placeholder: String,
     required: Boolean,
+    min: Number,
+    max: Number,
+    step: Number,
+    maxlength: Number,
     modelValue: [ String, Number ],
   },
   emits: {

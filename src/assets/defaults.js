@@ -1,9 +1,10 @@
-const date = new Date();
-
 export const defaultPreference = {
   language: 'en', // en,ko
   dateFormat: '{yyyy}-{mm}-{dd}',
-  dateRange: [[date.getFullYear(), date.getMonth() + 1], [date.getFullYear(), date.getMonth() + 2]],
+  dateRange: [
+    new Date().getFullYear(),
+    new Date(new Date().setFullYear(new Date().getFullYear() + 5)).getFullYear(),
+  ],
   theme: 'system', // light, dark, system
   box: null,
   board: null,

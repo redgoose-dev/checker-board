@@ -33,7 +33,7 @@
           </label>
         </fieldset>
       </div>
-      <article class="board-list__body">
+      <article v-if="state.index?.length > 0" class="board-list__body">
         <h2 class="board-list__title">Board list</h2>
         <ul class="board-list__index">
           <li v-for="(o,k) in state.index" :key="k">
@@ -45,6 +45,9 @@
           </li>
         </ul>
       </article>
+      <div v-else class="board-list__empty">
+        <empty/>
+      </div>
     </template>
   </modal-wrapper>
 </template>
@@ -54,13 +57,15 @@ import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { rangeNumbers } from '@/libs/number';
 import { setTime } from '@/libs/dates';
+import { getItem, getItems } from '@/libs/model';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import FormsSelect from '@/components/forms/select';
 import ButtonsIcon from '@/components/buttons/icon';
 import Item from './item';
 import Loading from '@/components/etc/loading';
-import { getItem, getItems } from '@/libs/model';
+import Empty from '@/components/etc/empty';
+
 export default defineComponent({
   name: 'board-list',
   components: {
@@ -70,6 +75,7 @@ export default defineComponent({
     'buttons-icon': ButtonsIcon,
     'item': Item,
     'loading': Loading,
+    'empty': Empty,
   },
   setup(props, context)
   {
@@ -91,10 +97,14 @@ export default defineComponent({
       boxName: computed(() => state.box?.name),
     });
     let filters = reactive({
-      rangeYear: [ today.getFullYear(), today.getFullYear() ],
-      rangeMonth: [ 1, 12 ],
-      years: computed(() => rangeNumbers(Number(filters.rangeYear[0]), Number(filters.rangeYear[1]))),
-      months: computed(() => rangeNumbers(Number(filters.rangeMonth[0]), Number(filters.rangeMonth[1]))),
+      rangeYear: preference.dateRange,
+      years: computed(() => {
+        let range = rangeNumbers(Number(preference.dateRange[0]), Number(preference.dateRange[1]));
+        const currentYear = new Date().getFullYear();
+        if (range.indexOf(currentYear) < 0) range.push(currentYear);
+        return range;
+      }),
+      months: rangeNumbers(1, 12),
     });
 
     // methods
@@ -123,30 +133,26 @@ export default defineComponent({
         sort: 'desc',
       });
       if (!(items && items.length > 0)) return [];
-      // items = items.reverse();
       return items;
     };
-    const updateSelectedDateInFilter = () => {
-      const dateRange = [ state.index[state.index.length - 1]?.date, state.index[0]?.date ];
-      filters.rangeYear = [ dateRange[0]?.getFullYear(), dateRange[1]?.getFullYear() ];
-      state.selectedFilter.year = filters.rangeYear[1];
-      state.selectedFilter.month = dateRange[1].getMonth() + 1;
-    }
     const updateFilter = async () => {
       state.index = await fetchBoardItems();
+    };
+    const setSelectedDate = async () => {
+      let item = await getItem('board', preference.board);
+      return {
+        year: item.date.getFullYear(),
+        month: item.date.getMonth() + 1,
+      };
     };
 
     // lifecycles
     onMounted(async () => {
       try
       {
-        // get box item
         state.box = await fetchBox();
-        // get board items
         state.index = await fetchBoardItems();
-        // set date range in filters
-        if (state.index?.length > 0) updateSelectedDateInFilter();
-        // off loading
+        state.selectedFilter = await setSelectedDate();
         state.loading = false;
       }
       catch (e)

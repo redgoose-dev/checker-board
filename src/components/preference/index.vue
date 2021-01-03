@@ -44,13 +44,11 @@
         </div>
         <div class="field">
           <p class="field__label">
-            <label for="dateFormat">
-              {{$t('preference.dateFormat')}}
-            </label>
+            <label for="dateFormat">{{$t('preference.dateFormat.title')}}</label>
           </p>
           <p class="field__description">
-            {{$t('preference.dateFormatDescription')}}<br/>
-            {{$t('preference.dateFormatGuide', [`{yyyy}`, `{mm}`, `{dd}`, `{month}`, `{week}`, `{weekShort}`])}}
+            {{$t('preference.dateFormat.description')}}<br/>
+            {{$t('preference.dateFormat.guide', [`{yyyy}`, `{mm}`, `{dd}`, `{month}`, `{week}`, `{weekShort}`])}}
           </p>
           <p class="field__body">
             <forms-input
@@ -62,41 +60,34 @@
         </div>
         <div class="field">
           <p class="field__label">
-            <label for="dateRange">
-              날짜범위
-            </label>
+            <label for="dateRange">{{$t('preference.dateRange.title')}}</label>
           </p>
           <p class="field__description">
-            이용하는 날짜의 범위를 설정합니다.
+            {{$t('preference.dateRange.description')}}
           </p>
           <div class="field__body field__flex">
             <div>
               <forms-input
-                type="date"
+                type="number"
                 name="dateRange"
                 id="dateRange"
+                :min="dateRange[0]"
+                :max="dateRange[1]"
                 v-model="state.forms.dateRange[0]"
-                @blur:model-value="foo"/>
+                @blur:model-value="save"/>
             </div>
             <div>
               <forms-input
-                type="date"
+                type="number"
                 name="dateRange2"
                 id="dateRange2"
+                :min="dateRange[0]"
+                :max="dateRange[1]"
                 v-model="state.forms.dateRange[1]"
-                @blur:model-value="foo"/>
+                @blur:model-value="save"/>
             </div>
           </div>
         </div>
-        <section class="section">
-          <p class="section__title">{{$t('preference.backup.title')}}</p>
-          <p class="section__description">{{$t('preference.backup.description')}}</p>
-          <nav class="section__body">
-            <buttons-basic type="button" @click="onClickBackupData">
-              {{$t('preference.backup.buttonLabel')}}
-            </buttons-basic>
-          </nav>
-        </section>
         <section class="section">
           <p class="section__title">{{$t('preference.backup.title')}}</p>
           <p class="section__description">{{$t('preference.backup.description')}}</p>
@@ -154,6 +145,7 @@ import ModalHeader from '@/components/etc/modal-header';
 import FormsSelect from '@/components/forms/select';
 import FormsInput from '@/components/forms/input';
 import ButtonsBasic from '@/components/buttons/basic';
+
 export default defineComponent({
   name: 'preference',
   components: {
@@ -167,19 +159,23 @@ export default defineComponent({
   {
     const store = useStore();
     const { locale, t } = useI18n({ useScope: 'global' });
+    const dateRange = [ 2000, 3000 ];
 
     // state
     let state = reactive({
       forms: {
         language: store.state.preference.language,
         dateFormat: store.state.preference.dateFormat,
-        dateRange: [0, 1],
+        dateRange: store.state.preference.dateRange,
         theme: store.state.preference.theme,
       },
     });
 
     // methods
     const save = async () => {
+      // checking date range
+      state.forms.dateRange = onChangeDateRange(state.forms.dateRange);
+      // update preference
       await store.dispatch('updatePreference', state.forms);
       // change language
       if (locale.value !== state.forms.language)
@@ -252,16 +248,22 @@ export default defineComponent({
         el.click();
       });
     };
+    const onChangeDateRange = (range) => {
+      let min = Number(range[0]);
+      let max = Number(range[1]);
+      min = Math.max(dateRange[0], Math.min(min, dateRange[1]));
+      max = Math.max(dateRange[0], Math.min(max, dateRange[1]));
+      if (min >= max) min = max - 1;
+      return [ min, max ];
+    };
 
     return {
       state,
+      dateRange,
       save,
       onClickResetData,
       onClickBackupData,
       onClickRestoreData,
-      foo: (e) => {
-        console.log(state.forms.dateRange);
-      },
     };
   },
   emits: {

@@ -67,6 +67,13 @@
       padding-bottom: 40px;
     }
   }
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - var(--header-height) - var(--filter-height));
+    box-sizing: border-box;
+  }
 
   @include responsive(desktop) {
     --filter-height: 50px;
