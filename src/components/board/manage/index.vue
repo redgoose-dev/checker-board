@@ -3,7 +3,10 @@
     <div class="board-manage__body">
       <textarea
         v-model.lazy="state.body"
-        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
         placeholder="Please input text"
         @keydown="onKeydownBody"/>
     </div>
@@ -46,7 +49,6 @@ export default defineComponent({
       });
       context.emit('submit');
     }
-    // keyboard input event
     const onKeydownBody = e => {
       switch (e.key)
       {
@@ -61,6 +63,9 @@ export default defineComponent({
           }
           break;
       }
+    };
+    const foo = e => {
+      console.log('foo', e);
     };
 
     // lifecycles
@@ -77,6 +82,7 @@ export default defineComponent({
       state,
       onSubmit,
       onKeydownBody,
+      foo,
     };
   },
   emits: {
