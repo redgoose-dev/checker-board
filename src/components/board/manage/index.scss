@@ -9,9 +9,9 @@
     textarea {
       display: block;
       width: 100%;
-      height: calc(100vh - var(--header-height) - var(--top-height) - 30px - var(--nav-height) - 50px);
+      height: calc(100vh - var(--header-height) - var(--top-height));
       margin: 0;
-      padding: 30px var(--size-side-padding) 0;
+      padding: 30px var(--size-side-padding) 120px;
       box-sizing: border-box;
       font-family: var(--font-point);
       font-size: 20px;
@@ -48,7 +48,7 @@
   @include responsive(desktop) {
     &__body {
       textarea {
-        padding: 50px calc(var(--size-side-padding) * 2) 0;
+        padding-top: 50px;
         font-size: 24px;
       }
     }

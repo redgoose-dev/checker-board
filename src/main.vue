@@ -30,13 +30,15 @@
 </template>
 
 <script>
-import { defineComponent, onErrorCaptured, ref } from 'vue';
+import { defineComponent, onErrorCaptured, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import * as storage from '@/libs/storage';
+import { removeDatabase } from '@/libs/model';
+import { initCustomEvent } from '@/libs/util';
 import App from '@/components/app';
 import Loading from '@/components/etc/loading';
 import ButtonsBasic from '@/components/buttons/basic';
-import * as storage from '@/libs/storage';
-import { removeDatabase } from '@/libs/model';
+
 export default defineComponent({
   name: 'app-main',
   components: {
@@ -76,6 +78,11 @@ export default defineComponent({
       storage.remove('preference');
       location.reload();
     };
+
+    // lifecycles
+    onMounted(() => {
+      initCustomEvent();
+    });
 
     return {
       error,

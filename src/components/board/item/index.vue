@@ -43,14 +43,22 @@ export default defineComponent({
   props: {
     reset: String,
   },
-  async setup(props)
+  async setup()
   {
     const store = useStore();
     const { preference } = store.state;
     const contentBody = ref('contentBody');
 
     // lifecycles
-    onMounted(() => updateItemBody().then());
+    onMounted(async () => {
+      await updateItemBody();
+      window.on('keydown.board-item-manage', e => {
+        if (!state.showBoardManage && e.ctrlKey && e.key === 'e')
+        {
+          state.showBoardManage = true;
+        }
+      });
+    });
 
     // state
     let state = reactive({
