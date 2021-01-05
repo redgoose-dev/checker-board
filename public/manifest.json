@@ -1,0 +1,21 @@
+{
+  "short_name": "checker-board",
+  "name": "checker-board",
+  "icons": [
+    {
+      "src": "/symbol.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "/symbol@2x.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#d83334",
+  "background_color": "#f6f8fa",
+  "orientation": "portrait"
+}
