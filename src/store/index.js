@@ -46,28 +46,19 @@ const actions = {
       default:
         // 데이터베이스 값을 조회하여 값을 검증해보고 번호를 다시 맞추는 작업을 한다.
         let box = state.preference.box;
-        let board = state.preference.board;
         let boxItem = await getItem('box', box);
         if (!boxItem)
         {
           let boxItems = await getItems({ store: 'box' });
           box = boxItems[boxItems.length - 1]?.srl;
         }
-        let boardItems = await getItems({
-          store: 'board',
-          where: {
-            key: 'box',
-            value: box,
-          },
-          order: 'date',
-          sort: 'asc',
-        });
-        board = boardItems[boardItems.length - 1]?.srl;
+        // make today item
+        const lastBoardItem = await makeTodayItem(state.preference.box);
+        let board = lastBoardItem?.srl;
+        // update preference
         await dispatch('updatePreference', { box, board });
         break;
     }
-    // update storage
-    storage.set('preference', state.preference);
     // change language
     if (locale.value !== state.preference.language)
     {
@@ -75,8 +66,6 @@ const actions = {
     }
     // set color theme
     changeTheme(state.preference.theme);
-    // make today item
-    await makeTodayItem(state.preference.box);
   },
   /**
    * update preference
