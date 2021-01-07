@@ -37,12 +37,13 @@
 import { defineComponent, reactive, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { getItems, removeItems } from '@/libs/model';
+import { getItems, removeItems, getItem } from '@/libs/model';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';
 import ButtonsIcon from '@/components/buttons/icon';
 import Manage from '@/components/box/manage';
 import BoxList from '@/components/box/list';
+
 export default defineComponent({
   name: 'box',
   components: {
@@ -91,6 +92,19 @@ export default defineComponent({
         await removeItems('board', item.srl, 'box');
         state.loading = true;
         state.items = await fetchItems();
+        if (item.active)
+        {
+          let boxSrl = state.items[0].srl;
+          state.items = state.items.map(o => ({ ...o, active: o.srl === boxSrl }));
+          let boardItem = await getItem('board', 'box', boxSrl);
+          if (boxSrl && boardItem?.srl)
+          {
+            await store.dispatch('updatePreference', {
+              box: boxSrl,
+              board: boardItem.srl,
+            });
+          }
+        }
         state.loading = false;
       }
     };

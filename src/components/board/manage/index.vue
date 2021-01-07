@@ -64,9 +64,6 @@ export default defineComponent({
           break;
       }
     };
-    const foo = e => {
-      console.log('foo', e);
-    };
 
     // lifecycles
     onMounted(async () => {
@@ -82,7 +79,6 @@ export default defineComponent({
       state,
       onSubmit,
       onKeydownBody,
-      foo,
     };
   },
   emits: {

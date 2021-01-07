@@ -33,7 +33,7 @@ export function createDatabase(e = null)
       keyPath: 'srl',
     });
     board.createIndex('box', 'box', { unique: false });
-    board.createIndex('date', 'date', { unique: true });
+    board.createIndex('date', 'date', {});
     board.createIndex('body', 'body', {});
     // complete transaction
     transaction.oncomplete = () => resolve();
@@ -323,10 +323,7 @@ export async function makeTodayItem(box)
   // check today item
   let boardItems = await getItems({
     store: 'board',
-    where: {
-      key: 'box',
-      value: box,
-    },
+    where: { key: 'box', value: box },
     order: 'date',
     sort: 'asc',
   });

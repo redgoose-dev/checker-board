@@ -61,10 +61,13 @@
 <script>
 import { defineComponent, reactive, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 import { addItem, editItem } from '@/libs/model';
 import { convertPureObject } from '@/libs/util';
+import { defaultModelData } from '@/assets/defaults';
 import ButtonsBasic from '@/components/buttons/basic';
 import FormsInput from '@/components/forms/input';
+
 export default defineComponent({
   name: 'box-manage',
   components: {
@@ -77,6 +80,7 @@ export default defineComponent({
   },
   setup(props, context)
   {
+    const store = useStore();
     const { t } = useI18n({ useScope: 'global' });
     let state = reactive({
       forms: props.selectedItem ? {
@@ -108,7 +112,15 @@ export default defineComponent({
         switch (props.type)
         {
           case 'add':
-            await addItem('box', convertPureObject(state.forms));
+            const boxSrl = await addItem('box', convertPureObject(state.forms));
+            const boardSrl = await addItem('board', {
+              ...defaultModelData.board,
+              box: boxSrl,
+            });
+            await store.dispatch('updatePreference', {
+              box: boxSrl,
+              board: boardSrl,
+            });
             context.emit('submit', null);
             break;
           case 'edit':
@@ -122,7 +134,7 @@ export default defineComponent({
       }
       catch(e)
       {
-        alert(e.message);
+        if (e?.message) alert(e.message);
         context.emit('cancel');
       }
     };
