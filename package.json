@@ -1,5 +1,6 @@
 {
   "name": "checker-board-electron",
+  "productName": "Checker Board",
   "version": "1.0.0",
   "main": "main.js",
   "repository": "https://github.com/redgoose-dev/checker-board.git",
@@ -8,7 +9,7 @@
   "scripts": {
     "upgrade-docs": "rm -rf docs && git checkout main docs",
     "dev": "electron ./main.js",
-    "build": "electron-builder"
+    "build": "rm -rf dist && electron-builder"
   },
   "devDependencies": {
     "electron": "^11.1.1",
@@ -17,7 +18,9 @@
   "build": {
     "appId": "redgoose.checkboard",
     "mac": {
+      "icon": "assets/icons/mac/icon.icns",
       "category": "public.app-category.utilities"
     }
-  }
+  },
+  "dependencies": {}
 }
