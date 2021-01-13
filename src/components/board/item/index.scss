@@ -105,8 +105,9 @@
   }
   code {
     word-break: break-word;
-    font-size: 85%;
+    font-size: 100%;
     color: var(--color-theme-orange);
+    font-family: var(--font-point);
   }
   pre {
     margin: var(--size-margin-vertical) 0;
