@@ -39,6 +39,7 @@
           <li v-for="(o,k) in state.index" :key="k">
             <item
               :date="o.date"
+              :percent="o.percent"
               :active="preference.board === o.srl"
               :date-type="preference.dateFormat"
               @select-item="onSelectItem(o?.srl)"/>

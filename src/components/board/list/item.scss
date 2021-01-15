@@ -1,6 +1,7 @@
 @import "../../../css/mixins";
 
 .item {
+  position: relative;
   display: block;
   width: 100%;
   background-color: #eee;
@@ -13,7 +14,6 @@
   transition: opacity var(--speed-button-active) ease-out;
   border: none;
   @include button-touch-options(true);
-
   &__wrap {
     display: flex;
     align-items: center;
@@ -21,16 +21,16 @@
     padding: 0 var(--size-side-padding);
     box-sizing: border-box;
     height: 100%;
+    text-align: left;
   }
-
   .label {
+    flex: 1;
     font-style: normal;
   }
-  .icon {
-    --icon-color: var(--color-text-base);
-    --icon-stroke-width: 2px;
+  .percent {
+    font-style: normal;
+    font-size: 12px;
   }
-
   &:disabled {
     background-color: var(--color-theme-green);
     cursor: default;
@@ -40,13 +40,22 @@
     .label {
       color: var(--color-text-light);
     }
-    .icon {
-      --icon-color: #fff;
+  }
+  &--today {
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      box-shadow: inset 0 0 0 2px var(--color-theme-red);
+      border-radius: 2px;
+      pointer-events: none;
     }
   }
 
-  @include responsive(desktop) {
-  }
   @include dark-mode() {
     background-color: #181818;
     &:disabled {

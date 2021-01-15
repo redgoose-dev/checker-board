@@ -2,13 +2,11 @@
   <button
     type="button"
     :disabled="active"
-    class="item"
+    :class="[ 'item', computes.today && 'item--today' ]"
     @click.prevent="$emit('select-item')">
     <span class="item__wrap">
-      <em class="label">
-        {{state.label}}
-      </em>
-      <icons v-if="state.today" icon="check" class="icon"/>
+      <em class="label">{{computes.label}}</em>
+      <em class="percent">{{percent}}%</em>
     </span>
   </button>
 </template>
@@ -17,6 +15,7 @@
 import { defineComponent, reactive, computed } from 'vue';
 import { convertFormat, checkToday } from '@/libs/dates';
 import Icons from '@/components/icons';
+
 export default defineComponent({
   name: 'board-list-item',
   components: {
@@ -25,12 +24,13 @@ export default defineComponent({
   props: {
     date: { type: Date, required: true },
     dateType: { type: [String, Number], default: 0 },
+    percent: { type: Number, default: 0 },
     active: Boolean,
   },
   setup(props)
   {
     return {
-      state: reactive({
+      computes: reactive({
         label: computed(() => convertFormat(props.date, props.dateType)),
         today: computed(() => checkToday(props.date)),
       }),

@@ -2,6 +2,7 @@ import { dbInformation } from './const';
 import { defaultModelData } from '@/assets/defaults';
 import { compareDate } from '@/libs/dates';
 import { playQueue } from '@/libs/util';
+import { countingCheckbox } from '@/libs/string';
 
 let DB = null;
 let errorPrefix = 'indexedDB:';
@@ -79,7 +80,8 @@ export function initialDatabase(version)
  *
  * @return {Promise}
  */
-export function removeDatabase() {
+export function removeDatabase()
+{
   return new Promise((resolve, reject) => {
     const request = window.indexedDB.deleteDatabase(dbInformation.name);
     request.onsuccess = () => {
@@ -122,11 +124,18 @@ export async function restoreDatabase(box, board)
     });
   });
   await playQueue(board, async (item) => {
+    // set percent
+    let percent = 0;
+    if (item.body && item.percent === undefined)
+    {
+      percent = countingCheckbox(item.body).percent;
+    }
+    // add item
     await addItem('board', {
       box: item.box || 1,
       date: new Date(item.date || undefined),
       body: item.body || '',
-      percent: item.percent || 0,
+      percent,
     });
   });
 }

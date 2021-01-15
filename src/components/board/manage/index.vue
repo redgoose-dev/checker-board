@@ -24,7 +24,9 @@
 <script>
 import { defineComponent, reactive, onMounted, ref } from 'vue';
 import { getItem, editItem } from '@/libs/model';
+import { countingCheckbox } from '@/libs/string';
 import ButtonsBasic from '@/components/buttons/basic';
+
 export default defineComponent({
   name: 'board-manage',
   components: {
@@ -44,8 +46,10 @@ export default defineComponent({
 
     // methods
     const onSubmit = async () => {
+      const { percent } = countingCheckbox(state.body);
       await editItem('board', props.srl, true, {
         body: state.body,
+        percent,
       });
       context.emit('submit');
     }

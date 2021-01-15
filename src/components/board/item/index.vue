@@ -28,11 +28,13 @@
 import { computed, defineComponent, reactive, watch, ref, onMounted, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { convertFormat } from '@/libs/dates';
+import { countingCheckbox } from '@/libs/string';
 import { getItem, editItem, getItems, makeTodayItem } from '@/libs/model';
 import { updateBody } from '@/libs/markdown';
 import Top from './top';
 import Bottom from './bottom';
 import BoardManage from '@/components/board/manage';
+
 export default defineComponent({
   name: 'board-item',
   components: {
@@ -132,26 +134,25 @@ export default defineComponent({
         today: computes.today,
         callback: async (str) => {
           state.disabledBody = true;
-          await editItem('board', state.item?.srl, true, { body: str });
           state.item.body = str;
           state.bodyCheckCount = updateCheckboxCount(state.item.body);
+          await editItem('board', state.item?.srl, true, {
+            body: str,
+            percent: state.bodyCheckCount.percent,
+          });
           state.disabledBody = false;
         },
       });
     };
-    const updateCheckboxCount = body => (!body ? {
-      total: 0,
-      checked: 0,
-    } : {
-      total: (body.match(/\- \[x\]|\- \[ \]/g) || []).length,
-      checked: (body.match(/\- \[x\]/g) || []).length,
-    });
+    const updateCheckboxCount = body => {
+      const { total, checked, percent } = countingCheckbox(body);
+      return { total, checked, percent };
+    };
 
     // counting body checkbox
     state.bodyCheckCount = updateCheckboxCount(state.item?.body);
 
     // watch
-    // watch(() => store.state.preference.box, update);
     watch(() => store.state.preference.board, update);
     watch(() => state.item?.srl, updateItemBody);
     watch(() => state.item?.body, updateItemBody);

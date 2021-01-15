@@ -25,3 +25,17 @@ export function twoDigit(day)
 {
   return `0${day}`.slice(-2);
 }
+
+/**
+ * counting checkbox in markdown
+ *
+ * @param {String} str
+ * @return {Object}
+ * */
+export function countingCheckbox(str)
+{
+  let total = str ? (str.match(/\- \[x\]|\- \[ \]/g) || []).length : 0;
+  let checked = str ? (str.match(/\- \[x\]/g) || []).length : 0;
+  let percent = Math.floor(checked / total * 100);
+  return { total, checked, percent };
+}
