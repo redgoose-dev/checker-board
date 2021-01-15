@@ -71,7 +71,7 @@ const actions = {
     // set color theme
     changeTheme(state.preference.theme);
     // check model version and upgrade app version
-    if (dbInformation.version > state.preference.version && confirm(t('preference.version.upgrade.confirm')))
+    if (dbInformation.version !== state.preference.version && confirm(t('preference.version.upgrade.confirm')))
     {
       const [ box, board ] = await Promise.all([
         getItems({ store: 'box' }),
