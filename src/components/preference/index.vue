@@ -89,21 +89,19 @@
           </div>
         </div>
         <section class="section">
-          <p class="section__title">{{$t('preference.backup.title')}}</p>
-          <p class="section__description">{{$t('preference.backup.description')}}</p>
-          <nav class="section__body">
-            <buttons-basic type="button" @click="onClickBackupData">
-              {{$t('preference.backup.buttonLabel')}}
-            </buttons-basic>
-          </nav>
-        </section>
-        <section class="section">
-          <p class="section__title">{{$t('preference.restore.title')}}</p>
-          <p class="section__description">{{$t('preference.restore.description')}}</p>
-          <nav class="section__body">
-            <buttons-basic type="button" @click="onClickRestoreData">
-              {{$t('preference.restore.buttonLabel')}}
-            </buttons-basic>
+          <p class="section__title">{{$t('preference.data.title')}}</p>
+          <p class="section__description">{{$t('preference.data.description')}}</p>
+          <nav class="section__body section__flex">
+            <div>
+              <buttons-basic type="button" @click="onClickBackupData">
+                {{$t('preference.data.backup.buttonLabel')}}
+              </buttons-basic>
+            </div>
+            <div>
+              <buttons-basic type="button" @click="onClickRestoreData">
+                {{$t('preference.data.restore.buttonLabel')}}
+              </buttons-basic>
+            </div>
           </nav>
         </section>
         <section class="section">
@@ -136,8 +134,8 @@
 import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { removeDatabase, getItems, clearStore, addItem } from '@/libs/model';
-import { convertPureObject } from '@/libs/util';
+import { removeDatabase, getItems, restoreDatabase } from '@/libs/model';
+import { convertPureObject, playQueue } from '@/libs/util';
 import { twoDigit } from '@/libs/string';
 import * as storage from '@/libs/storage';
 import ModalWrapper from '@/components/etc/modal-wrapper';
@@ -190,7 +188,7 @@ export default defineComponent({
       location.reload();
     };
     const onClickBackupData = async () => {
-      if (!confirm(t('preference.backup.confirm'))) return;
+      if (!confirm(t('preference.data.backup.confirm'))) return;
       const [ box, board ] = await Promise.all([
         getItems({ store: 'box' }),
         getItems({ store: 'board' }),
@@ -212,7 +210,7 @@ export default defineComponent({
         el.addEventListener('change', e => {
           if (!(e.target.files && e.target.files.length > 0))
           {
-            alert(t('preference.restore.errorNoFile'));
+            alert(t('preference.data.restore.errorNoFile'));
             return;
           }
           const file = e.target.files[0];
@@ -221,25 +219,18 @@ export default defineComponent({
             try
             {
               let json = JSON.parse(String(e.target.result));
-              if (!confirm(t('preference.restore.confirm'))) return;
+              if (!confirm(t('preference.data.restore.confirm'))) return;
               if (!(json.preference && json.box && json.board)) throw new Error('no data');
-              await Promise.all([
-                clearStore('box'),
-                clearStore('board'),
-              ]);
+              // restore database
+              await restoreDatabase(json.box, json.board);
+              // update preference
               await store.dispatch('updatePreference', json.preference);
-              await Promise.all(json.box.map(o => addItem('box', o)));
-              await Promise.all(json.board.map(o => {
-                return addItem('board', {
-                  ...o,
-                  date: new Date(o.date),
-                });
-              }));
-              alert(t('preference.restore.complete'));
+              alert(t('preference.data.restore.complete'));
               location.reload();
             }
             catch(e)
             {
+              console.error(e)
               reject(e.message);
             }
           };

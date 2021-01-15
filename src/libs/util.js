@@ -75,3 +75,27 @@ export function initCustomEvent()
   window.on = document.on = Element.prototype.on = events.on;
   window.off = document.off = Element.prototype.off = events.off;
 }
+
+/**
+ * play queue
+ *
+ * @param {Array} queues
+ * @param {Function} cb
+ * @return {Promise}
+ */
+export function playQueue(queues, cb)
+{
+  return new Promise((resolve, reject) => {
+    function queue()
+    {
+      cb(queues[0]).then(() => {
+        queues.shift();
+        if (queues?.length > 0) queue();
+        else resolve();
+      });
+    }
+    if (!(queues?.length > 0)) return reject('no queue items');
+    if (!(cb && typeof cb === 'function')) return reject('no callback function');
+    queue();
+  });
+}

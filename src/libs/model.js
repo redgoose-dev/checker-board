@@ -1,6 +1,7 @@
 import { dbInformation } from './const';
 import { defaultModelData } from '@/assets/defaults';
 import { compareDate } from '@/libs/dates';
+import { playQueue } from '@/libs/util';
 
 let DB = null;
 let errorPrefix = 'indexedDB:';
@@ -35,6 +36,7 @@ export function createDatabase(e = null)
     board.createIndex('box', 'box', { unique: false });
     board.createIndex('date', 'date', {});
     board.createIndex('body', 'body', {});
+    board.createIndex('percent', 'percent', {});
     // complete transaction
     transaction.oncomplete = () => resolve();
   });
@@ -46,13 +48,15 @@ export function createDatabase(e = null)
  * 데이터베이스를 만드는것과 가져오는 타이밍이 복잡해서 명확하게 타이밍을 구분짓고,
  * 새로 데이터베이스를 만들었는지 이미 만들어진 데이터베이스를 가져온것인지 구분하는 값을 `resolve()`로 내놓는다.
  *
+ * @param {Number} version
  * @return {Promise}
  */
-export function initialDatabase()
+export function initialDatabase(version)
 {
   return new Promise((resolve, reject) => {
     if (DB) return resolve(DB);
-    const request = window.indexedDB.open(dbInformation.name, dbInformation.version);
+    if (!version) version = dbInformation.version;
+    const request = window.indexedDB.open(dbInformation.name, version);
     let upgradeneeded = false;
     // event - error
     request.onerror = e => reject(`${errorPrefix} ${e.target.errorCode}`);
@@ -65,12 +69,7 @@ export function initialDatabase()
     request.onupgradeneeded = e => {
       upgradeneeded = true;
       DB = e.target.result;
-      createDatabase(e).then(() => {
-        // push default data
-        addItem('box', defaultModelData.box)
-          .then(() => addItem('board', defaultModelData.board))
-          .then(() => resolve('create'));
-      });
+      createDatabase(e).then(() => resolve('create'));
     };
   });
 }
@@ -83,9 +82,52 @@ export function initialDatabase()
 export function removeDatabase() {
   return new Promise((resolve, reject) => {
     const request = window.indexedDB.deleteDatabase(dbInformation.name);
-    request.onsuccess = () => resolve(true);
+    request.onsuccess = () => {
+      if (DB) DB.close();
+      DB = null;
+      resolve(true);
+    };
     request.onerror = () => reject('Error deleting database.');
-    request.onblocked = () => resolve(true);
+    request.onblocked = () => {
+      if (DB) DB.close();
+      DB = null;
+      resolve(true);
+    };
+  });
+}
+
+/**
+ * restore database
+ * 데이터베이스를 삭제하고 데이터를 복구한다.
+ *
+ * @param {Array|Object} box
+ * @param {Array|Object} board
+ * @return {Promise}
+ * */
+export async function restoreDatabase(box, board)
+{
+  // remove database
+  await removeDatabase();
+  // re initialize database
+  await initialDatabase(null);
+  // set data box,board
+  box = box?.length > 0 ? box : [ defaultModelData.box ];
+  board = board?.length > 0 ? board : [ defaultModelData.board ];
+  // add items
+  await playQueue(box, async (item) => {
+    await addItem('box', {
+      name: item.name || '',
+      description: item.description || '',
+      reset: item.reset || '05:00',
+    });
+  });
+  await playQueue(board, async (item) => {
+    await addItem('board', {
+      box: item.box || 1,
+      date: new Date(item.date || undefined),
+      body: item.body || '',
+      percent: item.percent || 0,
+    });
   });
 }
 
@@ -279,6 +321,12 @@ export function removeItems(storeName, value, key = null)
   });
 }
 
+/**
+ * clear store
+ *
+ * @param {String} storeName
+ * @return {Promise}
+ */
 export function clearStore(storeName)
 {
   return new Promise((resolve, reject) => {

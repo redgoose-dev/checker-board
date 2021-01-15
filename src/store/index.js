@@ -1,8 +1,9 @@
 import { createStore } from "vuex";
 import * as storage from '@/libs/storage';
 import { useI18n } from 'vue-i18n';
-import { defaultPreference } from '@/assets/defaults';
-import { initialDatabase, getItem, getItems, makeTodayItem } from '@/libs/model';
+import { dbInformation } from '@/libs/const';
+import { defaultModelData, defaultPreference } from '@/assets/defaults';
+import { initialDatabase, restoreDatabase, getItem, getItems, makeTodayItem, addItem } from '@/libs/model';
 import { changeTheme } from '@/libs/util';
 const pkg = require('../../package.json');
 
@@ -27,7 +28,7 @@ const actions = {
    */
   async setup(context)
   {
-    const { locale } = useI18n({ useScope: 'global' });
+    const { locale, t } = useI18n({ useScope: 'global' });
     const { state, commit, dispatch } = context;
     if (storage.check('preference'))
     {
@@ -35,11 +36,14 @@ const actions = {
       commit('updatePreference', preference);
     }
     // make database
-    const initialDatabaseType = await initialDatabase();
+    const initialDatabaseType = await initialDatabase(null);
     // check box,board srl
     switch (initialDatabaseType)
     {
       case 'create':
+        // push default data
+        await addItem('box', defaultModelData.box);
+        await addItem('board', defaultModelData.board);
         // 데이터베이스가 새로 만들어졌다면 새로만든 데이터번호 지정한다.
         await dispatch('updatePreference', { box: 1, board: 1 });
         break;
@@ -66,6 +70,18 @@ const actions = {
     }
     // set color theme
     changeTheme(state.preference.theme);
+    // check model version and upgrade app version
+    if (dbInformation.version > state.preference.version && confirm(t('preference.version.upgrade.confirm')))
+    {
+      const [ box, board ] = await Promise.all([
+        getItems({ store: 'box' }),
+        getItems({ store: 'board' }),
+      ]);
+      await restoreDatabase(box, board);
+      await dispatch('updatePreference', { version: dbInformation.version });
+      alert(t('preference.version.upgrade.complete'));
+      location.reload();
+    }
   },
   /**
    * update preference

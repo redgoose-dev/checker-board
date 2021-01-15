@@ -1,4 +1,5 @@
 import * as model from '@/libs/model';
+import * as util from '@/libs/util';
 
 // add board
 function addBoardItem(box, date = null, body = 'body content')
@@ -27,10 +28,29 @@ function removeItems(store, srl, key)
   });
 }
 
+// upgrade model version
+function upgradeModelVersion(version)
+{
+  console.log('upgrade model version');
+}
+
+// test play queues
+function testPlayQueues()
+{
+  util.playQueue([0,1,2,3], async (o) => {
+    console.log('process queue', o);
+    await util.sleep(1000);
+  }).then(() => {
+    console.log('COMPLETE QUEUES!');
+  });
+}
+
 export default function ()
 {
   window.dev = {
     addBoardItem,
-    removeItems
-  }
+    removeItems,
+    upgradeModelVersion,
+    testPlayQueues,
+  };
 }

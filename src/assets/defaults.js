@@ -1,3 +1,5 @@
+import { dbInformation } from '@/libs/const';
+
 export const defaultPreference = {
   language: 'en', // en,ko
   dateFormat: '{yyyy}-{mm}-{dd}',
@@ -8,6 +10,7 @@ export const defaultPreference = {
   theme: 'system', // light, dark, system
   box: null,
   board: null,
+  version: dbInformation.version,
 };
 
 export const defaultModelData = {
@@ -20,5 +23,6 @@ export const defaultModelData = {
     box: 1,
     date: new Date(),
     body: `# first board content body\n\n- [ ] check item\n- [ ] check item`,
+    percent: 0,
   },
 };

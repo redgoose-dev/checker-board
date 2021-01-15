@@ -45,23 +45,29 @@ export default {
         description: 'You can reset the all data.',
         confirm: `Do you really want to reset the database and preference?\nThis action refreshes the page.`,
       },
-      backup: {
-        title: 'Backup data',
-        description: 'Save the database and preference as a JSON file.',
-        buttonLabel: 'Backup all data',
-        confirm: `Do you really want to backup the all data?\nThe backed up content is saved as a json file.`,
-        errorNoFile: 'No files were selected.',
-      },
-      restore: {
-        title: 'Restore data',
-        description: 'All data is restored.',
-        buttonLabel: 'Restore all data',
-        confirm: `Do you really want to restore all your data?\nThis will delete all current data.`,
-        complete: 'Complete restore data.',
+      data: {
+        title: 'Backup or restore data',
+        description: 'Save or restore the database and settings as a JSON file.',
+        backup: {
+          buttonLabel: 'Backup data',
+          confirm: `Do you really want to backup the all data?\nThe backed up content is saved as a json file.`,
+          errorNoFile: 'No files were selected.',
+        },
+        restore: {
+          buttonLabel: 'Restore data',
+          confirm: `Do you really want to restore all your data?\nThis will delete all current data.`,
+          complete: 'Complete restore data.',
+        },
       },
       information: {
         title: 'Project information',
         version: 'Version',
+      },
+      version: {
+        upgrade: {
+          confirm: 'Would you like to upgrade to the latest version?',
+          complete: 'Completed upgrade.',
+        },
       },
     },
     error: {
@@ -153,23 +159,29 @@ export default {
         description: '모든 데이터를를 초기화 할 수 있습니다.',
         confirm: `정말 모든 데이터와 환경설정을 재설정 할까요?\n이 작업은 페이지를 새로고침 합니다.`,
       },
-      backup: {
-        title: '데이터 백업',
-        description: '데이터베이스와 설정값을 JSON 파일로 저장합니다.',
-        buttonLabel: '모든 데이터 백업',
-        confirm: `정말 모든 데이터를 백업할까요?\n백업한 내용은 json 파일로 저장됩니다.`,
-        errorNoFile: '선택한 파일이 없습니다.',
-      },
-      restore: {
-        title: '데이터 복원',
-        description: '모든 데이터를 복원합니다.',
-        buttonLabel: '모든 데이터 복원',
-        confirm: `정말 모든 데이터를 복원할까요?\n이 작업은 현재 데이터가 모두 삭제됩니다.`,
-        complete: '복원을 완료했습니다.',
+      data: {
+        title: '데이터 백업과 복원',
+        description: '데이터베이스와 설정값을 JSON 파일로 저장하거나 복원합니다.',
+        backup: {
+          buttonLabel: '데이터 백업',
+          confirm: `정말 모든 데이터를 백업할까요?\n백업한 내용은 json 파일로 저장됩니다.`,
+          errorNoFile: '선택한 파일이 없습니다.',
+        },
+        restore: {
+          buttonLabel: '데이터 복원',
+          confirm: `정말 모든 데이터를 복원할까요?\n이 작업은 현재 데이터가 모두 삭제됩니다.`,
+          complete: '복원을 완료했습니다.',
+        },
       },
       information: {
         title: '프로젝트 정보',
         version: '버전',
+      },
+      version: {
+        upgrade: {
+          confirm: '최신버전으로 업그레이드 하시겠습니까?',
+          complete: '업그레이드를 완료했습니다.',
+        },
       },
     },
     error: {

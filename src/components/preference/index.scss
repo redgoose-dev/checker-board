@@ -79,4 +79,13 @@
   &__body {
     margin: 12px 0 0;
   }
+  &__flex {
+    display: flex;
+    > div {
+      flex: 1;
+      &:nth-child(n+2) {
+        margin-left: 10px;
+      }
+    }
+  }
 }
