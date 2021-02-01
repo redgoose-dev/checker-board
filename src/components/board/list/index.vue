@@ -57,7 +57,7 @@
 import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { rangeNumbers } from '@/libs/number';
-import { setTime } from '@/libs/dates';
+import { setTime, convertFormat } from '@/libs/dates';
 import { getItem, getItems } from '@/libs/model';
 import ModalWrapper from '@/components/etc/modal-wrapper';
 import ModalHeader from '@/components/etc/modal-header';

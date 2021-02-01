@@ -125,11 +125,7 @@ export async function restoreDatabase(box, board)
   });
   await playQueue(board, async (item) => {
     // set percent
-    let percent = 0;
-    if (item.body && item.percent === undefined)
-    {
-      percent = countingCheckbox(item.body).percent;
-    }
+    let percent = (item.body && item.percent === undefined) ? countingCheckbox(item.body).percent : item.percent;
     // add item
     await addItem('board', {
       box: item.box || 1,

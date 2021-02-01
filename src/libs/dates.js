@@ -84,9 +84,9 @@ export function compareDate(date1, date2, compare = '<')
 export function setTime(year, month, date, hour)
 {
   let dd = new Date();
-  if (year) dd.setFullYear(Number(year));
-  if (month) dd.setMonth(Number(month));
-  if (date) dd.setDate(Number(date));
+  if (year !== undefined) dd.setFullYear(Number(year));
+  if (month !== undefined) dd.setMonth(Number(month));
+  if (date !== undefined) dd.setDate(Number(date));
   if (hour && hour.length) dd.setHours(hour[0] || 0, hour[1] || 0, hour[2] || 0, hour[3] || 0);
   return dd;
 }
