@@ -3,7 +3,7 @@ function checkObject()
   return !!window.localStorage;
 }
 
-/***
+/**
  * get value in localStorage
  *
  * @param {String} key
